@@ -30,7 +30,6 @@ type Organization struct {
 	Logo        string `json:"logo"`
 	IsActive    bool   `json:"is_active" gorm:"default:true"`
 	Plan        string `json:"plan" gorm:"default:'free'"`
-	LicenseKey  string `json:"license_key,omitempty"`
 	Users       []User `json:"users,omitempty" gorm:"foreignKey:OrganizationID"`
 }
 
@@ -49,7 +48,6 @@ type User struct {
 	OrganizationID *string       `json:"organization_id,omitempty"`
 	Organization   *Organization `json:"organization,omitempty"`
 	Credits        int64         `json:"credits" gorm:"default:0"`
-	SubscriptionID string        `json:"subscription_id,omitempty"`
 	LastLoginAt    *time.Time    `json:"last_login_at"`
 	Preferences    JSON          `json:"preferences" gorm:"type:jsonb"`
 	Agents         []Agent       `json:"agents,omitempty" gorm:"foreignKey:CreatorID"`
@@ -81,7 +79,6 @@ type Agent struct {
 	Price             float64       `json:"price" gorm:"default:0"`
 	Currency          string        `json:"currency" gorm:"default:'USD'"`
 	PricingModel      string        `json:"pricing_model" gorm:"default:'free'"`
-	LicenseRequired   bool          `json:"license_required" gorm:"default:false"`
 	Rating            float64       `json:"rating" gorm:"default:0"`
 	ReviewCount       int           `json:"review_count" gorm:"default:0"`
 	UsageCount        int64         `json:"usage_count" gorm:"default:0"`
@@ -90,8 +87,10 @@ type Agent struct {
 	Screenshots       JSON          `json:"screenshots" gorm:"type:jsonb"`
 	Documentation     string        `json:"documentation"`
 	Repository        string        `json:"repository"`
-	FilePath          string        `json:"file_path"` // Path to the agent file/script
-	ExecutablePath    string        `json:"executable_path"` // Path to the executable or script
+	VideoURL          string        `json:"video_url"`           // URL to demo/tutorial video
+	HowItWorks        string        `json:"how_it_works"`        // Detailed explanation of how the agent works
+	FilePath          string        `json:"file_path"`           // Path to the agent file/script
+	ExecutablePath    string        `json:"executable_path"`     // Path to the executable or script
 	Reviews           []Review      `json:"reviews,omitempty" gorm:"foreignKey:AgentID"`
 	Executions        []Execution   `json:"executions,omitempty" gorm:"foreignKey:AgentID"`
 }
@@ -130,70 +129,6 @@ type Execution struct {
 	IPAddress      string        `json:"ip_address"`
 	UserAgent      string        `json:"user_agent"`
 	SessionID      string        `json:"session_id"`
-}
-
-// License represents software licenses (optional feature)
-type License struct {
-	BaseModel
-	Key            string        `json:"key" gorm:"uniqueIndex;not null"`
-	Type           string        `json:"type"`
-	Status         string        `json:"status" gorm:"default:'active'"`
-	OrganizationID *string       `json:"organization_id,omitempty"`
-	Organization   *Organization `json:"organization,omitempty"`
-	IssuedAt       time.Time     `json:"issued_at"`
-	ExpiresAt      *time.Time    `json:"expires_at,omitempty"`
-	Features       JSON          `json:"features" gorm:"type:jsonb"`
-	MaxUsers       int           `json:"max_users"`
-	MaxAgents      int           `json:"max_agents"`
-	IsValid        bool          `json:"is_valid" gorm:"default:true"`
-}
-
-// Payment represents payment transactions (optional feature)
-type Payment struct {
-	BaseModel
-	UserID         string        `json:"user_id"`
-	User           User          `json:"user"`
-	OrganizationID *string       `json:"organization_id,omitempty"`
-	Organization   *Organization `json:"organization,omitempty"`
-	Amount         float64       `json:"amount"`
-	Currency       string        `json:"currency" gorm:"default:'USD'"`
-	Status         string        `json:"status"`
-	Provider       string        `json:"provider"`
-	ProviderID     string        `json:"provider_id"`
-	Description    string        `json:"description"`
-	Metadata       JSON          `json:"metadata" gorm:"type:jsonb"`
-}
-
-// Subscription represents user subscriptions (optional feature)
-type Subscription struct {
-	BaseModel
-	UserID             string        `json:"user_id"`
-	User               User          `json:"user"`
-	OrganizationID     *string       `json:"organization_id,omitempty"`
-	Organization       *Organization `json:"organization,omitempty"`
-	Plan               string        `json:"plan"`
-	Status             string        `json:"status"`
-	Provider           string        `json:"provider"`
-	ProviderID         string        `json:"provider_id"`
-	CurrentPeriodStart time.Time     `json:"current_period_start"`
-	CurrentPeriodEnd   time.Time     `json:"current_period_end"`
-	CancelAtPeriodEnd  bool          `json:"cancel_at_period_end"`
-	Amount             float64       `json:"amount"`
-	Currency           string        `json:"currency" gorm:"default:'USD'"`
-}
-
-// Analytics represents usage analytics
-type Analytics struct {
-	BaseModel
-	Type           string    `json:"type"`
-	Metric         string    `json:"metric"`
-	Value          float64   `json:"value"`
-	Unit           string    `json:"unit"`
-	Date           time.Time `json:"date"`
-	AgentID        *string   `json:"agent_id,omitempty"`
-	UserID         *string   `json:"user_id,omitempty"`
-	OrganizationID *string   `json:"organization_id,omitempty"`
-	Metadata       JSON      `json:"metadata" gorm:"type:jsonb"`
 }
 
 // Webhook represents webhook configurations
@@ -239,22 +174,6 @@ type LLMProvider struct {
 	RateLimit int    `json:"rate_limit" gorm:"default:1000"`
 	MaxTokens int    `json:"max_tokens" gorm:"default:4096"`
 	Config    JSON   `json:"config" gorm:"type:jsonb"`
-}
-
-// BillingPlan represents a subscription plan
-type BillingPlan struct {
-	BaseModel
-	Name          string  `json:"name" gorm:"not null"`
-	Slug          string  `json:"slug" gorm:"uniqueIndex;not null"`
-	Price         float64 `json:"price" gorm:"default:0"`
-	Currency      string  `json:"currency" gorm:"default:'USD'"`
-	Interval      string  `json:"interval" gorm:"default:'monthly'"`
-	Features      JSON    `json:"features" gorm:"type:jsonb"`
-	MaxAgents     int     `json:"max_agents" gorm:"default:5"`
-	MaxExecutions int     `json:"max_executions" gorm:"default:100"`
-	IsActive      bool    `json:"is_active" gorm:"default:true"`
-	Description   string  `json:"description"`
-	SortOrder     int     `json:"sort_order" gorm:"default:0"`
 }
 
 // PasswordResetToken represents a password reset token
@@ -319,28 +238,4 @@ func IsFeatureEnabled(feature string, config interface{}) bool {
 	// For now, we'll assume all features are enabled by default
 	// In production, this would check against your configuration
 	return true
-}
-
-// GetLicenseStatus returns license status with fallback
-func GetLicenseStatus(orgID *string, db *gorm.DB) (bool, string) {
-	if orgID == nil {
-		return true, "no_license_required" // Single user orgs don't need license
-	}
-
-	var license License
-	if err := db.Where("organization_id = ? AND is_valid = ?", orgID, true).First(&license).Error; err != nil {
-		return true, "license_not_required" // Graceful fallback
-	}
-
-	return license.IsValid, license.Type
-}
-
-// GetPaymentStatus returns payment status with fallback
-func GetPaymentStatus(userID string, db *gorm.DB) (bool, string) {
-	var subscription Subscription
-	if err := db.Where("user_id = ? AND status = ?", userID, "active").First(&subscription).Error; err != nil {
-		return true, "no_payment_required" // Graceful fallback
-	}
-
-	return subscription.Status == "active", subscription.Plan
 }

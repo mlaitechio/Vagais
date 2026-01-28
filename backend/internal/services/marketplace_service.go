@@ -156,17 +156,32 @@ func (s *MarketplaceService) ListReviews(agentID string, page, limit int) ([]mod
 }
 
 // SearchAgents searches for agents with various filters
-func (s *MarketplaceService) SearchAgents(query string, category string, minRating float64, maxPrice float64, page, limit int) ([]models.Agent, int64, error) {
+func (s *MarketplaceService) SearchAgents(
+	query string,
+	category string,
+	minRating float64,
+	maxPrice float64,
+	page, limit int,
+) ([]models.Agent, int64, error) {
+
 	var agents []models.Agent
 	var total int64
 
-	dbQuery := s.db.Model(&models.Agent{}).Where("is_public = ? AND is_enabled = ?", true, true).Preload("Creator").Preload("Organization")
+	dbQuery := s.db.
+		Model(&models.Agent{}).
+		Where("is_public = ? AND is_enabled = ?", true, true).
+		Preload("Creator").
+		Preload("Organization")
 
-	// Apply search filters
+	// Search
 	if query != "" {
-		dbQuery = dbQuery.Where("name ILIKE ? OR description ILIKE ? OR tags::text ILIKE ?",
-			"%"+query+"%", "%"+query+"%", "%"+query+"%")
+		pattern := "%" + query + "%"
+		dbQuery = dbQuery.Where(
+			"(name LIKE ? OR description LIKE ? OR tags LIKE ?)",
+			pattern, pattern, pattern,
+		)
 	}
+
 	if category != "" {
 		dbQuery = dbQuery.Where("category = ?", category)
 	}
@@ -177,14 +192,18 @@ func (s *MarketplaceService) SearchAgents(query string, category string, minRati
 		dbQuery = dbQuery.Where("price <= ?", maxPrice)
 	}
 
-	// Get total count
+	// Count
 	if err := dbQuery.Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
-	// Apply pagination and ordering
+	// Pagination
 	offset := (page - 1) * limit
-	if err := dbQuery.Offset(offset).Limit(limit).Order("rating DESC, usage_count DESC").Find(&agents).Error; err != nil {
+	if err := dbQuery.
+		Offset(offset).
+		Limit(limit).
+		Order("rating DESC, usage_count DESC").
+		Find(&agents).Error; err != nil {
 		return nil, 0, err
 	}
 
@@ -369,14 +388,14 @@ func (s *MarketplaceService) TryMarketplaceAgent(agentID string, userID string, 
 }
 
 // PurchaseMarketplaceAgent purchases a marketplace agent
-func (s *MarketplaceService) PurchaseMarketplaceAgent(agentID string, userID string, pricingTier string, paymentMethodID string, organizationID string) (map[string]interface{}, error) {
+func (s *MarketplaceService) PurchaseMarketplaceAgent(agentID string, userID string, pricingTier string, organizationID string) (map[string]interface{}, error) {
 	// Check if agent exists and is public
 	var agent models.Agent
 	if err := s.db.Where("id = ? AND is_public = ? AND is_enabled = ?", agentID, true, true).First(&agent).Error; err != nil {
 		return nil, errors.New("agent not found or not available")
 	}
 
-	// For now, just return success - in a real implementation, you would integrate with payment providers
+	// Return success - agent access granted
 	return map[string]interface{}{
 		"purchase_id":  "purchase_" + agentID + "_" + userID,
 		"agent_id":     agentID,

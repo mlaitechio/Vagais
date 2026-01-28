@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/mlaitechio/vagais/internal/config"
@@ -78,14 +77,9 @@ func runMigrations(db *gorm.DB) error {
 		&models.Agent{},
 		&models.Review{},
 		&models.Execution{},
-		&models.License{},
-		&models.Payment{},
-		&models.Subscription{},
-		&models.Analytics{},
 		&models.Webhook{},
 		&models.Notification{},
 		&models.LLMProvider{},
-		&models.BillingPlan{},
 	); err != nil {
 		fmt.Printf("[ERROR] Migration failed: %v\n", err)
 		return fmt.Errorf("failed to run migrations: %v", err)
@@ -109,20 +103,8 @@ func runSeeds(db *gorm.DB) error {
 		fmt.Printf("[ERROR] Agent seed failed: %v\n", err)
 		return err
 	}
-	if err := seedLicenses(db); err != nil {
-		fmt.Printf("[ERROR] License seed failed: %v\n", err)
-		return err
-	}
 	if err := seedLLMProviders(db); err != nil {
 		fmt.Printf("[ERROR] LLM Provider seed failed: %v\n", err)
-		return err
-	}
-	if err := seedBillingPlans(db); err != nil {
-		fmt.Printf("[ERROR] Billing Plan seed failed: %v\n", err)
-		return err
-	}
-	if err := seedAnalytics(db); err != nil {
-		fmt.Printf("[ERROR] Analytics seed failed: %v\n", err)
 		return err
 	}
 	fmt.Println("✅ Database seeded successfully")
@@ -136,17 +118,12 @@ func resetDatabase(db *gorm.DB) error {
 	if err := db.Migrator().DropTable(
 		&models.Notification{},
 		&models.Webhook{},
-		&models.Analytics{},
-		&models.Subscription{},
-		&models.Payment{},
-		&models.License{},
 		&models.Execution{},
 		&models.Review{},
 		&models.Agent{},
 		&models.User{},
 		&models.Organization{},
 		&models.LLMProvider{},
-		&models.BillingPlan{},
 	); err != nil {
 		fmt.Printf("[ERROR] Drop tables failed: %v\n", err)
 		return fmt.Errorf("failed to drop tables: %v", err)
@@ -255,7 +232,7 @@ func seedUsers(db *gorm.DB) error {
 		{
 			Email:          "researcher@airesearchlab.com",
 			Username:       "researcher",
-			FirstName:      "Dr. Sarah",
+			FirstName:      "MLAI",
 			LastName:       "Researcher",
 			PasswordHash:   "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
 			Role:           "researcher",
@@ -306,34 +283,41 @@ func seedAgents(db *gorm.DB) error {
 		return fmt.Errorf("no users found for seeding agents")
 	}
 
-	tags1, _ := json.Marshal([]string{"support", "customer-service", "chatbot"})
-	screens1, _ := json.Marshal([]string{"https://agai.studio/agents/customer-support-bot/screenshot1.png"})
-	tags2, _ := json.Marshal([]string{"data-analysis", "visualization", "statistics"})
-	screens2, _ := json.Marshal([]string{"https://airesearchlab.com/agents/data-analysis-assistant/screenshot1.png"})
-	tags3, _ := json.Marshal([]string{"content-writing", "blogging", "marketing"})
-	screens3, _ := json.Marshal([]string{"https://startupinc.ai/agents/content-writer-pro/screenshot1.png"})
-	tags4, _ := json.Marshal([]string{"code-review", "programming", "development"})
-	screens4, _ := json.Marshal([]string{"https://agai.studio/agents/code-review-assistant/screenshot1.png"})
-	tags5, _ := json.Marshal([]string{"email", "communication", "automation"})
-	screens5, _ := json.Marshal([]string{"https://agai.studio/agents/email-assistant/screenshot1.png"})
-	tags6, _ := json.Marshal([]string{"research", "academic", "writing"})
-	screens6, _ := json.Marshal([]string{"https://airesearchlab.com/agents/research-assistant/screenshot1.png"})
-	tags7, _ := json.Marshal([]string{"sales", "lead-generation", "crm"})
-	screens7, _ := json.Marshal([]string{"https://startupinc.ai/agents/sales-assistant/screenshot1.png"})
-	tags8, _ := json.Marshal([]string{"translation", "multilingual", "communication"})
-	screens8, _ := json.Marshal([]string{"https://agai.studio/agents/translation-assistant/screenshot1.png"})
+	// Tags and screenshots for the 4 new agents
+	tags1, _ := json.Marshal([]string{"Conversational Insurance Analytics", "Risk & Propensity Modeling", "Personalized Outreach Generator", "RAG + Document Intelligence", "Cosmos DB + APIs"})
+	screens1, _ := json.Marshal([]string{"https://agai.studio/agents/insurance-insight-copilot/screenshot1.png"})
+	tags2, _ := json.Marshal([]string{"Conversational AI Interface", "Real-Time Loan Calculations", "Centralized Policy & Product Access", "Multi-Language Support", "Integration Connectors"})
+	screens2, _ := json.Marshal([]string{"https://agai.studio/agents/sales-buddy/screenshot1.png"})
+	tags3, _ := json.Marshal([]string{"Document & Data Ingestion", "AI-Driven Primary Analysis", "Secondary Analysis & Market Intelligence", "AI-Powered Financial Modelling", "Conversational Research Copilot", "Visualization & Insights Dashboard"})
+	screens3, _ := json.Marshal([]string{"https://agai.studio/agents/ai-powered-investment-research/screenshot1.png"})
+	tags4, _ := json.Marshal([]string{"Agent for Document Quality", "Document Classification", "OCR + AI Understanding (Mistral, GPT)", "Talk to Your Document", "Data Summarization Agent", "Signature Detection & Extraction", "Stamp Detection Agent", "Central Repository Agent"})
+	screens4, _ := json.Marshal([]string{"https://agai.studio/agents/document-copilot/screenshot1.png"})
 
 	agents := []models.Agent{
 		{
-			Name:              "Customer Support Bot",
-			Description:       "AI-powered customer support agent that can handle common inquiries and provide helpful responses",
-			Slug:              "customer-support-bot",
-			Version:           "1.0.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Customer Service",
-			Tags:              tags1,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 1000, "temperature": 0.7}),
+			Name:        "Insurance Insight Copilot",
+			Description: "It consolidates policy data, customer data, claims data, and interaction patterns into a single intelligent AI system that empowers insurers with natural-language analytics, automated churn prediction, and personalized customer retention messaging — all powered by Azure OpenAI, Cosmos DB, and cognitive intelligence layers.",
+			Slug:        "insurance-insight-copilot",
+			Version:     "1.0.0",
+			Status:      "published",
+			Type:        "custom",
+			Category:    "Customer facing",
+			Tags:        tags1,
+			Config: models.MapToJSON(map[string]interface{}{
+				"max_tokens":  2000,
+				"temperature": 0.7,
+				"cloud_components": []string{
+					"Azure OpenAI Service",
+					"Azure Cosmos DB",
+					"Azure AI Search",
+					"Azure Functions",
+					"Azure Blob",
+					"Azure Key Vault",
+					"Azure Web App",
+					"Azure Monitor & Log Analytics",
+					"Microsoft Entra ID",
+				},
+			}),
 			LLMProvider:       "openai",
 			LLMModel:          "gpt-4",
 			EmbeddingProvider: "openai",
@@ -345,57 +329,39 @@ func seedAgents(db *gorm.DB) error {
 			Price:             0.0,
 			Currency:          "USD",
 			PricingModel:      "free",
-			LicenseRequired:   false,
-			Rating:            4.5,
-			ReviewCount:       12,
-			UsageCount:        1500,
-			Downloads:         45,
-			Icon:              "https://agai.studio/agents/customer-support-bot/icon.png",
-			Screenshots:       screens1,
-			Documentation:     "Comprehensive documentation for the Customer Support Bot",
-			Repository:        "https://github.com/agai-studio/customer-support-bot",
-		},
-		{
-			Name:              "Data Analysis Assistant",
-			Description:       "Advanced data analysis agent that can process, analyze, and visualize complex datasets",
-			Slug:              "data-analysis-assistant",
-			Version:           "2.1.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Data Science",
-			Tags:              tags2,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 2000, "temperature": 0.3}),
-			LLMProvider:       "anthropic",
-			LLMModel:          "claude-3-sonnet",
-			EmbeddingProvider: "openai",
-			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[2].ID, // researcher
-			OrganizationID:    users[2].OrganizationID,
-			IsPublic:          true,
-			IsEnabled:         true,
-			Price:             29.99,
-			Currency:          "USD",
-			PricingModel:      "one-time",
-			LicenseRequired:   true,
 			Rating:            4.8,
-			ReviewCount:       8,
-			UsageCount:        750,
-			Downloads:         23,
-			Icon:              "https://airesearchlab.com/agents/data-analysis-assistant/icon.png",
-			Screenshots:       screens2,
-			Documentation:     "Advanced data analysis capabilities with statistical modeling",
-			Repository:        "https://github.com/ai-research-lab/data-analysis-assistant",
+			ReviewCount:       24,
+			UsageCount:        3200,
+			Downloads:         156,
+			Icon:              "https://agai.studio/agents/insurance-insight-copilot/icon.png",
+			Screenshots:       screens1,
+			Documentation:     "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
+			Repository:        "https://github.com/agai-studio/insurance-insight-copilot",
+			VideoURL:          "https://youtu.be/upowcf0JB0U",
+			HowItWorks:        "The Insurance Insight Copilot leverages Azure OpenAI for natural language understanding, Cosmos DB for scalable data storage, and Azure AI Search for intelligent querying. It processes policy data, customer interactions, and claims history to provide actionable insights, predict churn, and generate personalized customer communications.",
 		},
 		{
-			Name:              "Content Writer Pro",
-			Description:       "Professional content writing assistant that creates high-quality articles, blogs, and marketing copy",
-			Slug:              "content-writer-pro",
-			Version:           "1.5.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Content Creation",
-			Tags:              tags3,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 1500, "temperature": 0.8}),
+			Name:        "Sales Buddy",
+			Description: "It consolidates scattered knowledge especially—product programs, eligibility rules, rate cards, collateral classifications, and compliance policies—into a single conversational AI assistant accessible via web, mobile or other interfaces.",
+			Slug:        "sales-buddy",
+			Version:     "1.0.0",
+			Status:      "published",
+			Type:        "custom",
+			Category:    "Sales",
+			Tags:        tags2,
+			Config: models.MapToJSON(map[string]interface{}{
+				"max_tokens":  1500,
+				"temperature": 0.6,
+				"cloud_components": []string{
+					"Azure OpenAI Service",
+					"Azure AI Search",
+					"Azure Functions",
+					"Azure Blob & SQL/Cosmos DB",
+					"Azure VM",
+					"Microsoft Entra ID (Azure AD)",
+					"Azure Monitor & Log Analytics",
+				},
+			}),
 			LLMProvider:       "openai",
 			LLMModel:          "gpt-4",
 			EmbeddingProvider: "openai",
@@ -404,153 +370,88 @@ func seedAgents(db *gorm.DB) error {
 			OrganizationID:    users[3].OrganizationID,
 			IsPublic:          true,
 			IsEnabled:         true,
-			Price:             19.99,
-			Currency:          "USD",
-			PricingModel:      "subscription",
-			LicenseRequired:   false,
-			Rating:            4.2,
-			ReviewCount:       15,
-			UsageCount:        2200,
-			Downloads:         67,
-			Icon:              "https://startupinc.ai/agents/content-writer-pro/icon.png",
-			Screenshots:       screens3,
-			Documentation:     "Professional content writing with SEO optimization",
-			Repository:        "https://github.com/startup-inc/content-writer-pro",
-		},
-		{
-			Name:              "Code Review Assistant",
-			Description:       "AI-powered code review agent that analyzes code quality, security, and best practices",
-			Slug:              "code-review-assistant",
-			Version:           "1.2.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Development",
-			Tags:              tags4,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 3000, "temperature": 0.2}),
-			LLMProvider:       "openai",
-			LLMModel:          "gpt-4",
-			EmbeddingProvider: "openai",
-			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[1].ID, // developer
-			OrganizationID:    users[1].OrganizationID,
-			IsPublic:          true,
-			IsEnabled:         true,
-			Price:             39.99,
-			Currency:          "USD",
-			PricingModel:      "one-time",
-			LicenseRequired:   true,
-			Rating:            4.7,
-			ReviewCount:       6,
-			UsageCount:        420,
-			Downloads:         18,
-			Icon:              "https://agai.studio/agents/code-review-assistant/icon.png",
-			Screenshots:       screens4,
-			Documentation:     "Advanced code analysis with security scanning",
-			Repository:        "https://github.com/agai-studio/code-review-assistant",
-		},
-		{
-			Name:              "Email Assistant",
-			Description:       "Smart email management agent that drafts, categorizes, and responds to emails automatically",
-			Slug:              "email-assistant",
-			Version:           "1.1.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Communication",
-			Tags:              tags5,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 800, "temperature": 0.6}),
-			LLMProvider:       "anthropic",
-			LLMModel:          "claude-3-haiku",
-			EmbeddingProvider: "openai",
-			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[1].ID, // developer
-			OrganizationID:    users[1].OrganizationID,
-			IsPublic:          true,
-			IsEnabled:         true,
 			Price:             0.0,
 			Currency:          "USD",
 			PricingModel:      "free",
-			LicenseRequired:   false,
-			Rating:            4.3,
-			ReviewCount:       9,
-			UsageCount:        1800,
-			Downloads:         52,
-			Icon:              "https://agai.studio/agents/email-assistant/icon.png",
-			Screenshots:       screens5,
-			Documentation:     "Email automation and smart categorization",
-			Repository:        "https://github.com/agai-studio/email-assistant",
+			Rating:            4.7,
+			ReviewCount:       18,
+			UsageCount:        2850,
+			Downloads:         124,
+			Icon:              "https://agai.studio/agents/sales-buddy/icon.png",
+			Screenshots:       screens2,
+			Documentation:     "Sales assistant with real-time loan calculations and multi-language support",
+			Repository:        "https://github.com/agai-studio/sales-buddy",
+			VideoURL:          "https://youtu.be/QoU3DNLHadk",
+			HowItWorks:        "Sales Buddy uses Azure OpenAI to understand natural language queries about products, eligibility, and pricing. It integrates with Azure AI Search to quickly retrieve relevant information from product catalogs, rate cards, and compliance documents. The system supports real-time calculations and provides accurate, contextual responses across multiple languages.",
 		},
 		{
-			Name:              "Research Assistant",
-			Description:       "Academic research agent that helps with literature review, citation management, and paper writing",
-			Slug:              "research-assistant",
-			Version:           "2.0.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Research",
-			Tags:              tags6,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 2500, "temperature": 0.4}),
-			LLMProvider:       "anthropic",
-			LLMModel:          "claude-3-sonnet",
+			Name:        "AI Powered Investment Research",
+			Description: "AI-Powered Investment Research is a Snowflake-native solution that automates financial analysis and research using LLMs, semantic search, and NLP. It helps analysts and financial institutions quickly extract insights, summarize reports, compare companies, and generate high-quality financial intelligence. Built on Snowflake Cortex with a secure multi-tenant SaaS architecture, it boosts accuracy, speed, and productivity.",
+			Slug:        "ai-powered-investment-research",
+			Version:     "1.0.0",
+			Status:      "published",
+			Type:        "custom",
+			Category:    "Research",
+			Tags:        tags3,
+			Config: models.MapToJSON(map[string]interface{}{
+				"max_tokens":  3000,
+				"temperature": 0.5,
+				"cloud_components": []string{
+					"Azure App Service / Azure Functions",
+					"Azure Blob Storage",
+					"Azure Event Grid",
+					"Azure Bot Service (Microsoft Teams)",
+					"Azure API Management",
+					"Microsoft Entra ID (Azure AD)",
+					"Azure Key Vault",
+					"Azure Monitor & Log Analytics",
+					"Azure Virtual Network (Private Endpoints)",
+				},
+			}),
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
 			EmbeddingProvider: "openai",
 			EmbeddingModel:    "text-embedding-ada-002",
 			CreatorID:         users[2].ID, // researcher
 			OrganizationID:    users[2].OrganizationID,
 			IsPublic:          true,
 			IsEnabled:         true,
-			Price:             49.99,
+			Price:             0.0,
 			Currency:          "USD",
-			PricingModel:      "subscription",
-			LicenseRequired:   true,
+			PricingModel:      "free",
 			Rating:            4.9,
-			ReviewCount:       4,
-			UsageCount:        320,
-			Downloads:         12,
-			Icon:              "https://airesearchlab.com/agents/research-assistant/icon.png",
-			Screenshots:       screens6,
-			Documentation:     "Academic research with citation management",
-			Repository:        "https://github.com/ai-research-lab/research-assistant",
+			ReviewCount:       32,
+			UsageCount:        4100,
+			Downloads:         198,
+			Icon:              "https://agai.studio/agents/ai-powered-investment-research/icon.png",
+			Screenshots:       screens3,
+			Documentation:     "Comprehensive investment research platform with AI-driven analysis and financial modeling",
+			Repository:        "https://github.com/agai-studio/ai-powered-investment-research",
+			VideoURL:          "https://youtu.be/xi8j8sZYVt8z",
+			HowItWorks:        "The AI-Powered Investment Research platform ingests financial documents and data into Azure Blob Storage, processes them using Azure OpenAI for analysis and summarization, and leverages Snowflake Cortex for advanced analytics. The conversational copilot enables analysts to query financial data naturally, while the visualization dashboard presents insights in an actionable format. The system is built with enterprise-grade security using Microsoft Entra ID and Azure Key Vault.",
 		},
 		{
-			Name:              "Sales Assistant",
-			Description:       "Sales automation agent that generates leads, qualifies prospects, and manages customer relationships",
-			Slug:              "sales-assistant",
-			Version:           "1.3.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Sales",
-			Tags:              tags7,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 1200, "temperature": 0.7}),
-			LLMProvider:       "openai",
-			LLMModel:          "gpt-4",
-			EmbeddingProvider: "openai",
-			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[3].ID, // founder
-			OrganizationID:    users[3].OrganizationID,
-			IsPublic:          true,
-			IsEnabled:         true,
-			Price:             24.99,
-			Currency:          "USD",
-			PricingModel:      "subscription",
-			LicenseRequired:   false,
-			Rating:            4.1,
-			ReviewCount:       11,
-			UsageCount:        950,
-			Downloads:         38,
-			Icon:              "https://startupinc.ai/agents/sales-assistant/icon.png",
-			Screenshots:       screens7,
-			Documentation:     "Sales automation and lead generation",
-			Repository:        "https://github.com/startup-inc/sales-assistant",
-		},
-		{
-			Name:              "Translation Assistant",
-			Description:       "Multilingual translation agent supporting 50+ languages with context-aware translations",
-			Slug:              "translation-assistant",
-			Version:           "1.0.0",
-			Status:            "published",
-			Type:              "custom",
-			Category:          "Translation",
-			Tags:              tags8,
-			Config:            models.MapToJSON(map[string]interface{}{"max_tokens": 1000, "temperature": 0.5}),
+			Name:        "Document Copilot",
+			Description: "Document Co-Pilot is an AI-powered document intelligence platform on Microsoft Azure that uses Generative AI and LLMs to understand, validate, and act on enterprise documents. It reduces manual effort, accelerates processing, improves compliance, and turns static documents into intelligent, interactive assets.",
+			Slug:        "document-copilot",
+			Version:     "1.0.0",
+			Status:      "published",
+			Type:        "custom",
+			Category:    "Document processing",
+			Tags:        tags4,
+			Config: models.MapToJSON(map[string]interface{}{
+				"max_tokens":  2500,
+				"temperature": 0.4,
+				"cloud_components": []string{
+					"AZURE AI Foundry",
+					"Azure OpenAI Service (GPT/Mistral)",
+					"Azure Blob Storage / SharePoint",
+					"Azure Functions / Logic Apps",
+					"Azure API Management",
+					"Microsoft Entra ID",
+					"Azure Monitor & Log Analytics",
+				},
+			}),
 			LLMProvider:       "openai",
 			LLMModel:          "gpt-4",
 			EmbeddingProvider: "openai",
@@ -562,15 +463,16 @@ func seedAgents(db *gorm.DB) error {
 			Price:             0.0,
 			Currency:          "USD",
 			PricingModel:      "free",
-			LicenseRequired:   false,
-			Rating:            4.6,
-			ReviewCount:       7,
-			UsageCount:        2800,
-			Downloads:         89,
-			Icon:              "https://agai.studio/agents/translation-assistant/icon.png",
-			Screenshots:       screens8,
-			Documentation:     "Multilingual translation with cultural context",
-			Repository:        "https://github.com/agai-studio/translation-assistant",
+			Rating:            4.8,
+			ReviewCount:       28,
+			UsageCount:        3600,
+			Downloads:         172,
+			Icon:              "https://agai.studio/agents/document-copilot/icon.png",
+			Screenshots:       screens4,
+			Documentation:     "Enterprise document intelligence with AI-powered quality checks, classification, and extraction",
+			Repository:        "https://github.com/agai-studio/document-copilot",
+			VideoURL:          "https://youtu.be/txVbmkYnUs8",
+			HowItWorks:        "Document Copilot processes documents stored in Azure Blob Storage or SharePoint using Azure AI Foundry and Azure OpenAI. It employs multiple specialized agents: a quality agent validates document integrity, a classification agent categorizes documents, OCR and AI understanding extract structured data, a conversational interface allows users to query documents, and detection agents identify signatures and stamps. All processing is orchestrated through Azure Functions and secured with Microsoft Entra ID.",
 		},
 	}
 
@@ -581,70 +483,6 @@ func seedAgents(db *gorm.DB) error {
 	}
 
 	fmt.Printf("✅ Created %d agents\n", len(agents))
-	return nil
-}
-
-// seedLicenses seeds licenses
-func seedLicenses(db *gorm.DB) error {
-	fmt.Println("Seeding licenses...")
-
-	// Get organization IDs
-	var orgs []models.Organization
-	if err := db.Find(&orgs).Error; err != nil {
-		return fmt.Errorf("failed to get organizations: %v", err)
-	}
-
-	if len(orgs) == 0 {
-		return fmt.Errorf("no organizations found for seeding licenses")
-	}
-
-	features1, _ := json.Marshal([]string{"unlimited_agents", "advanced_analytics", "priority_support", "custom_integrations"})
-	features2, _ := json.Marshal([]string{"advanced_analytics", "priority_support"})
-	features3, _ := json.Marshal([]string{"basic_analytics"})
-
-	licenses := []models.License{
-		{
-			Key:            "AGAI-ENT-2024-001",
-			Type:           "enterprise",
-			Status:         "active",
-			OrganizationID: &orgs[0].ID, // AGAI Studio
-			IssuedAt:       time.Now(),
-			Features:       features1,
-			MaxUsers:       100,
-			MaxAgents:      50,
-			IsValid:        true,
-		},
-		{
-			Key:            "AGAI-PRO-2024-002",
-			Type:           "pro",
-			Status:         "active",
-			OrganizationID: &orgs[1].ID, // AI Research Lab
-			IssuedAt:       time.Now(),
-			Features:       features2,
-			MaxUsers:       25,
-			MaxAgents:      20,
-			IsValid:        true,
-		},
-		{
-			Key:            "AGAI-BASIC-2024-003",
-			Type:           "basic",
-			Status:         "active",
-			OrganizationID: &orgs[2].ID, // Startup Inc
-			IssuedAt:       time.Now(),
-			Features:       features3,
-			MaxUsers:       10,
-			MaxAgents:      5,
-			IsValid:        true,
-		},
-	}
-
-	for _, license := range licenses {
-		if err := db.Create(&license).Error; err != nil {
-			return fmt.Errorf("failed to seed license %s: %v", license.Key, err)
-		}
-	}
-
-	fmt.Printf("✅ Created %d licenses\n", len(licenses))
 	return nil
 }
 
@@ -699,157 +537,5 @@ func seedLLMProviders(db *gorm.DB) error {
 	}
 
 	fmt.Printf("✅ Created %d LLM providers\n", len(providers))
-	return nil
-}
-
-// seedBillingPlans seeds billing plans
-func seedBillingPlans(db *gorm.DB) error {
-	fmt.Println("Seeding billing plans...")
-
-	features1, _ := json.Marshal([]string{"5 agents", "100 executions/month", "Basic support"})
-	features2, _ := json.Marshal([]string{"Unlimited agents", "1000 executions/month", "Priority support", "Analytics"})
-	features3, _ := json.Marshal([]string{"Unlimited agents", "Unlimited executions", "24/7 support", "Custom integrations", "SLA"})
-
-	plans := []models.BillingPlan{
-		{
-			Name:          "Free",
-			Slug:          "free",
-			Price:         0.0,
-			Currency:      "USD",
-			Interval:      "monthly",
-			Features:      features1,
-			MaxAgents:     5,
-			MaxExecutions: 100,
-			IsActive:      true,
-			Description:   "Basic plan for getting started",
-			SortOrder:     1,
-		},
-		{
-			Name:          "Pro",
-			Slug:          "pro",
-			Price:         29.99,
-			Currency:      "USD",
-			Interval:      "monthly",
-			Features:      features2,
-			MaxAgents:     -1, // Unlimited
-			MaxExecutions: 1000,
-			IsActive:      true,
-			Description:   "Professional plan for growing teams",
-			SortOrder:     2,
-		},
-		{
-			Name:          "Enterprise",
-			Slug:          "enterprise",
-			Price:         99.99,
-			Currency:      "USD",
-			Interval:      "monthly",
-			Features:      features3,
-			MaxAgents:     -1, // Unlimited
-			MaxExecutions: -1, // Unlimited
-			IsActive:      true,
-			Description:   "Enterprise plan for large organizations",
-			SortOrder:     3,
-		},
-	}
-
-	for _, plan := range plans {
-		if err := db.Create(&plan).Error; err != nil {
-			return fmt.Errorf("failed to seed billing plan %s: %v", plan.Name, err)
-		}
-	}
-
-	fmt.Printf("✅ Created %d billing plans\n", len(plans))
-	return nil
-}
-
-// seedAnalytics seeds analytics data
-func seedAnalytics(db *gorm.DB) error {
-	fmt.Println("Seeding analytics data...")
-
-	// Get organization IDs
-	var orgs []models.Organization
-	if err := db.Find(&orgs).Error; err != nil {
-		return fmt.Errorf("failed to get organizations: %v", err)
-	}
-
-	if len(orgs) == 0 {
-		return fmt.Errorf("no organizations found for seeding analytics")
-	}
-
-	analytics := []models.Analytics{
-		{
-			OrganizationID: &orgs[0].ID, // AGAI Studio
-			Type:           "execution",
-			Metric:         "total_executions",
-			Value:          1250.0,
-			Date:           time.Now().AddDate(0, 0, -1),
-			Metadata:       models.MapToJSON(map[string]interface{}{"success_rate": 0.95, "avg_duration": 2.3}),
-		},
-		{
-			OrganizationID: &orgs[0].ID,
-			Type:           "revenue",
-			Metric:         "monthly_revenue",
-			Value:          4500.0,
-			Date:           time.Now().AddDate(0, -1, 0),
-			Metadata:       models.MapToJSON(map[string]interface{}{"subscriptions": 15, "one_time_sales": 3}),
-		},
-		{
-			OrganizationID: &orgs[1].ID, // AI Research Lab
-			Type:           "execution",
-			Metric:         "total_executions",
-			Value:          850.0,
-			Date:           time.Now().AddDate(0, 0, -1),
-			Metadata:       models.MapToJSON(map[string]interface{}{"success_rate": 0.92, "avg_duration": 4.1}),
-		},
-		{
-			OrganizationID: &orgs[1].ID,
-			Type:           "revenue",
-			Metric:         "monthly_revenue",
-			Value:          2800.0,
-			Date:           time.Now().AddDate(0, -1, 0),
-			Metadata:       models.MapToJSON(map[string]interface{}{"subscriptions": 8, "one_time_sales": 2}),
-		},
-		{
-			OrganizationID: &orgs[2].ID, // Startup Inc
-			Type:           "execution",
-			Metric:         "total_executions",
-			Value:          420.0,
-			Date:           time.Now().AddDate(0, 0, -1),
-			Metadata:       models.MapToJSON(map[string]interface{}{"success_rate": 0.88, "avg_duration": 1.8}),
-		},
-		{
-			OrganizationID: &orgs[2].ID,
-			Type:           "revenue",
-			Metric:         "monthly_revenue",
-			Value:          1200.0,
-			Date:           time.Now().AddDate(0, -1, 0),
-			Metadata:       models.MapToJSON(map[string]interface{}{"subscriptions": 4, "one_time_sales": 1}),
-		},
-		// Add some historical data for trends
-		{
-			OrganizationID: &orgs[0].ID,
-			Type:           "execution",
-			Metric:         "total_executions",
-			Value:          1100.0,
-			Date:           time.Now().AddDate(0, 0, -7),
-			Metadata:       models.MapToJSON(map[string]interface{}{"success_rate": 0.93, "avg_duration": 2.1}),
-		},
-		{
-			OrganizationID: &orgs[0].ID,
-			Type:           "revenue",
-			Metric:         "monthly_revenue",
-			Value:          4200.0,
-			Date:           time.Now().AddDate(0, -2, 0),
-			Metadata:       models.MapToJSON(map[string]interface{}{"subscriptions": 14, "one_time_sales": 2}),
-		},
-	}
-
-	for _, analytics := range analytics {
-		if err := db.Create(&analytics).Error; err != nil {
-			return fmt.Errorf("failed to seed analytics %s: %v", analytics.Metric, err)
-		}
-	}
-
-	fmt.Printf("✅ Created %d analytics records\n", len(analytics))
 	return nil
 }

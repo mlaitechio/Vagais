@@ -80,12 +80,14 @@ func main() {
 	router.Use(middleware.SecurityHeaders())
 	router.Use(middleware.RequestID())
 
-	// CORS configuration
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://localhost:5173", "https://aiagentplatform.com"}
-	corsConfig.AllowCredentials = true
-	corsConfig.AddAllowHeaders("Authorization", "Content-Type")
-	router.Use(cors.New(corsConfig))
+	// CORS configuration (only needed for development when frontend runs separately)
+	if cfg.Environment != "production" {
+		corsConfig := cors.DefaultConfig()
+		corsConfig.AllowOrigins = []string{"http://localhost:3000", "http://localhost:5173"}
+		corsConfig.AllowCredentials = true
+		corsConfig.AddAllowHeaders("Authorization", "Content-Type")
+		router.Use(cors.New(corsConfig))
+	}
 
 	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {
@@ -101,6 +103,20 @@ func main() {
 
 	// Setup all routes
 	routes.SetupRoutes(router, db, cfg)
+
+	// Serve static files from frontend build (production mode)
+	router.Static("/assets", "./dist/assets")
+	router.StaticFile("/vite.svg", "./dist/vite.svg")
+	
+	// Serve index.html for all non-API routes (SPA routing)
+	router.NoRoute(func(c *gin.Context) {
+		// Don't serve index.html for API routes
+		if len(c.Request.URL.Path) >= 4 && c.Request.URL.Path[:4] == "/api" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "API endpoint not found"})
+			return
+		}
+		c.File("./dist/index.html")
+	})
 
 	// Start server
 	srv := &http.Server{

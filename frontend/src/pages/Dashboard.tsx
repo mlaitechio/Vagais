@@ -12,26 +12,20 @@ import {
   LinearProgress,
   IconButton,
   Badge,
-  Divider,
   useTheme,
 } from '@mui/material';
 import {
   TrendingUp,
   TrendingDown,
-  Person,
   SmartToy,
   PlayArrow,
-  Pause,
   Settings,
   Notifications,
-  Search,
   Add,
-  CalendarToday,
   Mic,
   Visibility,
   Download,
   Star,
-  AttachMoney,
   Timeline,
   Assessment,
   Speed,
@@ -40,33 +34,25 @@ import {
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import apiService from '../services/api';
-import { Agent, User, DashboardStats } from '../types/api';
+import { Agent, User } from '../types/api';
 
 const Dashboard: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-  const [activeAgents, setActiveAgents] = useState<Agent[]>([]);
 
   // Fetch dashboard data
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats } = useQuery({
     queryKey: ['dashboardStats'],
     queryFn: () => apiService.getUserStats(),
     retry: false,
-    onError: () => {
-      // Provide mock data if API fails (for demo purposes)
-      console.log('Using mock data for dashboard');
-    }
+
   });
 
   const { data: agents } = useQuery({
     queryKey: ['userAgents'],
     queryFn: () => apiService.getAgents(1, 10, { status: 'published' }),
     retry: false,
-    onError: () => {
-      // Provide mock data if API fails (for demo purposes)
-      console.log('Using mock data for agents');
-    }
   });
 
   useEffect(() => {
@@ -80,19 +66,20 @@ const Dashboard: React.FC = () => {
         setUser({
           id: 'demo-user',
           email: 'demo@example.com',
-          name: 'Demo User',
           avatar: '',
           role: 'user',
           organization_id: 'demo-org',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
-        });
+        } as any);
       }
     };
     fetchUser();
   }, []);
 
-  const StatCard = ({ title, value, icon, trend, color = 'primary' }: any) => (
+  const StatCard = ({ title, value, icon, trend, color = 'primary' }: any) => {
+    const colorKey = color as 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+    return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -112,7 +99,7 @@ const Dashboard: React.FC = () => {
               sx={{
                 p: 1,
                 borderRadius: 2,
-                background: `linear-gradient(135deg, ${theme.palette[color].main}20, ${theme.palette[color].light}20)`,
+                background: `linear-gradient(135deg, ${theme.palette[colorKey].main}20, ${theme.palette[colorKey].light}20)`,
               }}
             >
               {icon}
@@ -136,7 +123,8 @@ const Dashboard: React.FC = () => {
         </CardContent>
       </Card>
     </motion.div>
-  );
+    );
+  };
 
   const AgentCard = ({ agent }: { agent: Agent }) => (
     <motion.div
@@ -222,7 +210,8 @@ const Dashboard: React.FC = () => {
                     tags = Array.isArray(parsed) ? parsed : [];
                   } catch {
                     // If parsing fails, try to split by comma or treat as single tag
-                    tags = agent.tags.includes(',') ? agent.tags.split(',').map(t => t.trim()) : [agent.tags];
+                    const tagStr = agent.tags as string;
+                    tags = tagStr.includes(',') ? tagStr.split(',').map((t: string) => t.trim()) : [tagStr];
                   }
                 }
               }
@@ -316,24 +305,6 @@ const Dashboard: React.FC = () => {
             icon={<PlayArrow color="secondary" />}
             trend={8}
             color="secondary"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Revenue"
-            value={`$${(stats?.total_revenue || 0).toLocaleString()}`}
-            icon={<AttachMoney color="success" />}
-            trend={-3}
-            color="success"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Active Subscriptions"
-            value={stats?.active_subscriptions || 0}
-            icon={<Person color="warning" />}
-            trend={15}
-            color="warning"
           />
         </Grid>
       </Grid>
@@ -539,16 +510,18 @@ const Dashboard: React.FC = () => {
               
               <Box display="flex" flexDirection="column" gap={2}>
                 {[
-                  { action: 'Agent executed', time: '2 min ago', color: 'success' },
-                  { action: 'New subscription', time: '1 hour ago', color: 'primary' },
-                  { action: 'Payment received', time: '3 hours ago', color: 'warning' },
-                ].map((activity, index) => (
+                  { action: 'Agent executed', time: '2 min ago', color: 'success' as const },
+                  { action: 'New subscription', time: '1 hour ago', color: 'primary' as const },
+                  { action: 'Payment received', time: '3 hours ago', color: 'warning' as const },
+                ].map((activity, index) => {
+                  const colorKey = activity.color as 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+                  return (
                   <Box key={index} display="flex" alignItems="center" gap={2}>
                     <Avatar
                       sx={{
                         width: 32,
                         height: 32,
-                        background: `linear-gradient(135deg, ${theme.palette[activity.color as any].main}, ${theme.palette[activity.color as any].light})`,
+                        background: `linear-gradient(135deg, ${theme.palette[colorKey].main}, ${theme.palette[colorKey].light})`,
                       }}
                     >
                       {activity.action[0]}
@@ -562,7 +535,8 @@ const Dashboard: React.FC = () => {
                       </Typography>
                     </Box>
                   </Box>
-                ))}
+                  );
+                })}
               </Box>
             </CardContent>
           </Card>

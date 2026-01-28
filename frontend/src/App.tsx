@@ -14,13 +14,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import Dashboard from './pages/Dashboard';
-import DemoDashboard from './pages/DemoDashboard';
 import Marketplace from './pages/Marketplace';
 import Chat from './pages/Chat';
 import CreateAgent from './pages/CreateAgent';
 import Landing from './pages/Landing';
 import AgentDetail from './pages/AgentDetail';
+import MyAgents from './pages/MyAgents';
 import AdminPanel from './pages/AdminPanel';
 
 // Context
@@ -60,7 +59,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
   return <>{children}</>;
 };
 
-// Public Route Component (redirects to dashboard if already logged in)
+// Public Route Component (redirects to marketplace if already logged in)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -69,7 +68,7 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/marketplace" replace />;
   }
 
   return <>{children}</>;
@@ -113,10 +112,17 @@ const AppLayout: React.FC = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', background: theme.palette.background.default }}>
+    <Box sx={{ 
+      minHeight: '100vh',
+      position: 'relative',
+      zIndex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
       {user && <Navbar />}
-      <AnimatePresence mode="wait">
-        <Routes>
+      <Box sx={{ flex: 1, position: 'relative', zIndex: 1 }}>
+        <AnimatePresence mode="wait">
+          <Routes>
           {/* Public Routes */}
           <Route
             path="/login"
@@ -181,21 +187,6 @@ const AppLayout: React.FC = () => {
 
           {/* Protected Routes */}
           <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <DemoDashboard />
-                </motion.div>
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/marketplace"
             element={
               <ProtectedRoute>
@@ -220,7 +211,7 @@ const AppLayout: React.FC = () => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Dashboard />
+                  <MyAgents />
                 </motion.div>
               </ProtectedRoute>
             }
@@ -271,36 +262,6 @@ const AppLayout: React.FC = () => {
             }
           />
           <Route
-            path="/analytics"
-            element={
-              <AdminRoute>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Dashboard />
-                </motion.div>
-              </AdminRoute>
-            }
-          />
-          <Route
-            path="/billing"
-            element={
-              <ProtectedRoute>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Dashboard />
-                </motion.div>
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/settings"
             element={
               <ProtectedRoute>
@@ -310,7 +271,7 @@ const AppLayout: React.FC = () => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Dashboard />
+                  <Marketplace />
                 </motion.div>
               </ProtectedRoute>
             }
@@ -331,7 +292,7 @@ const AppLayout: React.FC = () => {
             }
           />
 
-          {/* Public landing page */}
+          {/* Default route redirects to marketplace for logged in users, landing for others */}
           <Route
             path="/"
             element={
@@ -351,7 +312,8 @@ const AppLayout: React.FC = () => {
           {/* Default redirect for other routes */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </AnimatePresence>
+        </AnimatePresence>
+      </Box>
     </Box>
   );
 };

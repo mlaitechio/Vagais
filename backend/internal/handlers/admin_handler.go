@@ -29,8 +29,6 @@ func (h *AdminHandler) GetSystemStats(c *gin.Context) {
 		"total_agents":       0,
 		"total_organizations": 0,
 		"total_executions":   0,
-		"active_licenses":    0,
-		"revenue":           0.0,
 		"system_health":     "healthy",
 	}
 

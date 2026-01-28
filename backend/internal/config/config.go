@@ -15,7 +15,6 @@ type Config struct {
 	JWT          JWTConfig
 	Security     SecurityConfig
 	Email        EmailConfig
-	Payment      PaymentConfig
 }
 
 // DatabaseConfig holds database configuration
@@ -59,14 +58,6 @@ type EmailConfig struct {
 	FromEmail    string
 }
 
-// PaymentConfig holds payment configuration
-type PaymentConfig struct {
-	StripeSecretKey      string
-	StripePublishableKey string
-	PayPalClientID       string
-	PayPalSecret         string
-}
-
 // Load loads configuration from environment variables
 func Load() *Config {
 	return &Config{
@@ -103,12 +94,6 @@ func Load() *Config {
 			SMTPUsername: getEnv("SMTP_USERNAME", ""),
 			SMTPPassword: getEnv("SMTP_PASSWORD", ""),
 			FromEmail:    getEnv("FROM_EMAIL", "noreply@agais.ai"),
-		},
-		Payment: PaymentConfig{
-			StripeSecretKey:      getEnv("STRIPE_SECRET_KEY", ""),
-			StripePublishableKey: getEnv("STRIPE_PUBLISHABLE_KEY", ""),
-			PayPalClientID:       getEnv("PAYPAL_CLIENT_ID", ""),
-			PayPalSecret:         getEnv("PAYPAL_SECRET", ""),
 		},
 	}
 }

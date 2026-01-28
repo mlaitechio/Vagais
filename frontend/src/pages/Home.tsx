@@ -7,18 +7,12 @@ import {
   Card,
   CardContent,
   Container,
-  Chip,
-  IconButton,
 } from '@mui/material';
 import {
-  PlayArrow,
-  TrendingUp,
   Security,
   Speed,
   Psychology,
   Business,
-  Science,
-  Code,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';

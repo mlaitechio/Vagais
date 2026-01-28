@@ -1,14 +1,10 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import {
   User,
   Organization,
   Agent,
   Review,
   Execution,
-  License,
-  Payment,
-  Subscription,
-  Analytics,
   Webhook,
   Notification,
   LoginRequest,
@@ -17,15 +13,11 @@ import {
   CreateAgentRequest,
   ExecuteAgentRequest,
   CreateReviewRequest,
-  CreateSubscriptionRequest,
-  CreatePaymentRequest,
-  CreateLicenseRequest,
   SendNotificationRequest,
   SearchAgentsRequest,
   ApiResponse,
   PaginatedResponse,
   DashboardStats,
-  MarketplaceFilters,
 } from '../types/api';
 
 class ApiService {
@@ -33,7 +25,11 @@ class ApiService {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    // Use relative path for production, localhost for development
+    const isDevelopment = import.meta.env.DEV;
+    this.baseURL = isDevelopment 
+      ? 'http://localhost:8080/api/v1' 
+      : '/api/v1';
     this.api = axios.create({
       baseURL: this.baseURL,
       timeout: 30000,
@@ -326,7 +322,6 @@ class ApiService {
 
   async purchaseMarketplaceAgent(id: string, data: {
     pricing_tier: string;
-    payment_method_id?: string;
     organization_id?: string;
   }): Promise<any> {
     const response = await this.api.post<{success: boolean, data: any}>(`/marketplace/agents/${id}/purchase`, data);
@@ -450,135 +445,6 @@ class ApiService {
     return response.data.data;
   }
 
-  // Billing endpoints
-  async getAvailablePlans(): Promise<any[]> {
-    const response = await this.api.get<{success: boolean, data: any[]}>('/billing/plans');
-    return response.data.data;
-  }
-
-  async createSubscription(data: CreateSubscriptionRequest): Promise<Subscription> {
-    const response = await this.api.post<{success: boolean, data: Subscription}>('/billing/subscriptions', data);
-    return response.data.data;
-  }
-
-  async getSubscriptions(page = 1, limit = 10): Promise<PaginatedResponse<Subscription>> {
-    const response = await this.api.get<{success: boolean, data: PaginatedResponse<Subscription>}>(`/billing/subscriptions?page=${page}&limit=${limit}`);
-    return response.data.data;
-  }
-
-  async getSubscription(id: string): Promise<Subscription> {
-    const response = await this.api.get<{success: boolean, data: Subscription}>(`/billing/subscriptions/${id}`);
-    return response.data.data;
-  }
-
-  async cancelSubscription(id: string): Promise<void> {
-    await this.api.post(`/billing/subscriptions/${id}/cancel`);
-  }
-
-  async reactivateSubscription(id: string): Promise<void> {
-    await this.api.post(`/billing/subscriptions/${id}/reactivate`);
-  }
-
-  async validateSubscription(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/billing/validate');
-    return response.data.data;
-  }
-
-  // Payment endpoints
-  async processPayment(data: CreatePaymentRequest): Promise<Payment> {
-    const response = await this.api.post<{success: boolean, data: Payment}>('/payments/process', data);
-    return response.data.data;
-  }
-
-  async createPaymentIntent(data: CreatePaymentRequest): Promise<any> {
-    const response = await this.api.post<{success: boolean, data: any}>('/payments/intent', data);
-    return response.data.data;
-  }
-
-  async getPayments(page = 1, limit = 10): Promise<PaginatedResponse<Payment>> {
-    const response = await this.api.get<{success: boolean, data: PaginatedResponse<Payment>}>(`/payments?page=${page}&limit=${limit}`);
-    return response.data.data;
-  }
-
-  async getPayment(id: string): Promise<Payment> {
-    const response = await this.api.get<{success: boolean, data: Payment}>(`/payments/${id}`);
-    return response.data.data;
-  }
-
-  async refundPayment(id: string, reason: string): Promise<void> {
-    await this.api.post(`/payments/${id}/refund`, { reason });
-  }
-
-  async getPaymentMethods(): Promise<any[]> {
-    const response = await this.api.get<{success: boolean, data: any[]}>('/payments/methods');
-    return response.data.data;
-  }
-
-  async getPaymentStats(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/payments/stats');
-    return response.data.data;
-  }
-
-  async validatePayment(id: string): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>(`/payments/${id}/validate`);
-    return response.data.data;
-  }
-
-  // License endpoints
-  async getLicenses(page = 1, limit = 10): Promise<PaginatedResponse<License>> {
-    const response = await this.api.get<{success: boolean, data: PaginatedResponse<License>}>(`/licenses?page=${page}&limit=${limit}`);
-    return response.data.data;
-  }
-
-  async getLicense(id: string): Promise<License> {
-    const response = await this.api.get<{success: boolean, data: License}>(`/licenses/${id}`);
-    return response.data.data;
-  }
-
-  async getLicenseByKey(key: string): Promise<License> {
-    const response = await this.api.get<{success: boolean, data: License}>(`/licenses/key/${key}`);
-    return response.data.data;
-  }
-
-  async createLicense(data: CreateLicenseRequest): Promise<License> {
-    const response = await this.api.post<{success: boolean, data: License}>('/licenses', data);
-    return response.data.data;
-  }
-
-  async updateLicense(id: string, data: Partial<CreateLicenseRequest>): Promise<License> {
-    const response = await this.api.put<{success: boolean, data: License}>(`/licenses/${id}`, data);
-    return response.data.data;
-  }
-
-  async revokeLicense(id: string): Promise<void> {
-    await this.api.delete(`/licenses/${id}`);
-  }
-
-  async validateLicense(key: string): Promise<any> {
-    const response = await this.api.post<{success: boolean, data: any}>('/licenses/validate', { key });
-    return response.data.data;
-  }
-
-  async checkLicenseUsage(id: string): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>(`/licenses/${id}/usage`);
-    return response.data.data;
-  }
-
-  async generateOfflineLicense(id: string): Promise<any> {
-    const response = await this.api.post<{success: boolean, data: any}>(`/licenses/${id}/offline`);
-    return response.data.data;
-  }
-
-  async validateOfflineLicense(data: any): Promise<any> {
-    const response = await this.api.post<{success: boolean, data: any}>('/licenses/offline/validate', data);
-    return response.data.data;
-  }
-
-  async getLicenseStats(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/licenses/stats');
-    return response.data.data;
-  }
-
   // Notification endpoints
   async getNotifications(page = 1, limit = 10): Promise<PaginatedResponse<Notification>> {
     const response = await this.api.get<{success: boolean, data: PaginatedResponse<Notification>}>(`/notifications?page=${page}&limit=${limit}`);
@@ -619,46 +485,6 @@ class ApiService {
 
   async getNotificationStats(): Promise<any> {
     const response = await this.api.get<{success: boolean, data: any}>('/notifications/stats');
-    return response.data.data;
-  }
-
-  // Analytics endpoints
-  async trackEvent(data: any): Promise<void> {
-    await this.api.post('/analytics/track', data);
-  }
-
-  async getUsageStats(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/analytics/usage');
-    return response.data.data;
-  }
-
-  async getAgentUsageStats(agentId: string): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>(`/analytics/agents/${agentId}/usage`);
-    return response.data.data;
-  }
-
-  async getUserBehaviorAnalytics(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/analytics/user-behavior');
-    return response.data.data;
-  }
-
-  async getMarketplaceTrends(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/analytics/marketplace-trends');
-    return response.data.data;
-  }
-
-  async getRevenueAnalytics(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/analytics/revenue');
-    return response.data.data;
-  }
-
-  async getDeveloperMetrics(): Promise<any> {
-    const response = await this.api.get<{success: boolean, data: any}>('/analytics/developer-metrics');
-    return response.data.data;
-  }
-
-  async generateCustomReport(data: any): Promise<any> {
-    const response = await this.api.post<{success: boolean, data: any}>('/analytics/reports', data);
     return response.data.data;
   }
 

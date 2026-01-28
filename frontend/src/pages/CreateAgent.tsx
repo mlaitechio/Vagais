@@ -18,12 +18,10 @@ import {
 import { ArrowBack, Save, Add, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
 import { apiService } from '../services/api';
 
 const CreateAgent: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -46,7 +44,6 @@ const CreateAgent: React.FC = () => {
       temperature: 0.7,
       instructions: '',
     },
-    license_required: false,
   });
 
   const [newTag, setNewTag] = useState('');
@@ -319,27 +316,11 @@ const CreateAgent: React.FC = () => {
                   fullWidth
                   label="Temperature"
                   type="number"
-                  step="0.1"
-                  min="0"
-                  max="2"
                   value={formData.config.temperature}
                   onChange={(e) => handleInputChange('config', { ...formData.config, temperature: parseFloat(e.target.value) || 0.7 })}
+                  inputProps={{ step: 0.1, min: 0, max: 2 }}
                   sx={{ mb: 2 }}
                 />
-              </Grid>
-
-              <Grid item xs={12} md={4}>
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                  <InputLabel>License Required</InputLabel>
-                  <Select
-                    value={formData.license_required ? 'true' : 'false'}
-                    onChange={(e) => handleInputChange('license_required', e.target.value === 'true')}
-                    label="License Required"
-                  >
-                    <MenuItem value="false">No</MenuItem>
-                    <MenuItem value="true">Yes</MenuItem>
-                  </Select>
-                </FormControl>
               </Grid>
 
               <Grid item xs={12}>

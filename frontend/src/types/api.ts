@@ -12,7 +12,6 @@ export interface User {
   avatar: string;
   organization_id?: string;
   credits: number;
-  subscription_id?: string;
   last_login_at?: string;
   preferences: any;
   created_at: string;
@@ -28,7 +27,6 @@ export interface Organization {
   logo: string;
   is_active: boolean;
   plan: string;
-  license_key?: string;
   created_at: string;
   updated_at: string;
 }
@@ -57,7 +55,6 @@ export interface Agent {
   price: number;
   currency: string;
   pricing_model: 'free' | 'one-time' | 'subscription';
-  license_required: boolean;
   rating: number;
   review_count: number;
   usage_count: number;
@@ -66,6 +63,8 @@ export interface Agent {
   screenshots: string[];
   documentation: string;
   repository: string;
+  video_url: string;
+  how_it_works: string;
   created_at: string;
   updated_at: string;
 }
@@ -104,74 +103,6 @@ export interface Execution {
   ip_address: string;
   user_agent: string;
   session_id: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface License {
-  id: string;
-  key: string;
-  type: string;
-  status: string;
-  organization_id?: string;
-  organization?: Organization;
-  issued_at: string;
-  expires_at?: string;
-  features: string[];
-  max_users: number;
-  max_agents: number;
-  is_valid: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Payment {
-  id: string;
-  user_id: string;
-  user: User;
-  organization_id?: string;
-  organization?: Organization;
-  amount: number;
-  currency: string;
-  status: string;
-  provider: string;
-  provider_id: string;
-  description: string;
-  metadata: any;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Subscription {
-  id: string;
-  user_id: string;
-  user: User;
-  organization_id?: string;
-  organization?: Organization;
-  plan: string;
-  status: string;
-  provider: string;
-  provider_id: string;
-  current_period_start: string;
-  current_period_end: string;
-  cancel_at_period_end: boolean;
-  amount: number;
-  currency: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Analytics {
-  id: string;
-  type: string;
-  metric: string;
-  value: number;
-  unit: string;
-  date: string;
-  agent_id?: string;
-  user_id?: string;
-  organization_id?: string;
-  metadata: any;
   created_at: string;
   updated_at: string;
 }
@@ -249,7 +180,6 @@ export interface CreateAgentRequest {
   price: number;
   currency: string;
   pricing_model: string;
-  license_required: boolean;
   icon?: string;
   screenshots?: string[];
   documentation?: string;
@@ -266,31 +196,6 @@ export interface CreateReviewRequest {
   rating: number;
   title: string;
   content: string;
-}
-
-export interface CreateSubscriptionRequest {
-  plan: string;
-  provider: string;
-  amount: number;
-  currency: string;
-  interval: string;
-}
-
-export interface CreatePaymentRequest {
-  amount: number;
-  currency: string;
-  provider: string;
-  description: string;
-  metadata?: any;
-}
-
-export interface CreateLicenseRequest {
-  key: string;
-  type: string;
-  organization_id?: string;
-  features: string[];
-  max_users: number;
-  max_agents: number;
 }
 
 export interface SendNotificationRequest {
@@ -328,8 +233,6 @@ export interface ErrorResponse {
 export interface DashboardStats {
   total_agents: number;
   total_executions: number;
-  total_revenue: number;
-  active_subscriptions: number;
   recent_activities: any[];
   usage_trends: any[];
 }

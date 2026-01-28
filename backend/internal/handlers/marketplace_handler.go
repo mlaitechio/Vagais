@@ -126,7 +126,7 @@ func (h *MarketplaceHandler) ListReviews(c *gin.Context) {
 
 // SearchAgents searches for agents
 func (h *MarketplaceHandler) SearchAgents(c *gin.Context) {
-	query := c.Query("q")
+	query := c.Query("query")
 	category := c.Query("category")
 	minRatingStr := c.Query("min_rating")
 	maxPriceStr := c.Query("max_price")
@@ -361,9 +361,8 @@ func (h *MarketplaceHandler) PurchaseMarketplaceAgent(c *gin.Context) {
 	agentID := c.Param("id")
 
 	var req struct {
-		PricingTier     string `json:"pricing_tier" binding:"required"`
-		PaymentMethodID string `json:"payment_method_id"`
-		OrganizationID  string `json:"organization_id"`
+		PricingTier    string `json:"pricing_tier" binding:"required"`
+		OrganizationID string `json:"organization_id"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -377,7 +376,7 @@ func (h *MarketplaceHandler) PurchaseMarketplaceAgent(c *gin.Context) {
 		return
 	}
 
-	purchase, err := h.marketplaceService.PurchaseMarketplaceAgent(agentID, userID, req.PricingTier, req.PaymentMethodID, req.OrganizationID)
+	purchase, err := h.marketplaceService.PurchaseMarketplaceAgent(agentID, userID, req.PricingTier, req.OrganizationID)
 	if err != nil {
 		h.sendError(c, http.StatusInternalServerError, err.Error())
 		return

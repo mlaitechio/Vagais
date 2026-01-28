@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Grid,
@@ -10,14 +10,12 @@ import {
   Chip,
   TextField,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   Checkbox,
   FormControlLabel,
   Slider,
   IconButton,
-  Badge,
   useTheme,
   InputAdornment,
   ToggleButton,
@@ -32,8 +30,6 @@ import {
   Visibility,
   Favorite,
   FavoriteBorder,
-  FilterList,
-  Sort,
   SmartToy,
   AttachMoney,
   FreeBreakfast,
@@ -79,7 +75,7 @@ const Marketplace: React.FC = () => {
 
 
   // Fetch categories using the custom hook
-  const { data: categories, isLoading: categoriesLoading } = useCategories();
+  const { data: categories } = useCategories();
 
   // Ensure categories is always an array
   const categoriesList = categories && typeof categories === 'object' ? Object.keys(categories as Record<string, number>) : [];
@@ -107,6 +103,7 @@ const Marketplace: React.FC = () => {
           height: '100%',
           position: 'relative',
           overflow: 'hidden',
+          cursor: 'pointer',
           transition: 'all 0.3s ease',
           '&:hover': {
             transform: 'translateY(-4px)',
@@ -123,6 +120,7 @@ const Marketplace: React.FC = () => {
             background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
           },
         }}
+        onClick={() => navigate(`/agents/${agent.id}`)}
       >
         <CardContent>
           <Box display="flex" alignItems="flex-start" mb={2}>
@@ -144,7 +142,10 @@ const Marketplace: React.FC = () => {
                 </Typography>
                 <IconButton
                   size="small"
-                  onClick={() => toggleFavorite(agent.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(agent.id);
+                  }}
                   sx={{ color: favorites.includes(agent.id) ? 'error.main' : 'text.secondary' }}
                 >
                   {favorites.includes(agent.id) ? <Favorite /> : <FavoriteBorder />}
@@ -183,7 +184,8 @@ const Marketplace: React.FC = () => {
                     tags = Array.isArray(parsed) ? parsed : [];
                   } catch {
                     // If parsing fails, try to split by comma or treat as single tag
-                    tags = agent.tags.includes(',') ? agent.tags.split(',').map(t => t.trim()) : [agent.tags];
+                    const tagStr = agent.tags as any as string;
+                    tags = tagStr && tagStr.includes(',') ? tagStr.split(',').map((t: string) => t.trim()) : [tagStr];
                   }
                 }
               }
@@ -232,7 +234,10 @@ const Marketplace: React.FC = () => {
             <Button
               variant="contained"
               fullWidth
-              onClick={() => navigate(`/chat/${agent.id}`)}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/chat/${agent.id}`);
+              }}
               sx={{
                 background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 borderRadius: 2,
@@ -245,6 +250,7 @@ const Marketplace: React.FC = () => {
             </Button>
             <Button
               variant="outlined"
+              onClick={(e) => e.stopPropagation()}
               sx={{ borderRadius: 2, minWidth: 'auto' }}
             >
               <Download />
@@ -258,13 +264,39 @@ const Marketplace: React.FC = () => {
   return (
     <Box sx={{ p: 3, minHeight: '100vh', background: theme.palette.background.default }}>
       {/* Header */}
-      <Box textAlign="center" mb={4}>
-        <Typography variant="h3" fontWeight="bold" mb={2}>
-          AI Agents Directory
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Your One-Stop Destination to Explore and Learn About Modern AI Agents
-        </Typography>
+      <Box textAlign="center" mb={6}>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Typography variant="h2" sx={{ mb: 2, fontWeight: 800 }}>
+            AI Agent
+            <Box
+              component="span"
+              sx={{
+                display: 'block',
+                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Marketplace
+            </Box>
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'text.secondary',
+              fontWeight: 400,
+              maxWidth: 500,
+              mx: 'auto',
+            }}
+          >
+            Discover, deploy, and manage the most powerful AI agents. Filter by capability, price, and ratings.
+          </Typography>
+        </motion.div>
       </Box>
 
       {/* Search Bar */}
