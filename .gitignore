@@ -1,4 +1,1 @@
-frontend/node_modules
-agais.db
-backend/agais.db
-.idea
+./dist
