@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -20,7 +20,7 @@ import {
   InputAdornment,
   ToggleButton,
   ToggleButtonGroup,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Search,
   ViewModule,
@@ -33,23 +33,26 @@ import {
   SmartToy,
   AttachMoney,
   FreeBreakfast,
-} from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import apiService from '../services/api';
-import { Agent, SearchAgentsRequest } from '../types/api';
-import { useCategories } from '../hooks/useCategories';
+} from "@mui/icons-material";
+import { motion, AnimatePresence } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import apiService from "../services/api";
+import { Agent, SearchAgentsRequest } from "../types/api";
+import { useCategories } from "../hooks/useCategories";
+
+import AzureCloud from "../assets/azure_cloud.png";
+import Copilot from "../assets/copilot.png";
 
 const Marketplace: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedPricing, setSelectedPricing] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
-  const [sortBy, setSortBy] = useState<string>('rating');
+  const [sortBy, setSortBy] = useState<string>("rating");
   const [favorites, setFavorites] = useState<string[]>([]);
 
   // Search parameters
@@ -59,32 +62,33 @@ const Marketplace: React.FC = () => {
     price_min: priceRange[0],
     price_max: priceRange[1],
     sort_by: sortBy as any,
-    sort_order: 'desc',
+    sort_order: "desc",
     page: 1,
     limit: 20,
   };
 
   // Fetch agents
   const { data: agents, isLoading } = useQuery({
-    queryKey: ['marketplace', searchParams],
+    queryKey: ["marketplace", searchParams],
     queryFn: () => apiService.searchAgents(searchParams),
     placeholderData: (previousData) => previousData,
     retry: false,
   });
 
-
-
   // Fetch categories using the custom hook
   const { data: categories } = useCategories();
 
   // Ensure categories is always an array
-  const categoriesList = categories && typeof categories === 'object' ? Object.keys(categories as Record<string, number>) : [];
+  const categoriesList =
+    categories && typeof categories === "object"
+      ? Object.keys(categories as Record<string, number>)
+      : [];
 
   const toggleFavorite = (agentId: string) => {
-    setFavorites(prev =>
+    setFavorites((prev) =>
       prev.includes(agentId)
-        ? prev.filter(id => id !== agentId)
-        : [...prev, agentId]
+        ? prev.filter((id) => id !== agentId)
+        : [...prev, agentId],
     );
   };
 
@@ -97,26 +101,27 @@ const Marketplace: React.FC = () => {
     >
       <Card
         sx={{
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          background:
+            "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
           borderRadius: 3,
-          height: '100%',
-          position: 'relative',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 8px 32px rgba(152, 23, 126, 0.3)',
+          height: "100%",
+          position: "relative",
+          overflow: "hidden",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "translateY(-4px)",
+            boxShadow: "0 8px 32px rgba(152, 23, 126, 0.3)",
             border: `1px solid ${theme.palette.primary.main}`,
           },
-          '&::before': {
+          "&::before": {
             content: '""',
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
             right: 0,
-            height: '3px',
+            height: "3px",
             background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
           },
         }}
@@ -136,7 +141,11 @@ const Marketplace: React.FC = () => {
               <SmartToy />
             </Avatar>
             <Box flex={1}>
-              <Box display="flex" alignItems="center" justifyContent="space-between">
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <Typography variant="h6" fontWeight="bold" noWrap>
                   {agent.name}
                 </Typography>
@@ -146,16 +155,24 @@ const Marketplace: React.FC = () => {
                     e.stopPropagation();
                     toggleFavorite(agent.id);
                   }}
-                  sx={{ color: favorites.includes(agent.id) ? 'error.main' : 'text.secondary' }}
+                  sx={{
+                    color: favorites.includes(agent.id)
+                      ? "error.main"
+                      : "text.secondary",
+                  }}
                 >
-                  {favorites.includes(agent.id) ? <Favorite /> : <FavoriteBorder />}
+                  {favorites.includes(agent.id) ? (
+                    <Favorite />
+                  ) : (
+                    <FavoriteBorder />
+                  )}
                 </IconButton>
               </Box>
               <Typography variant="body2" color="text.secondary" mb={1}>
                 {agent.category}
               </Typography>
               <Box display="flex" alignItems="center" gap={1}>
-                <Star sx={{ color: 'warning.main', fontSize: 16 }} />
+                <Star sx={{ color: "warning.main", fontSize: 16 }} />
                 <Typography variant="body2" fontWeight="medium">
                   {agent.rating}
                 </Typography>
@@ -166,7 +183,12 @@ const Marketplace: React.FC = () => {
             </Box>
           </Box>
 
-          <Typography variant="body2" color="text.secondary" mb={2} sx={{ lineHeight: 1.6 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            mb={2}
+            sx={{ lineHeight: 1.6 }}
+          >
             {agent.description}
           </Typography>
 
@@ -176,7 +198,7 @@ const Marketplace: React.FC = () => {
               if (agent.tags) {
                 if (Array.isArray(agent.tags)) {
                   tags = agent.tags;
-                } else if (typeof agent.tags === 'string') {
+                } else if (typeof agent.tags === "string") {
                   try {
                     // Handle base64 encoded JSON string
                     const decoded = atob(agent.tags);
@@ -185,47 +207,61 @@ const Marketplace: React.FC = () => {
                   } catch {
                     // If parsing fails, try to split by comma or treat as single tag
                     const tagStr = agent.tags as any as string;
-                    tags = tagStr && tagStr.includes(',') ? tagStr.split(',').map((t: string) => t.trim()) : [tagStr];
+                    tags =
+                      tagStr && tagStr.includes(",")
+                        ? tagStr.split(",").map((t: string) => t.trim())
+                        : [tagStr];
                   }
                 }
               }
-              return tags.slice(0, 3).map((tag, index) => (
-                <Chip
-                  key={index}
-                  label={tag}
-                  size="small"
-                  variant="outlined"
-                  sx={{ fontSize: '0.7rem' }}
-                />
-              ));
+              return tags
+                .slice(0, 3)
+                .map((tag, index) => (
+                  <Chip
+                    key={index}
+                    label={tag}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: "0.7rem" }}
+                  />
+                ));
             })()}
           </Box>
 
-          <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mb={2}
+          >
             <Box display="flex" alignItems="center" gap={2}>
               <Box display="flex" alignItems="center">
-                <Visibility sx={{ fontSize: 16, mr: 0.5, color: 'text.secondary' }} />
+                <Visibility
+                  sx={{ fontSize: 16, mr: 0.5, color: "text.secondary" }}
+                />
                 <Typography variant="body2" color="text.secondary">
                   {agent.usage_count}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center">
-                <Download sx={{ fontSize: 16, mr: 0.5, color: 'text.secondary' }} />
+                <Download
+                  sx={{ fontSize: 16, mr: 0.5, color: "text.secondary" }}
+                />
                 <Typography variant="body2" color="text.secondary">
                   {agent.downloads}
                 </Typography>
               </Box>
             </Box>
             <Box display="flex" alignItems="center" gap={1}>
-              {agent.pricing_model === 'free' ? (
+              {agent.pricing_model === "free" ? (
                 <FreeBreakfast color="success" />
-              ) : agent.pricing_model === 'subscription' ? (
+              ) : agent.pricing_model === "subscription" ? (
                 <AttachMoney color="primary" />
               ) : (
                 <AttachMoney color="warning" />
               )}
               <Typography variant="h6" color="primary" fontWeight="bold">
-                {agent.price === 0 ? 'Free' : `$${agent.price}`}
+                {agent.price === 0 ? "Free" : `$${agent.price}`}
               </Typography>
             </Box>
           </Box>
@@ -241,7 +277,7 @@ const Marketplace: React.FC = () => {
               sx={{
                 background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 borderRadius: 2,
-                '&:hover': {
+                "&:hover": {
                   background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                 },
               }}
@@ -251,7 +287,7 @@ const Marketplace: React.FC = () => {
             <Button
               variant="outlined"
               onClick={(e) => e.stopPropagation()}
-              sx={{ borderRadius: 2, minWidth: 'auto' }}
+              sx={{ borderRadius: 2, minWidth: "auto" }}
             >
               <Download />
             </Button>
@@ -262,40 +298,92 @@ const Marketplace: React.FC = () => {
   );
 
   return (
-    <Box sx={{ p: 3, minHeight: '100vh', background: theme.palette.background.default }}>
+    <Box
+      sx={{
+        p: 3,
+        minHeight: "100vh",
+        background: theme.palette.background.default,
+      }}
+    >
       {/* Header */}
-      <Box textAlign="center" mb={6}>
+      <Box textAlign="center" mb={4} sx={{ width: 1200 }} mx="auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          style={{ display: "flex", justifyContent: "space-between" }}
         >
           <Typography variant="h2" sx={{ mb: 2, fontWeight: 800 }}>
             AI Agent
             <Box
               component="span"
               sx={{
-                display: 'block',
+                display: "block",
                 background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               Marketplace
             </Box>
           </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: 'text.secondary',
-              fontWeight: 400,
-              maxWidth: 500,
-              mx: 'auto',
+          <div>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "text.secondary",
+                fontWeight: 400,
+                maxWidth: 500,
+                mx: "auto",
+              }}
+            >
+              Discover, deploy, and manage the most powerful AI agents. Filter
+              by capability, price, and ratings.
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "text.secondary",
+                fontWeight: 400,
+                maxWidth: 600,
+                mx: "auto",
+                marginTop: "10px",
+              }}
+            >
+              AGENTS are Powered by Azure AI Foundry and Microsoft CoPilot
+              Studio.
+            </Typography>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            Discover, deploy, and manage the most powerful AI agents. Filter by capability, price, and ratings.
-          </Typography>
+            <div
+              style={{
+                backgroundColor: "white",
+                padding: "5px 10px",
+                borderRadius: "5px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={AzureCloud}
+                alt="AzureCloud logo"
+                style={{ height: "60px" }}
+              />
+              <img
+                src={Copilot}
+                alt="Copilot logo"
+                style={{ height: "60px" }}
+              />
+            </div>
+          </div>
         </motion.div>
       </Box>
 
@@ -314,10 +402,10 @@ const Marketplace: React.FC = () => {
             ),
             sx: {
               borderRadius: 3,
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
+              background: "rgba(255, 255, 255, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none",
               },
             },
           }}
@@ -325,14 +413,85 @@ const Marketplace: React.FC = () => {
       </Box>
 
       <Grid container spacing={3}>
+        {/* Right Content - Agent Listings */}
+        <Grid item xs={12} md={10}>
+          {/* Results Header */}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mb={3}
+          >
+            <Typography variant="h6" fontWeight="bold">
+              Showing ({(agents as any)?.total || 0}) AI Agents
+            </Typography>
+            <Box display="flex" alignItems="center" gap={2}>
+              <ToggleButtonGroup
+                value={viewMode}
+                exclusive
+                onChange={(_, newMode) => newMode && setViewMode(newMode)}
+                size="small"
+              >
+                <ToggleButton value="grid">
+                  <ViewModule />
+                </ToggleButton>
+                <ToggleButton value="list">
+                  <ViewList />
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
+          </Box>
+
+          {/* Agent Grid */}
+          <AnimatePresence>
+            <Grid container spacing={3}>
+              {(agents as any)?.data?.map((agent: Agent) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={viewMode === "grid" ? 6 : 12}
+                  md={viewMode === "grid" ? 4 : 12}
+                  lg={viewMode === "grid" ? 3 : 12}
+                  key={agent.id}
+                >
+                  <AgentCard agent={agent} />
+                </Grid>
+              ))}
+            </Grid>
+          </AnimatePresence>
+
+          {/* No Results */}
+          {(agents as any)?.data?.length === 0 && !isLoading && (
+            <Box textAlign="center" py={8}>
+              <SmartToy sx={{ fontSize: 64, color: "text.secondary", mb: 2 }} />
+              <Typography variant="h6" color="text.secondary" mb={1}>
+                No agents found
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Try adjusting your search criteria or browse all agents
+              </Typography>
+            </Box>
+          )}
+
+          {/* Loading State */}
+          {isLoading && (
+            <Box textAlign="center" py={8}>
+              <Typography variant="h6" color="text.secondary">
+                Loading agents...
+              </Typography>
+            </Box>
+          )}
+        </Grid>
+
         {/* Left Sidebar - Filters */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2}>
           <Card
             sx={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background:
+                "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
               borderRadius: 3,
-              p: 2,
+              p: 4,
             }}
           >
             <Typography variant="h6" fontWeight="bold" mb={3}>
@@ -358,12 +517,16 @@ const Marketplace: React.FC = () => {
                       control={
                         <Checkbox
                           checked={selectedCategory === category}
-                          onChange={(e) => setSelectedCategory(e.target.checked ? category : '')}
+                          onChange={(e) =>
+                            setSelectedCategory(
+                              e.target.checked ? category : "",
+                            )
+                          }
                           size="small"
                         />
                       }
                       label={`${category} (${(categories as Record<string, number>)?.[category] || 0})`}
-                      sx={{ fontSize: '0.9rem' }}
+                      sx={{ fontSize: "0.9rem" }}
                     />
                   ))
                 ) : (
@@ -380,7 +543,7 @@ const Marketplace: React.FC = () => {
                 Pricing Models
               </Typography>
               <Box display="flex" flexDirection="column" gap={1}>
-                {['Free', 'Freemium', 'Paid'].map((model) => (
+                {["Free", "Freemium", "Paid"].map((model) => (
                   <FormControlLabel
                     key={model}
                     control={
@@ -390,14 +553,16 @@ const Marketplace: React.FC = () => {
                           if (e.target.checked) {
                             setSelectedPricing([...selectedPricing, model]);
                           } else {
-                            setSelectedPricing(selectedPricing.filter(p => p !== model));
+                            setSelectedPricing(
+                              selectedPricing.filter((p) => p !== model),
+                            );
                           }
                         }}
                         size="small"
                       />
                     }
                     label={`${model} (${Math.floor(Math.random() * 15) + 1})`}
-                    sx={{ fontSize: '0.9rem' }}
+                    sx={{ fontSize: "0.9rem" }}
                   />
                 ))}
               </Box>
@@ -410,13 +575,15 @@ const Marketplace: React.FC = () => {
               </Typography>
               <Slider
                 value={priceRange}
-                onChange={(_, value) => setPriceRange(value as [number, number])}
+                onChange={(_, value) =>
+                  setPriceRange(value as [number, number])
+                }
                 valueLabelDisplay="auto"
                 min={0}
                 max={100}
                 sx={{
                   color: theme.palette.primary.main,
-                  '& .MuiSlider-thumb': {
+                  "& .MuiSlider-thumb": {
                     background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                   },
                 }}
@@ -446,71 +613,6 @@ const Marketplace: React.FC = () => {
               </FormControl>
             </Box>
           </Card>
-        </Grid>
-
-        {/* Right Content - Agent Listings */}
-        <Grid item xs={12} md={9}>
-          {/* Results Header */}
-          <Box display="flex" alignItems="center" justifyContent="space-between" mb={3}>
-            <Typography variant="h6" fontWeight="bold">
-              Showing ({(agents as any)?.total || 0}) AI Agents
-            </Typography>
-            <Box display="flex" alignItems="center" gap={2}>
-              <ToggleButtonGroup
-                value={viewMode}
-                exclusive
-                onChange={(_, newMode) => newMode && setViewMode(newMode)}
-                size="small"
-              >
-                <ToggleButton value="grid">
-                  <ViewModule />
-                </ToggleButton>
-                <ToggleButton value="list">
-                  <ViewList />
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-          </Box>
-
-          {/* Agent Grid */}
-          <AnimatePresence>
-            <Grid container spacing={3}>
-              {(agents as any)?.data?.map((agent: Agent) => (
-                <Grid
-                  item
-                  xs={12}
-                  sm={viewMode === 'grid' ? 6 : 12}
-                  md={viewMode === 'grid' ? 4 : 12}
-                  lg={viewMode === 'grid' ? 3 : 12}
-                  key={agent.id}
-                >
-                  <AgentCard agent={agent} />
-                </Grid>
-              ))}
-            </Grid>
-          </AnimatePresence>
-
-          {/* No Results */}
-          {(agents as any)?.data?.length === 0 && !isLoading && (
-            <Box textAlign="center" py={8}>
-              <SmartToy sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-              <Typography variant="h6" color="text.secondary" mb={1}>
-                No agents found
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Try adjusting your search criteria or browse all agents
-              </Typography>
-            </Box>
-          )}
-
-          {/* Loading State */}
-          {isLoading && (
-            <Box textAlign="center" py={8}>
-              <Typography variant="h6" color="text.secondary">
-                Loading agents...
-              </Typography>
-            </Box>
-          )}
         </Grid>
       </Grid>
     </Box>
