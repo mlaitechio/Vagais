@@ -49,10 +49,6 @@ func testMain() {
 	fmt.Printf("Runtime Service: %s\n", services.RuntimeServiceInstance.GetStatus())
 	fmt.Printf("Integration Service: %s\n", services.IntegrationServiceInstance.GetStatus())
 	fmt.Printf("Notification Service: %s\n", services.NotificationServiceInstance.GetStatus())
-	fmt.Printf("Analytics Service: %s\n", services.AnalyticsServiceInstance.GetStatus())
-	fmt.Printf("Billing Service: %s\n", services.BillingServiceInstance.GetStatus())
-	fmt.Printf("License Service: %s\n", services.LicenseServiceInstance.GetStatus())
-	fmt.Printf("Payment Service: %s\n", services.PaymentServiceInstance.GetStatus())
 
 	fmt.Println("\n✅ Backend test completed successfully!")
 	fmt.Println("All core services are working with graceful degradation for optional services.")

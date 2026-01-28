@@ -9,7 +9,6 @@ import {
   Link,
   Alert,
   CircularProgress,
-  useTheme,
 } from '@mui/material';
 import {
   Lock,
@@ -18,12 +17,10 @@ import {
   CheckCircle,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import apiService from '../services/api';
 
 const ResetPassword: React.FC = () => {
-  const theme = useTheme();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const [formData, setFormData] = useState({

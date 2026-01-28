@@ -21,18 +21,14 @@ import {
 } from '@mui/material';
 import {
   Menu as MenuIcon,
-  Dashboard,
   Store,
   SmartToy,
-  Person,
   Settings,
   Notifications,
   Search,
   Add,
   Logout,
   AccountCircle,
-  Assessment,
-  Payment,
   Security,
   Help,
   Close,
@@ -73,11 +69,9 @@ const Navbar: React.FC = () => {
   };
 
   const navigationItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: <Dashboard /> },
     { label: 'Marketplace', path: '/marketplace', icon: <Store /> },
     { label: 'My Agents', path: '/agents', icon: <SmartToy /> },
-    ...(user?.role === 'admin' ? [{ label: 'Analytics', path: '/analytics', icon: <Assessment /> }] : []),
-    { label: 'Billing', path: '/billing', icon: <Payment /> },
+    ...(user?.role === 'admin' ? [{ label: 'Admin Panel', path: '/admin', icon: <Settings /> }] : []),
     { label: 'Settings', path: '/settings', icon: <Settings /> },
   ];
 
@@ -252,7 +246,7 @@ const Navbar: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             sx={{ cursor: 'pointer' }}
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/marketplace')}
           >
             <Logo />
           </Box>
@@ -352,53 +346,55 @@ const Navbar: React.FC = () => {
       {/* Mobile Drawer */}
       <MobileDrawer />
 
-      {/* Profile Menu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleProfileMenuClose}
-        PaperProps={{
-          sx: {
-            background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: 2,
-            mt: 1,
-          },
-        }}
-      >
-        <MenuItem onClick={() => { navigate('/profile'); handleProfileMenuClose(); }}>
-          <ListItemIcon>
-            <AccountCircle />
-          </ListItemIcon>
-          Profile
-        </MenuItem>
-        <MenuItem onClick={() => { navigate('/settings'); handleProfileMenuClose(); }}>
-          <ListItemIcon>
-            <Settings />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem onClick={() => { navigate('/security'); handleProfileMenuClose(); }}>
-          <ListItemIcon>
-            <Security />
-          </ListItemIcon>
-          Security
-        </MenuItem>
-        <MenuItem onClick={() => { navigate('/help'); handleProfileMenuClose(); }}>
-          <ListItemIcon>
-            <Help />
-          </ListItemIcon>
-          Help & Support
-        </MenuItem>
-        <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
-        <MenuItem onClick={handleLogout}>
-          <ListItemIcon>
-            <Logout />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+      {/* Profile Menu - Only show if user is logged in */}
+      {user && (
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleProfileMenuClose}
+          PaperProps={{
+            sx: {
+              background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: 2,
+              mt: 1,
+            },
+          }}
+        >
+          <MenuItem onClick={() => { navigate('/profile'); handleProfileMenuClose(); }}>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
+          <MenuItem onClick={() => { navigate('/settings'); handleProfileMenuClose(); }}>
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+          <MenuItem onClick={() => { navigate('/security'); handleProfileMenuClose(); }}>
+            <ListItemIcon>
+              <Security />
+            </ListItemIcon>
+            Security
+          </MenuItem>
+          <MenuItem onClick={() => { navigate('/help'); handleProfileMenuClose(); }}>
+            <ListItemIcon>
+              <Help />
+            </ListItemIcon>
+            Help & Support
+          </MenuItem>
+          <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      )}
 
       {/* Toolbar spacer */}
       <Toolbar />

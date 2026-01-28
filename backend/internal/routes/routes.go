@@ -18,7 +18,6 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 	marketplaceHandler := handlers.NewMarketplaceHandler(db, cfg)
 	runtimeHandler := handlers.NewRuntimeHandler(db, cfg)
 	integrationHandler := handlers.NewIntegrationHandler(db, cfg)
-	analyticsHandler := handlers.NewAnalyticsHandler(db, cfg)
 	adminHandler := handlers.NewAdminHandler(db, cfg)
 	chatHandler := handlers.NewChatHandler(db, cfg)
 
@@ -148,79 +147,6 @@ func SetupRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 			integrations.POST("/llm-providers/test", integrationHandler.TestLLMConnection)
 			integrations.GET("/stats", integrationHandler.GetIntegrationStats)
 		}
-
-		// Analytics routes
-		analytics := v1.Group("/analytics")
-		analytics.Use(middleware.AuthMiddleware())
-		{
-			analytics.POST("/track", analyticsHandler.TrackEvent)
-			analytics.GET("/usage", analyticsHandler.GetUsageStats)
-			analytics.GET("/agents/:agent_id/usage", analyticsHandler.GetAgentUsageStats)
-			analytics.GET("/user-behavior", analyticsHandler.GetUserBehaviorAnalytics)
-			analytics.GET("/marketplace-trends", analyticsHandler.GetMarketplaceTrends)
-			analytics.GET("/revenue", analyticsHandler.GetRevenueAnalytics)
-			analytics.GET("/developer-metrics", analyticsHandler.GetDeveloperMetrics)
-			analytics.POST("/reports", analyticsHandler.GenerateCustomReport)
-		}
-
-		// Billing routes
-		//billing := v1.Group("/billing")
-		//billing.Use(middleware.AuthMiddleware())
-		//{
-		//	billing.POST("/subscriptions", billingHandler.CreateSubscription)
-		//	billing.GET("/subscriptions/:id", billingHandler.GetSubscription)
-		//	billing.GET("/subscriptions", billingHandler.ListSubscriptions)
-		//	billing.POST("/subscriptions/:id/cancel", billingHandler.CancelSubscription)
-		//	billing.POST("/subscriptions/:id/reactivate", billingHandler.ReactivateSubscription)
-		//	billing.GET("/plans", billingHandler.GetAvailablePlans)
-		//	billing.GET("/validate", billingHandler.ValidateSubscription)
-		//}
-
-		//// Payment routes
-		//payments := v1.Group("/payments")
-		//payments.Use(middleware.AuthMiddleware())
-		//{
-		//	payments.POST("/process", paymentHandler.ProcessPayment)
-		//	payments.POST("/intent", paymentHandler.CreatePaymentIntent)
-		//	payments.GET("/:id", paymentHandler.GetPayment)
-		//	payments.GET("", paymentHandler.ListPayments)
-		//	payments.POST("/:id/refund", paymentHandler.RefundPayment)
-		//	payments.GET("/methods", paymentHandler.GetPaymentMethods)
-		//	payments.GET("/stats", paymentHandler.GetPaymentStats)
-		//	payments.GET("/:id/validate", paymentHandler.ValidatePayment)
-		//}
-
-		//// License routes
-		//licenses := v1.Group("/licenses")
-		//licenses.Use(middleware.AuthMiddleware())
-		//{
-		//	licenses.POST("", middleware.RoleMiddleware("admin"), licenseHandler.CreateLicense)
-		//	licenses.GET("/:id", licenseHandler.GetLicense)
-		//	licenses.GET("/key/:key", licenseHandler.GetLicenseByKey)
-		//	licenses.POST("/validate", licenseHandler.ValidateLicense)
-		//	licenses.PUT("/:id", middleware.RoleMiddleware("admin"), licenseHandler.UpdateLicense)
-		//	licenses.DELETE("/:id", middleware.RoleMiddleware("admin"), licenseHandler.RevokeLicense)
-		//	licenses.GET("", middleware.RoleMiddleware("admin"), licenseHandler.ListLicenses)
-		//	licenses.GET("/:id/usage", licenseHandler.CheckLicenseUsage)
-		//	licenses.POST("/:id/offline", middleware.RoleMiddleware("admin"), licenseHandler.GenerateOfflineLicense)
-		//	licenses.POST("/offline/validate", licenseHandler.ValidateOfflineLicense)
-		//	licenses.GET("/stats", middleware.RoleMiddleware("admin"), licenseHandler.GetLicenseStats)
-		//}
-
-		//// Notification routes
-		//notifications := v1.Group("/notifications")
-		//notifications.Use(middleware.AuthMiddleware())
-		//{
-		//	notifications.POST("", notificationHandler.SendNotification)
-		//	notifications.GET("/:id", notificationHandler.GetNotification)
-		//	notifications.GET("", notificationHandler.ListNotifications)
-		//	notifications.PUT("/:id/read", notificationHandler.MarkAsRead)
-		//	notifications.PUT("/read-all", notificationHandler.MarkAllAsRead)
-		//	notifications.DELETE("/:id", notificationHandler.DeleteNotification)
-		//	notifications.GET("/unread-count", notificationHandler.GetUnreadCount)
-		//	notifications.POST("/bulk", middleware.RoleMiddleware("admin"), notificationHandler.SendBulkNotification)
-		//	notifications.GET("/stats", notificationHandler.GetNotificationStats)
-		//}
 
 		// Admin routes
 		admin := v1.Group("/admin")

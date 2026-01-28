@@ -17,12 +17,11 @@ import {
   SmartToy,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import apiService from '../services/api';
 
 const ForgotPassword: React.FC = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: '',

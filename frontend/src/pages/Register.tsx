@@ -71,7 +71,7 @@ const Register: React.FC = () => {
         last_name: formData.last_name,
         password: formData.password,
       });
-      navigate('/dashboard');
+      navigate('/marketplace');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

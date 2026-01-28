@@ -15,10 +15,6 @@ var (
 	RuntimeServiceInstance      *RuntimeService
 	IntegrationServiceInstance  *IntegrationService
 	NotificationServiceInstance *NotificationService
-	AnalyticsServiceInstance    *AnalyticsService
-	BillingServiceInstance      *BillingService
-	LicenseServiceInstance      *LicenseService
-	PaymentServiceInstance      *PaymentService
 )
 
 // InitializeServices initializes all services with graceful fallbacks
@@ -33,12 +29,6 @@ func InitializeServices(db *gorm.DB, redisClient *redis.Client, cfg *config.Conf
 
 	// Initialize optional services with fallbacks
 	NotificationServiceInstance = NewNotificationService(db, cfg)
-	AnalyticsServiceInstance = NewAnalyticsService(db, cfg)
-
-	// Initialize payment and licensing services with fallbacks
-	BillingServiceInstance = NewBillingService(db, cfg)
-	LicenseServiceInstance = NewLicenseService(db, cfg)
-	PaymentServiceInstance = NewPaymentService(db, cfg)
 }
 
 // Service interface for common service operations

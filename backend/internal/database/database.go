@@ -100,12 +100,7 @@ func migrateModels(db *gorm.DB) error {
 		&models.Agent{},
 		&models.Review{},
 		&models.Execution{},
-		&models.License{},
-		&models.Payment{},
-		&models.Subscription{},
-		&models.Analytics{},
 		&models.LLMProvider{},
-		&models.BillingPlan{},
 		&models.PasswordResetToken{},
 	)
 }

@@ -3,6 +3,7 @@ package middleware
 import (
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -117,18 +118,30 @@ func RateLimiter() gin.HandlerFunc {
 	// Simple in-memory rate limiter
 	// In production, use Redis for distributed rate limiting
 	clients := make(map[string]*rateLimiter)
+	var mu sync.RWMutex
 
 	return func(c *gin.Context) {
 		clientIP := c.ClientIP()
 
+		// Read lock to check if limiter exists
+		mu.RLock()
 		limiter, exists := clients[clientIP]
+		mu.RUnlock()
+
 		if !exists {
-			limiter = &rateLimiter{
-				requests: make([]time.Time, 0),
-				limit:    100, // requests per minute
-				window:   time.Minute,
+			// Write lock to create new limiter
+			mu.Lock()
+			// Double-check after acquiring write lock
+			limiter, exists = clients[clientIP]
+			if !exists {
+				limiter = &rateLimiter{
+					requests: make([]time.Time, 0),
+					limit:    100, // requests per minute
+					window:   time.Minute,
+				}
+				clients[clientIP] = limiter
 			}
-			clients[clientIP] = limiter
+			mu.Unlock()
 		}
 
 		if !limiter.Allow() {
@@ -192,78 +205,18 @@ func DomainBlockMiddleware() gin.HandlerFunc {
 	}
 }
 
-// LicenseCheckMiddleware checks license status (optional feature)
-func LicenseCheckMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userInterface, exists := c.Get("user")
-		if !exists {
-			c.Next()
-			return
-		}
-
-		user := userInterface.(*models.User)
-
-		// Skip license check for single user orgs
-		if user.OrganizationID == nil {
-			c.Next()
-			return
-		}
-
-		// Check license if organization exists
-		if user.OrganizationID != nil {
-			if !services.LicenseServiceInstance.IsAvailable() {
-				c.Next()
-				return
-			}
-
-			isValid, _ := models.GetLicenseStatus(user.OrganizationID, services.LicenseServiceInstance.GetDB())
-			if !isValid {
-				c.JSON(http.StatusForbidden, gin.H{"error": "License required or expired"})
-				c.Abort()
-				return
-			}
-		}
-
-		c.Next()
-	}
-}
-
-// PaymentCheckMiddleware checks payment status (optional feature)
-func PaymentCheckMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userInterface, exists := c.Get("user")
-		if !exists {
-			c.Next()
-			return
-		}
-
-		user := userInterface.(*models.User)
-
-		// Check payment status
-		if !services.PaymentServiceInstance.IsAvailable() {
-			c.Next()
-			return
-		}
-
-		isValid, _ := models.GetPaymentStatus(user.ID, services.PaymentServiceInstance.GetDB())
-		if !isValid {
-			c.JSON(http.StatusForbidden, gin.H{"error": "Payment required"})
-			c.Abort()
-			return
-		}
-
-		c.Next()
-	}
-}
-
 // rateLimiter implements a simple rate limiter
 type rateLimiter struct {
+	mu       sync.Mutex
 	requests []time.Time
 	limit    int
 	window   time.Duration
 }
 
 func (rl *rateLimiter) Allow() bool {
+	rl.mu.Lock()
+	defer rl.mu.Unlock()
+
 	now := time.Now()
 
 	// Remove old requests outside the window

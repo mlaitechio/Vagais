@@ -38,7 +38,6 @@ type CreateAgentRequest struct {
 	IsPublic          bool                   `json:"is_public"`
 	Price             float64                `json:"price"`
 	PricingModel      string                 `json:"pricing_model"`
-	LicenseRequired   bool                   `json:"license_required"`
 }
 
 // UpdateAgentRequest represents agent update request
@@ -56,7 +55,6 @@ type UpdateAgentRequest struct {
 	IsEnabled         *bool                  `json:"is_enabled"`
 	Price             *float64               `json:"price"`
 	PricingModel      string                 `json:"pricing_model"`
-	LicenseRequired   *bool                  `json:"license_required"`
 }
 
 // CreateAgent creates a new agent
@@ -78,7 +76,6 @@ func (s *AgentService) CreateAgent(req *CreateAgentRequest, creatorID string, or
 		IsPublic:          req.IsPublic,
 		Price:             req.Price,
 		PricingModel:      req.PricingModel,
-		LicenseRequired:   req.LicenseRequired,
 		Status:            "draft",
 		Type:              "custom",
 		Version:           "1.0.0",
@@ -158,9 +155,6 @@ func (s *AgentService) UpdateAgent(id string, req *UpdateAgentRequest) (*models.
 	if req.PricingModel != "" {
 		updates["pricing_model"] = req.PricingModel
 	}
-	if req.LicenseRequired != nil {
-		updates["license_required"] = *req.LicenseRequired
-	}
 
 	if err := s.db.Model(&agent).Updates(updates).Error; err != nil {
 		return nil, err
@@ -226,12 +220,6 @@ func (s *AgentService) EnableAgent(id string, userID string) error {
 	// Check if user can enable this agent
 	if agent.CreatorID != userID {
 		return errors.New("unauthorized to enable this agent")
-	}
-
-	// Check if agent requires payment
-	if agent.Price > 0 && agent.PricingModel != "free" {
-		// TODO: Implement payment verification
-		// For now, we'll allow enabling
 	}
 
 	return s.db.Model(&agent).Update("is_enabled", true).Error

@@ -9,8 +9,6 @@ import {
   Avatar,
   Chip,
   LinearProgress,
-  IconButton,
-  Badge,
   Divider,
   useTheme,
   Container,
@@ -21,18 +19,10 @@ import {
   Person,
   SmartToy,
   PlayArrow,
-  Pause,
-  Settings,
-  Notifications,
-  Search,
   Add,
-  CalendarToday,
-  Mic,
-  Visibility,
   Download,
   Star,
   AttachMoney,
-  Timeline,
   Assessment,
   Speed,
   Security,
@@ -54,11 +44,11 @@ const DemoDashboard: React.FC = () => {
   // Fetch marketplace data for authenticated user
   const { data: agents, isLoading: agentsLoading } = useQuery({
     queryKey: ['marketplaceAgents'],
-    queryFn: () => apiService.getMarketplaceAgents({ page: 1, limit: 6 }),
+    queryFn: async () => {
+      const response = await apiService.searchAgents({ page: 1, limit: 6 });
+      return response;
+    },
     retry: false,
-    onError: () => {
-      console.log('Using mock data for demo agents');
-    }
   });
 
   const { data: categories } = useCategories();
@@ -66,7 +56,7 @@ const DemoDashboard: React.FC = () => {
   // Get top categories from backend data
   const topCategories = categories && typeof categories === 'object' 
     ? Object.keys(categories as Record<string, number>).slice(0, 4)
-    : ['Customer Service', 'Data Analysis', 'Content Creation', 'Development']; // Fallback
+    : ['Customer facing', 'Sales', 'Research', 'Document processing']; // Fallback
 
   // Mock public statistics for demo
   const publicStats = {
@@ -80,17 +70,19 @@ const DemoDashboard: React.FC = () => {
     topCategories,
   };
 
-  const StatCard = ({ title, value, icon, trend, color = 'primary' }: any) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+  const StatCard = ({ title, value, icon, trend, color = 'primary' }: any) => {
+    const colorKey = color as 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
       <Card
         sx={{
           height: '100%',
-          background: `linear-gradient(135deg, ${theme.palette[color].main}15, ${theme.palette[color].main}05)`,
-          border: `1px solid ${theme.palette[color].main}20`,
+          background: `linear-gradient(135deg, ${theme.palette[colorKey].main}15, ${theme.palette[colorKey].main}05)`,
+          border: `1px solid ${theme.palette[colorKey].main}20`,
           '&:hover': {
             transform: 'translateY(-2px)',
             boxShadow: theme.shadows[8],
@@ -102,8 +94,8 @@ const DemoDashboard: React.FC = () => {
           <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
             <Avatar
               sx={{
-                bgcolor: `${theme.palette[color].main}20`,
-                color: theme.palette[color].main,
+                bgcolor: `${theme.palette[colorKey].main}20`,
+                color: theme.palette[colorKey].main,
               }}
             >
               {icon}
@@ -127,7 +119,8 @@ const DemoDashboard: React.FC = () => {
         </CardContent>
       </Card>
     </motion.div>
-  );
+    );
+  };
 
   const AgentCard = ({ agent }: { agent: Agent }) => (
     <motion.div
@@ -384,7 +377,7 @@ const DemoDashboard: React.FC = () => {
                 </Grid>
               ))
             ) : (
-              agents?.data?.slice(0, 6).map((agent: Agent) => (
+              (agents as any)?.data?.slice(0, 6).map((agent: Agent) => (
                 <Grid item xs={12} sm={6} md={4} key={agent.id}>
                   <AgentCard agent={agent} />
                 </Grid>
