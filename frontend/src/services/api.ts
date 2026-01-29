@@ -27,8 +27,11 @@ class ApiService {
   constructor() {
     // Use relative path for production, localhost for development
     const isDevelopment = import.meta.env.DEV;
+    // this.baseURL = isDevelopment 
+    //   ? 'http://localhost:8080/api/v1' 
+    //   : '/api/v1';
     this.baseURL = isDevelopment 
-      ? 'http://localhost:8080/api/v1' 
+      ? 'http://20.193.142.46:8080/api/v1' 
       : '/api/v1';
     this.api = axios.create({
       baseURL: this.baseURL,
