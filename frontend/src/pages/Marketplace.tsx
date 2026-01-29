@@ -20,6 +20,7 @@ import {
   InputAdornment,
   ToggleButton,
   ToggleButtonGroup,
+  Stack,
 } from "@mui/material";
 import {
   Search,
@@ -306,84 +307,102 @@ const Marketplace: React.FC = () => {
       }}
     >
       {/* Header */}
-      <Box textAlign="center" mb={4} sx={{ width: 1200 }} mx="auto">
+      <Box
+        textAlign="center"
+        mb={4}
+        mx="auto"
+        sx={{
+          maxWidth: { xs: "100%", md: 1200 },
+          px: { xs: 2, md: 0 },
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ display: "flex", justifyContent: "space-between" }}
         >
-          <Typography variant="h2" sx={{ mb: 2, fontWeight: 800 }}>
-            AI Agent
-            <Box
-              component="span"
-              sx={{
-                display: "block",
-                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Marketplace
-            </Box>
-          </Typography>
-          <div>
-            <Typography
-              variant="h6"
-              sx={{
-                color: "text.secondary",
-                fontWeight: 400,
-                maxWidth: 500,
-                mx: "auto",
-              }}
-            >
-              Discover, deploy, and manage the most powerful AI agents. Filter
-              by capability, price, and ratings.
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: "text.secondary",
-                fontWeight: 400,
-                maxWidth: 600,
-                mx: "auto",
-                marginTop: "10px",
-              }}
-            >
-              AGENTS are Powered by Azure AI Foundry and Microsoft CoPilot
-              Studio.
-            </Typography>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={{ xs: 4, md: 6 }}
+            alignItems="center"
+            justifyContent="space-between"
           >
-            <div
-              style={{
-                backgroundColor: "white",
-                padding: "5px 10px",
-                borderRadius: "5px",
+            {/* LEFT: Title */}
+            <Box textAlign={{ xs: "center", md: "left" }}>
+              <Typography
+                variant="h2"
+                sx={{
+                  mb: 2,
+                  fontWeight: 800,
+                  fontSize: { xs: "2.2rem", md: "3.5rem" },
+                }}
+              >
+                AI Agent
+                <Box
+                  component="span"
+                  sx={{
+                    display: "block",
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  Marketplace
+                </Box>
+              </Typography>
+            </Box>
+
+            {/* CENTER: Description */}
+            <Box textAlign={{ xs: "center", md: "left" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "text.secondary",
+                  fontWeight: 400,
+                  maxWidth: 500,
+                }}
+              >
+                Discover, deploy, and manage the most powerful AI agents. Filter
+                by capability, price, and ratings.
+              </Typography>
+
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "text.secondary",
+                  mt: 1,
+                  maxWidth: 600,
+                }}
+              >
+                AGENTS are powered by Azure AI Foundry and Microsoft Copilot
+                Studio.
+              </Typography>
+            </Box>
+
+            {/* RIGHT: Logos */}
+            <Box
+              sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <img
-                src={AzureCloud}
-                alt="AzureCloud logo"
-                style={{ height: "60px" }}
-              />
-              <img
-                src={Copilot}
-                alt="Copilot logo"
-                style={{ height: "60px" }}
-              />
-            </div>
-          </div>
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  p: "6px 12px",
+                  borderRadius: 2,
+                  display: "flex",
+                  gap: 1,
+                  alignItems: "center",
+                }}
+              >
+                <img src={AzureCloud} alt="Azure" style={{ height: 50 }} />
+                <img src={Copilot} alt="Copilot" style={{ height: 50 }} />
+              </Box>
+            </Box>
+          </Stack>
         </motion.div>
       </Box>
 
