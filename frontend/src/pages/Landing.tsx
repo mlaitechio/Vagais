@@ -18,7 +18,7 @@ import {
   Speed,
   Shield,
   ArrowRight,
-  Psychology,
+  
 } from "@mui/icons-material";
 import AzureCloud from "../assets/azure_cloud.png";
 import Copilot from "../assets/copilot.png";

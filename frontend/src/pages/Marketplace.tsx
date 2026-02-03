@@ -12,9 +12,9 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
-  Slider,
+
+  
+ 
   IconButton,
   useTheme,
   InputAdornment,
@@ -49,7 +49,8 @@ const Marketplace: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedPricing, setSelectedPricing] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
+  // @ts-ignore
+  const [priceRange,setPriceRange] = useState<[number, number]>([0,100 ]);
   const [sortBy, setSortBy] = useState<string>("rating");
   const [favorites, setFavorites] = useState<string[]>([]);
 
