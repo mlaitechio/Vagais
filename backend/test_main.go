@@ -11,7 +11,7 @@ import (
 )
 
 func testMain() {
-	fmt.Println("Testing vagais.ai Backend...")
+	fmt.Println("Testing merv.one Backend...")
 
 	// Load environment variables
 	if err := godotenv.Load(); err != nil {

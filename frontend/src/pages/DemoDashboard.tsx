@@ -202,7 +202,7 @@ const DemoDashboard: React.FC = () => {
         <Box display="flex" alignItems="center" justifyContent="space-between" mb={4}>
           <Box>
             <Typography variant="h3" component="h1" fontWeight="bold" gutterBottom>
-              vagais.ai Platform Overview
+              merv.one Platform Overview
             </Typography>
             <Typography variant="h6" color="text.secondary">
               Public marketplace statistics and trending agents
@@ -398,7 +398,7 @@ const DemoDashboard: React.FC = () => {
               Ready to Get Started?
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-              Join thousands of developers and businesses using vagais.ai to build and deploy AI agents
+              Join thousands of developers and businesses using merv.one to build and deploy AI agents
             </Typography>
             <Box display="flex" gap={2} justifyContent="center">
               {!user ? (

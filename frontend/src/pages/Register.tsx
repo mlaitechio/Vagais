@@ -160,7 +160,7 @@ const Register: React.FC = () => {
               mb: 1,
             }}
           >
-            vagais.ai
+            merv.one
           </Typography>
           <Typography variant="h6" color="text.secondary">
             Join the future of AI

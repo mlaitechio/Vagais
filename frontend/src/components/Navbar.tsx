@@ -103,7 +103,7 @@ const Navbar: React.FC = () => {
           WebkitTextFillColor: 'transparent',
         }}
       >
-        vagais.ai
+        merv.one
       </Typography>
     </Box>
   );

@@ -1,1 +1,4 @@
-./dist
+backend/dist
+frontend/node_modules
+
+.idea
