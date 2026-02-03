@@ -312,7 +312,7 @@ const Landing: React.FC = () => {
             >
               Why Choose{" "}
               <Box component="span" sx={{ color: "primary.main" }}>
-                vagais.ai
+                merv.one
               </Box>
             </Typography>
             <Typography

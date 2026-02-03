@@ -1,4 +1,4 @@
- # vagais.ai - AI Agent Marketplace Platform
+ # merv.one - AI Agent Marketplace Platform
 
 A comprehensive SaaS platform for hosting, discovering, and managing AI agents with a futuristic 2026 design.
 

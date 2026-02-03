@@ -1,6 +1,6 @@
 # Database Migration and Seeding
 
-This directory contains the migration and seeding system for the vagais.ai backend.
+This directory contains the migration and seeding system for the merv.one backend.
 
 ## Overview
 

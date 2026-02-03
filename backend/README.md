@@ -1,4 +1,4 @@
-# vagais.ai Backend
+# merv.one Backend
 
 A comprehensive AI Agent Marketplace platform backend built with Go, featuring microservices architecture, graceful degradation, and enterprise-ready features.
 
@@ -85,7 +85,7 @@ A comprehensive AI Agent Marketplace platform backend built with Go, featuring m
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/mlaitechio/vagais.ai.git
+   git clone https://github.com/mlaitechio/merv.one.git
    cd agais.ai/backend
    ```
 
@@ -330,8 +330,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - **Documentation**: [API Docs](http://localhost:8080/swagger/index.html)
-- **Issues**: [GitHub Issues](https://github.com/mlaitechio/vagais.ai/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/mlaitechio/vagais.ai/discussions)
+- **Issues**: [GitHub Issues](https://github.com/mlaitechio/merv.one/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/mlaitechio/merv.one/discussions)
 
 ## 🎯 Roadmap
 

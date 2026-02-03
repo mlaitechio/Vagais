@@ -241,7 +241,7 @@ const ForgotPassword: React.FC = () => {
               mb: 1,
             }}
           >
-            vagais.ai
+            merv.one
           </Typography>
           <Typography variant="h6" color="text.secondary">
             Reset your password

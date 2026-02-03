@@ -307,7 +307,7 @@ const ResetPassword: React.FC = () => {
               mb: 1,
             }}
           >
-            vagais.ai
+            merv.one
           </Typography>
           <Typography variant="h6" color="text.secondary">
             Set your new password

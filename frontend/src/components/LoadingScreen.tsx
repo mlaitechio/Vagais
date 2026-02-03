@@ -114,7 +114,7 @@ const LoadingScreen: React.FC = () => {
               mb: 2,
             }}
           >
-            vagais.ai
+            merv.one
           </Typography>
         </motion.div>
 

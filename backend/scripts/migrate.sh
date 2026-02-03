@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Migration script for vagais.ai Backend
+# Migration script for merv.one Backend
 # Usage: ./scripts/migrate.sh [migrate|seed|reset]
 
 set -e

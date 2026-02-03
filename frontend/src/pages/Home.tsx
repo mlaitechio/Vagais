@@ -359,7 +359,7 @@ const Home: React.FC = () => {
                 align="center"
                 sx={{ mb: 6, fontWeight: 600 }}
               >
-                Why Choose vagais.ai?
+                Why Choose merv.one?
               </Typography>
             </motion.div>
 
