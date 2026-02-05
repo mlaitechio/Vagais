@@ -522,98 +522,92 @@ func seedAgents(db *gorm.DB) error {
 		},
 		{
 
-			Name:        "Fields Extraction from Website Agent,Fields Extraction from Document Agent,FIelds Comparison Agent,iFinance Agent",
+			Name: "Fields Extraction from Website Agent,Fields Extraction from Document Agent,FIelds Comparison Agent,iFinance Agent",
 
 			Description: "Automates login and navigation of the Finverse web portal to extract required application fields and download relevant documents. Extracted data is stored in structured JSON format and documents are saved for downstream processing.,Processes downloaded documents using Azure Document Intelligence to perform OCR and extract required fields and then Converts unstructured document content into structured JSON data for validation.,Compares and verifies fields extracted from the website and documents, Used Agno Agent–based AI validation and rule-based matching logic. Generates final verification status (Verified / Not Applicable / Not Verified) along with structured reasoning.,iFinance agent is built on a corpus of 17,000+ diverse documents containing tables, graphs, and images, extracted using OCR techniques. It leverages a multimodal RAG architecture to answer image-based queries, employs hybrid search for more accurate retrieval, and uses metadata to ensure precise output localization. The chatbot is developed using the LLaMA model for OCR processing, the Gemma model for LLM intelligence, and Stella embeddings to generate vector representations across the entire document set.",
 
-			Slug:        "Fields-Extraction-from-Website-Agent,Fields-Extraction-from-Document-Agent,FIelds-Comparison-Agent,iFinance-Agent",
+			Slug: "Fields-Extraction-from-Website-Agent,Fields-Extraction-from-Document-Agent,FIelds-Comparison-Agent,iFinance-Agent",
 
-			Version:     "1.0.0",
+			Version: "1.0.0",
 
-			Status:      "published",
+			Status: "published",
 
-			Type:        "custom",
+			Type: "custom",
 
-			Category:    "Finance",
+			Category: "Finance",
 
-			Tags:        tags1,
+			Tags: tags1,
 
 			Config: models.MapToJSON(map[string]interface{}{
 
-			"max_tokens":  2000,
+				"max_tokens": 2000,
 
-			"temperature": 0.7,
+				"temperature": 0.7,
 
-			"cloud_components": []string{
+				"cloud_components": []string{
 
-			"Azure OpenAI Service",
+					"Azure OpenAI Service",
 
-			"Azure Cosmos DB",
+					"Azure Cosmos DB",
 
-			"Azure AI Search",
+					"Azure AI Search",
 
-			"Azure Functions",
+					"Azure Functions",
 
-			"Azure Blob",
+					"Azure Blob",
 
-			"Azure Key Vault",
+					"Azure Key Vault",
 
-			"Azure Web App",
+					"Azure Web App",
 
-			"Azure Monitor & Log Analytics",
+					"Azure Monitor & Log Analytics",
 
-			"Microsoft Entra ID",
+					"Microsoft Entra ID",
+				},
+			}),
 
-		},
+			LLMProvider: "openai",
 
-		}),
-
-			LLMProvider:       "openai",
-
-			LLMModel:          "gpt-4",
+			LLMModel: "gpt-4",
 
 			EmbeddingProvider: "openai",
 
-			EmbeddingModel:    "text-embedding-ada-002",
+			EmbeddingModel: "text-embedding-ada-002",
 
-			CreatorID:         users[1].ID, // developer
+			CreatorID: users[1].ID, // developer
 
-			OrganizationID:    users[1].OrganizationID,
+			OrganizationID: users[1].OrganizationID,
 
-			IsPublic:          true,
+			IsPublic: true,
 
-			IsEnabled:         true,
+			IsEnabled: true,
 
-			Price:             0.0,
+			Price: 0.0,
 
-			Currency:          "USD",
+			Currency: "USD",
 
-			PricingModel:      "free",
+			PricingModel: "free",
 
-			Rating:            4.8,
+			Rating: 4.8,
 
-			ReviewCount:       24,
+			ReviewCount: 24,
 
-			UsageCount:        3200,
+			UsageCount: 3200,
 
-			Downloads:         156,
+			Downloads: 156,
 
-			Icon:              "https://agai.studio/agents/insurance-insight-copilot/icon.png",
+			Icon: "https://agai.studio/agents/insurance-insight-copilot/icon.png",
 
-			Screenshots:       screens1,
+			Screenshots: screens1,
 
-			Documentation:     "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
+			Documentation: "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
 
-			Deployment Type:   "On Cloud",
+			Repository: "https://github.com/agai-studio/insurance-insight-copilot",
 
-			Repository:        "https://github.com/agai-studio/insurance-insight-copilot",
+			VideoURL: "https://youtu.be/upowcf0JB0U",
 
-			VideoURL:          "https://youtu.be/upowcf0JB0U",
-
-			HowItWorks:        "Automates the extraction of fields and download the required documents from the website,Extracts required fields from Documents,Compares and Verify the fields extracted by RPA and OCR,iFinance Agent is a robust RAG-powered solution that efficiently responds to user queries by leveraging large and complex datasets.",
-
+			HowItWorks: "Automates the extraction of fields and download the required documents from the website,Extracts required fields from Documents,Compares and Verify the fields extracted by RPA and OCR,iFinance Agent is a robust RAG-powered solution that efficiently responds to user queries by leveraging large and complex datasets.",
 		},
-
 	}
 
 	for _, agent := range agents {
