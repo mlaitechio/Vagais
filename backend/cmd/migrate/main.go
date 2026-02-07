@@ -202,7 +202,7 @@ func seedUsers(db *gorm.DB) error {
 
 	users := []models.User{
 		{
-			Email:          "admin@agai.studio",
+			Email:          "admin@mlaidigital.com",
 			Username:       "admin",
 			FirstName:      "Admin",
 			LastName:       "User",
@@ -216,9 +216,9 @@ func seedUsers(db *gorm.DB) error {
 			Preferences:    models.MapToJSON(nil),
 		},
 		{
-			Email:          "developer@agai.studio",
+			Email:          "developer@mlaidigital.com",
 			Username:       "developer",
-			FirstName:      "Abhi",
+			FirstName:      "MLAI",
 			LastName:       "Developer",
 			PasswordHash:   "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
 			Role:           "developer",
@@ -230,7 +230,7 @@ func seedUsers(db *gorm.DB) error {
 			Preferences:    models.MapToJSON(nil),
 		},
 		{
-			Email:          "researcher@airesearchlab.com",
+			Email:          "researcher@mlaidigital.com",
 			Username:       "researcher",
 			FirstName:      "MLAI",
 			LastName:       "Researcher",
@@ -244,9 +244,9 @@ func seedUsers(db *gorm.DB) error {
 			Preferences:    models.MapToJSON(nil),
 		},
 		{
-			Email:          "founder@startupinc.ai",
+			Email:          "founder@mlaidigital.com",
 			Username:       "founder",
-			FirstName:      "Mike",
+			FirstName:      "MLAI",
 			LastName:       "Founder",
 			PasswordHash:   "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
 			Role:           "founder",
