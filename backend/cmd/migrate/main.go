@@ -218,7 +218,7 @@ func seedUsers(db *gorm.DB) error {
 		{
 			Email:          "developer@agai.studio",
 			Username:       "developer",
-			FirstName:      "John",
+			FirstName:      "Abhi",
 			LastName:       "Developer",
 			PasswordHash:   "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
 			Role:           "developer",
@@ -269,344 +269,580 @@ func seedUsers(db *gorm.DB) error {
 	return nil
 }
 
-// seedAgents seeds agents
 func seedAgents(db *gorm.DB) error {
 	fmt.Println("Seeding agents...")
 
-	// Get user IDs
 	var users []models.User
 	if err := db.Find(&users).Error; err != nil {
 		return fmt.Errorf("failed to get users: %v", err)
 	}
-
-	if len(users) == 0 {
-		return fmt.Errorf("no users found for seeding agents")
+	if len(users) < 2 {
+		return fmt.Errorf("not enough users found")
 	}
 
-	// Tags and screenshots for the 4 new agents
-	tags1, _ := json.Marshal([]string{"Conversational Insurance Analytics", "Risk & Propensity Modeling", "Personalized Outreach Generator", "RAG + Document Intelligence", "Cosmos DB + APIs"})
-	screens1, _ := json.Marshal([]string{"https://agai.studio/agents/insurance-insight-copilot/screenshot1.png"})
-	tags2, _ := json.Marshal([]string{"Conversational AI Interface", "Real-Time Loan Calculations", "Centralized Policy & Product Access", "Multi-Language Support", "Integration Connectors"})
-	screens2, _ := json.Marshal([]string{"https://agai.studio/agents/sales-buddy/screenshot1.png"})
-	tags3, _ := json.Marshal([]string{"Document & Data Ingestion", "AI-Driven Primary Analysis", "Secondary Analysis & Market Intelligence", "AI-Powered Financial Modelling", "Conversational Research Copilot", "Visualization & Insights Dashboard"})
-	screens3, _ := json.Marshal([]string{"https://agai.studio/agents/ai-powered-investment-research/screenshot1.png"})
-	tags4, _ := json.Marshal([]string{"Agent for Document Quality", "Document Classification", "OCR + AI Understanding (Mistral, GPT)", "Talk to Your Document", "Data Summarization Agent", "Signature Detection & Extraction", "Stamp Detection Agent", "Central Repository Agent"})
-	screens4, _ := json.Marshal([]string{"https://agai.studio/agents/document-copilot/screenshot1.png"})
+	commonConfig := models.MapToJSON(map[string]interface{}{
+		"max_tokens":  2000,
+		"temperature": 0.7,
+	})
+	commonTagsSales, _ := json.Marshal([]string{"Sales", "AI"})
+
+	commonTagsInsurance, _ := json.Marshal([]string{"Insurance", "AI", "RAG"})
+	commonTagsFinance, _ := json.Marshal([]string{"Finance", "AI", "OCR"})
+	commonScreens, _ := json.Marshal([]string{
+		"https://agai.studio/agents/default/screenshot1.png",
+	})
 
 	agents := []models.Agent{
+
+		// =======================
+		// ABHI – TOF (Insurance)
+		// =======================
+
 		{
-
-			Name: "General Health Information Agent,ABHI Wellness Programs & Health Calculator Agent,Qualification& Data Collection Agent,ABHI Plan Recommendation Agent,ABHI Plan Specialist (Product Details Agent),Enrollment & Contact Collection Agent,",
-
-			Description: "Provides general health awareness, preventive care information, and health insurance related regulatory explanations without offering medical diagnosis or treatment advice.,Handles ABHI company-level queries, wellness programs, Activ DayZ, Activ Age, Healthy Heart Score, ABHI-related FAQs, and health calculator URLS for wellness assessment,Collects user details and health-related inputs required to assess eligibility and suitability for personalized ABHI health insurance plan recommendations,Analyzes collected qualification details and recommends suitable ABHI health insurance plans based on PED and Age,Provides detailed information on ABHI health insurance products including coverage, benefits, exclusions, and waiting periods,Collects user contact details for enrollment or follow-up purposes, including name, email address, and mobile number",
-
-			Slug: "General-Health-Information-Agent,ABHI-Wellness-Programs & Health-Calculator-Agent,Qualification & Data-Collection-Agent,ABHI-Plan-Recommendation-Agent,ABHI-Plan-Specialist (Product-DetailsAgent),Enrollment & Contact -Collection-Agent",
-
-			Version: "1.0.0",
-
-			Status: "published",
-
-			Type: "custom",
-
-			Category: "Insurance",
-
-			Tags: tags1,
-
-			Config: models.MapToJSON(map[string]interface{}{
-
-				"max_tokens": 2000,
-
-				"temperature": 0.7,
-
-				"cloud_components": []string{
-
-					"Azure OpenAI Service",
-
-					"Azure Cosmos DB",
-
-					"Azure AI Search",
-
-					"Azure Functions",
-
-					"Azure Blob",
-
-					"Azure Key Vault",
-
-					"Azure Web App",
-
-					"Azure Monitor & Log Analytics",
-
-					"Microsoft Entra ID",
-				},
-			}),
-
-			LLMProvider: "openai",
-
-			LLMModel: "gpt-4",
-
-			EmbeddingProvider: "openai",
-
-			EmbeddingModel: "text-embedding-ada-002",
-
-			CreatorID: users[1].ID, // developer
-
-			OrganizationID: users[1].OrganizationID,
-
-			IsPublic: true,
-
-			IsEnabled: true,
-
-			Price: 0.0,
-
-			Currency: "USD",
-
-			PricingModel: "free",
-
-			Rating: 4.8,
-
-			ReviewCount: 24,
-
-			UsageCount: 3200,
-
-			Downloads: 156,
-
-			Icon: "https://agai.studio/agents/insurance-insight-copilot/icon.png",
-
-			Screenshots: screens1,
-
-			Documentation: "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
-
-			Repository: "https://github.com/agai-studio/insurance-insight-copilot",
-
-			VideoURL: "https://youtu.be/upowcf0JB0U",
-
-			HowItWorks: "Analyze scraped general health information data to deliver clear, non-diagnostic insights on health awareness, preventive care, and insurance regulations in a user-friendly format.,Process scraped ABHI website data to provide accurate information on ABHI wellness programs, health scores, Activ initiatives, FAQs, and direct users to relevant health calculator tools for wellness assessment.,Ask a fixed set of seven qualification questions to collect user profile and health-related information needed to assess eligibility and readiness for personalized ABHI health insurance plan recommendations.,Use responses from the seven qualification questions to evaluate age and pre-existing disease (PED) status, then recommend the most suitable ABHI health insurance plans accordingly.,Analyze scraped ABHI product PDF data to deliver clear, structured details on plan coverage, benefits, exclusions, and waiting periods to help users understand each health insurance product.,Prompt users to provide their name, email address, and mobile number, then securely capture these contact details for enrollment and follow-up communication purposes.",
-		},
-		{
-			Name:        "Aadhaar Document Processing Agent,Passport Document Processing Agent,Driving License Document Processing Agent,PAN Card Document Processing Agent,",
-			Description: "Processes Aadhaar card documents and extracts structured information for downstream use.,Processes passport images to extract structured details including name, passport number, and address in JSON format.,Processes driving license images to extract structured details such as name, license number, and address.,Processes PAN card images to extract structured details including name, PAN number, and address in JSON format.",
-			Slug:        "Aadhaar-Document-Processing-Agent,Passport-Document-Processing-Agent,Driving-License-Document-Processing-Agent,PAN-Card-Document-Processing-Agent",
-			Version:     "1.0.0",
-			Status:      "published",
-			Type:        "custom",
-			Category:    "Banking",
-			Tags:        tags2,
-			Config: models.MapToJSON(map[string]interface{}{
-				"max_tokens":  2000,
-				"temperature": 0.7,
-				"cloud_components": []string{
-					"Azure OpenAI Service",
-					"Azure Cosmos DB",
-					"Azure AI Search",
-					"Azure Functions",
-					"Azure Blob",
-					"Azure Key Vault",
-					"Azure Web App",
-					"Azure Monitor & Log Analytics",
-					"Microsoft Entra ID",
-				},
-			}),
-			LLMProvider:       "openai",
-			LLMModel:          "gpt-4",
-			EmbeddingProvider: "openai",
-			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[1].ID, // developer
-			OrganizationID:    users[1].OrganizationID,
-			IsPublic:          true,
-			IsEnabled:         true,
-			Price:             0.0,
-			Currency:          "USD",
-			PricingModel:      "free",
-			Rating:            4.8,
-			ReviewCount:       24,
-			UsageCount:        3200,
-			Downloads:         156,
-			Icon:              "https://agai.studio/agents/insurance-insight-copilot/icon.png",
-			Screenshots:       screens2,
-			Documentation:     "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
-			Repository:        "https://github.com/agai-studio/insurance-insight-copilot",
-			VideoURL:          "https://youtu.be/upowcf0JB0U",
-			HowItWorks:        "Process Aadhaar card documents to extract structured identity information for downstream workflows.,Extract structured identity details such as name, passport number, and address from passport images.,Process driving license images to extract structured identity data including name, license number, and address.,Extract structured identity information such as name, PAN number, and address from PAN card images.",
-		},
-		{
-			Name:        "ActivFit Plus & Preferred Plan Information Agent,ActivFit Policy Wording Agent,ActivHealth Policy Wording Agent,ActivHealth Product Benefit Table Agent,ActivOne NXT Information Agent,Super Health Top-Up Plus Benefit Table Agent,Super Health Top-Up Plus Policy Wording Agent,ActivOne Max Information Agent,",
-			Description: "Retrieves and answers user queries using semantic search over ActivFit Plus and Preferred healthcare plan data.,Retrieves exact policy wording answers from ActivFit healthcare documents using semantic search.,Retrieves accurate answers from ActivHealth policy wording documents using semantic search.,Retrieves product benefit details from ActivHealth benefit tables using semantic search.,Retrieves accurate answers from ActivOne NXT healthcare plan documents using semantic search.,Retrieves benefit details from Super Health Top-Up Plus tables using semantic search.,Retrieves accurate answers from Super Health Top-Up Plus policy wording documents using semantic search.,Retrieves answers from ActivOne Max healthcare plan documents using semantic search.",
-			Slug:        "ActivFit-Plus & Preferred-Plan-Information-Agent,ActivFit-Policy-Wording-Agent,ActivHealth-Policy-Wording-Agent,ActivHealth-Product-Benefit-Table- Agent,ActivOne-NXT-Information-Agent,Super-Health-Top-Up-Plus-Benefit-Table-Agent,Super-Health-Top-Up-Plus-Policy-Wording-Agent,ActivOne-Max-Information-Agent",
-			Version:     "1.0.0",
-			Status:      "published",
-			Type:        "custom",
+			Name:        "General Health Information Agent",
+			Description: "Provides general health awareness, preventive care information, and health insurance related regulatory explanations without offering medical diagnosis or treatment advice.",
+			Slug:        "general-health-information-agent",
 			Category:    "Insurance",
-			Tags:        tags3,
-			Config: models.MapToJSON(map[string]interface{}{
-				"max_tokens":  2000,
-				"temperature": 0.7,
-				"cloud_components": []string{
-					"Azure OpenAI Service",
-					"Azure Cosmos DB",
-					"Azure AI Search",
-					"Azure Functions",
-					"Azure Blob",
-					"Azure Key Vault",
-					"Azure Web App",
-					"Azure Monitor & Log Analytics",
-					"Microsoft Entra ID",
-				},
-			}),
-			LLMProvider:       "openai",
-			LLMModel:          "gpt-4",
-			EmbeddingProvider: "openai",
-			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[1].ID, // developer
-			OrganizationID:    users[1].OrganizationID,
-			IsPublic:          true,
-			IsEnabled:         true,
-			Price:             0.0,
-			Currency:          "USD",
-			PricingModel:      "free",
-			Rating:            4.8,
-			ReviewCount:       24,
-			UsageCount:        3200,
-			Downloads:         156,
-			Icon:              "https://agai.studio/agents/insurance-insight-copilot/icon.png",
-			Screenshots:       screens3,
-			Documentation:     "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
-			Repository:        "https://github.com/agai-studio/insurance-insight-copilot",
-			VideoURL:          "https://youtu.be/upowcf0JB0U",
-			HowItWorks:        "Answer user queries by retrieving relevant information from ActivFit Plus and Preferred plan documents using semantic search.,Provide exact policy wording responses by semantically searching ActivFit policy wording documents.,Answer user questions using official ActivHealth policy wording documents via semantic search,Retrieve and summarize benefit details from ActivHealth product benefit tables based on user queries.,Retrieve and respond to user queries using ActivOne NXT healthcare plan documents.,Answer benefit-related queries by retrieving data from Super Health Top-Up Plus benefit tables.,Provide precise answers from Super Health Top-Up Plus policy wording documents using semantic search.,Provide accurate plan-related information by searching ActivOne Max healthcare documents.,",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true, PricingModel: "free",
+			Icon:        "https://agai.studio/agents/default/icon.png",
+			Screenshots: commonScreens,
+			HowItWorks:  "Analyze scraped general health information data to deliver clear, non-diagnostic insights.",
 		},
 		{
-			Name:        "Product Details Agent,Calculation Agent,Finverse Guide Agent,Sales Pitch Generation Agent,",
-			Description: "Responsible for answering all product-related queries such as eligibility programs, product features, policy rules, deviations, LTV/FOIR grids, risk norms, and internal product documentation. This agent dynamically injects product policies into the system context and acts as the knowledge backbone of FinWise.,Guides users through the complete Finverse and operational workflow including sourcing apps, dedupe, legal, technical, underwriting, disbursement, Salesforce processes, and troubleshooting. This agent acts as a digital process handbook for sales and operations teams,Focused on business enablement. Generates structured sales pitches, product positioning narratives, objection-handling points, mitigant recommendations, and competitive talking points based on internal sales strategy and program rules,",
-			Slug:        "Product-Details-Agent,Calculation-Agent,Finverse-Guide-Agent,Sales-Pitch-Generation-Agent",
-			Version:     "1.0.0",
-			Status:      "published",
-			Type:        "custom",
+			Name:        "Wellness Programs & Health Calculator Agent",
+			Description: "Handles ABHI company-level queries, wellness programs, Activ DayZ, Activ Age, Healthy Heart Score, FAQs, and health calculator URLs.",
+			Slug:        "abhi-wellness-programs-health-calculator-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			Screenshots: commonScreens,
+			HowItWorks:  "Process scraped ABHI website data to answer wellness and calculator-related queries.",
+		},
+		{
+			Name:        "Qualification & Data Collection Agent",
+			Description: "Collects user profile and health-related inputs required to assess eligibility for ABHI plans.",
+			Slug:        "qualification-data-collection-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Ask seven fixed qualification questions and store responses.",
+		},
+		{
+			Name:        "Plan Recommendation Agent",
+			Description: "Recommends suitable ABHI health insurance plans based on PED and age.",
+			Slug:        "abhi-plan-recommendation-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Evaluate qualification answers and recommend best-matching ABHI plans.",
+		},
+		{
+			Name:        "Plan Specialist (Product Details Agent)",
+			Description: "Provides detailed product information including coverage, exclusions, and waiting periods.",
+			Slug:        "abhi-plan-specialist-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Analyze ABHI product PDFs and present structured plan details.",
+		},
+		{
+			Name:        "Enrollment & Contact Collection Agent",
+			Description: "Collects user name, email, and mobile number for enrollment and follow-up.",
+			Slug:        "enrollment-contact-collection-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Prompt and securely capture contact details.",
+		},
+
+		// =======================
+		// Agentic AI – KYC (Finance)
+		// =======================
+
+		{
+			Name:        "Aadhaar Document Processing Agent",
+			Description: "Processes Aadhaar card documents and extracts structured identity information.",
+			Slug:        "aadhaar-document-processing-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Extract Aadhaar identity fields using OCR and AI.",
+		},
+		{
+			Name:        "Passport Document Processing Agent",
+			Description: "Extracts structured passport details such as name, number, and address.",
+			Slug:        "passport-document-processing-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+		},
+		{
+			Name:        "Driving License Document Processing Agent",
+			Description: "Processes driving license images and extracts identity information.",
+			Slug:        "driving-license-document-processing-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+		},
+		{
+			Name:        "PAN Card Document Processing Agent",
+			Description: "Extracts structured PAN card identity details.",
+			Slug:        "pan-card-document-processing-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+		},
+
+		// =======================
+		// iFinance (GCP)
+		// =======================
+
+		{
+			Name:        "iFinance Agent",
+			Description: "Multimodal RAG agent built on 17,000+ documents using OCR, hybrid search, and metadata grounding.",
+			Slug:        "ifinance-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Answer complex finance queries over large OCR-processed datasets using multimodal RAG.",
+		},
+		// =======================
+		// Additional Enterprise Agents
+		// =======================
+		// =======================
+		// ABCD Doc Comparison – Insurance
+		// =======================
+
+		{
+			Name:        "ActivFit Plus & Preferred Plan Information Agent",
+			Description: "Retrieves and answers user queries using semantic search over ActivFit Plus and Preferred healthcare plan documents.",
+			Slug:        "activfit-plus-preferred-plan-information-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Uses semantic search to retrieve relevant information from ActivFit Plus and Preferred plan documents.",
+		},
+
+		{
+			Name:        "ActivFit Policy Wording Agent",
+			Description: "Provides exact policy wording answers from ActivFit healthcare documents.",
+			Slug:        "activfit-policy-wording-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Retrieves precise policy wording responses using semantic search over ActivFit policy documents.",
+		},
+
+		{
+			Name:        "ActivHealth Policy Wording Agent",
+			Description: "Answers user questions using official ActivHealth policy wording documents.",
+			Slug:        "activhealth-policy-wording-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Searches ActivHealth policy wording documents to deliver accurate and compliant responses.",
+		},
+
+		{
+			Name:        "ActivHealth Product Benefit Table Agent",
+			Description: "Retrieves and summarizes benefit details from ActivHealth product benefit tables.",
+			Slug:        "activhealth-product-benefit-table-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Uses semantic search to retrieve benefit-level details from ActivHealth tables.",
+		},
+
+		{
+			Name:        "ActivOne NXT Information Agent",
+			Description: "Responds to user queries using ActivOne NXT healthcare plan documents.",
+			Slug:        "activone-nxt-information-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Retrieves plan-level information from ActivOne NXT documents using semantic search.",
+		},
+
+		{
+			Name:        "Super Health Top-Up Plus Benefit Table Agent",
+			Description: "Answers benefit-related queries using Super Health Top-Up Plus benefit tables.",
+			Slug:        "super-health-top-up-plus-benefit-table-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Retrieves benefit details from Super Health Top-Up Plus tables using semantic search.",
+		},
+
+		{
+			Name:        "Super Health Top-Up Plus Policy Wording Agent",
+			Description: "Provides precise answers from Super Health Top-Up Plus policy wording documents.",
+			Slug:        "super-health-top-up-plus-policy-wording-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Uses semantic search to return exact wording from Super Health Top-Up Plus policy documents.",
+		},
+
+		{
+			Name:        "ActivOne Max Information Agent",
+			Description: "Provides accurate plan-related information from ActivOne Max healthcare documents.",
+			Slug:        "activone-max-information-agent",
+			Category:    "Insurance",
+			Tags:        commonTagsInsurance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Retrieves answers from ActivOne Max plan documents using semantic search.",
+		},
+		// =======================
+		// ABHFL Sales Pitch – Sales
+		// =======================
+
+		{
+			Name:        "Product Details Agent",
+			Description: "Central product knowledge agent covering eligibility, policy rules, risk norms, and internal documentation.",
+			Slug:        "product-details-agent",
 			Category:    "Sales",
-			Tags:        tags4,
-			Config: models.MapToJSON(map[string]interface{}{
-				"max_tokens":  2000,
-				"temperature": 0.7,
-				"cloud_components": []string{
-					"Azure OpenAI Service",
-					"Azure Cosmos DB",
-					"Azure AI Search",
-					"Azure Functions",
-					"Azure Blob",
-					"Azure Key Vault",
-					"Azure Web App",
-					"Azure Monitor & Log Analytics",
-					"Microsoft Entra ID",
-				},
-			}),
+			Tags:        commonTagsSales,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Acts as the single source of truth for product policies and sales enablement.",
+		},
+
+		{
+			Name:        "Calculation Agent",
+			Description: "Executes deterministic financial calculations for loan eligibility and repayment scenarios.",
+			Slug:        "calculation-agent",
+			Category:    "Sales",
+			Tags:        commonTagsSales,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Performs EMI, BTS, FOIR, LTV, pension eligibility, and part-payment calculations.",
+		},
+
+		{
+			Name:        "Finverse Guide Agent",
+			Description: "Guides users through end-to-end Finverse workflows and operational processes.",
+			Slug:        "finverse-guide-agent",
+			Category:    "Sales",
+			Tags:        commonTagsSales,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Provides step-by-step guidance across sourcing, underwriting, disbursement, and Salesforce workflows.",
+		},
+
+		{
+			Name:        "Sales Pitch Generation Agent",
+			Description: "Generates structured sales pitches, objection handling, and competitive positioning content.",
+			Slug:        "sales-pitch-generation-agent",
+			Category:    "Sales",
+			Tags:        commonTagsSales,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Creates sales narratives, mitigant strategies, and objection-handling points.",
+		},
+		// =======================
+		// NDC – Finance Automation
+		// =======================
+
+		{
+			Name:        "Fields Extraction from Website Agent",
+			Description: "Automates extraction of application fields and documents from web portals.",
+			Slug:        "fields-extraction-from-website-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Uses RPA to log in, navigate portals, extract fields, and download documents.",
+		},
+
+		{
+			Name:        "Fields Extraction from Document Agent",
+			Description: "Extracts required fields from documents using OCR and document intelligence.",
+			Slug:        "fields-extraction-from-document-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Uses Azure Document Intelligence to extract structured data from documents.",
+		},
+
+		{
+			Name:        "Fields Comparison Agent",
+			Description: "Compares and verifies fields extracted from website and documents.",
+			Slug:        "fields-comparison-agent",
+			Category:    "Finance",
+			Tags:        commonTagsFinance,
+			Config:      commonConfig,
+			LLMProvider: "openai", LLMModel: "gpt-4",
+			EmbeddingProvider: "openai", EmbeddingModel: "text-embedding-ada-002",
+			CreatorID: users[1].ID, OrganizationID: users[1].OrganizationID,
+			IsPublic: true, IsEnabled: true,
+			HowItWorks: "Compares RPA and OCR outputs using rule-based logic and AI reasoning to generate verification status.",
+		},
+
+		{
+			Name:              "Document Copilot",
+			Description:       "AI-powered document intelligence agent for contract analysis, summarization, clause extraction, and contract creation workflows.",
+			Slug:              "document-copilot",
+			Category:          "AI Ops",
+			Config:            commonConfig,
 			LLMProvider:       "openai",
 			LLMModel:          "gpt-4",
 			EmbeddingProvider: "openai",
 			EmbeddingModel:    "text-embedding-ada-002",
-			CreatorID:         users[1].ID, // developer
+			CreatorID:         users[1].ID,
 			OrganizationID:    users[1].OrganizationID,
 			IsPublic:          true,
 			IsEnabled:         true,
-			Price:             0.0,
-			Currency:          "USD",
 			PricingModel:      "free",
-			Rating:            4.8,
-			ReviewCount:       24,
-			UsageCount:        3200,
-			Downloads:         156,
-			Icon:              "https://agai.studio/agents/insurance-insight-copilot/icon.png",
-			Screenshots:       screens4,
-			Documentation:     "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
-			Repository:        "https://github.com/agai-studio/insurance-insight-copilot",
-			VideoURL:          "https://youtu.be/upowcf0JB0U",
-			HowItWorks:        "Serve as the central product knowledge agent, resolving eligibility, policy, risk, and product rule queries.,Execute deterministic financial calculations for eligibility, repayment models, and business metrics.,Provide step-by-step guidance across Finverse workflows and operational processes.,Enable sales teams with structured pitches, objections handling, and competitive positioning.",
+			HowItWorks:        "Uses OCR and LLMs to analyze documents, extract clauses, summarize contracts, detect risks, and generate new contracts using templates.",
 		},
+
 		{
-
-			Name: "Fields Extraction from Website Agent,Fields Extraction from Document Agent,FIelds Comparison Agent,iFinance Agent",
-
-			Description: "Automates login and navigation of the Finverse web portal to extract required application fields and download relevant documents. Extracted data is stored in structured JSON format and documents are saved for downstream processing.,Processes downloaded documents using Azure Document Intelligence to perform OCR and extract required fields and then Converts unstructured document content into structured JSON data for validation.,Compares and verifies fields extracted from the website and documents, Used Agno Agent–based AI validation and rule-based matching logic. Generates final verification status (Verified / Not Applicable / Not Verified) along with structured reasoning.,iFinance agent is built on a corpus of 17,000+ diverse documents containing tables, graphs, and images, extracted using OCR techniques. It leverages a multimodal RAG architecture to answer image-based queries, employs hybrid search for more accurate retrieval, and uses metadata to ensure precise output localization. The chatbot is developed using the LLaMA model for OCR processing, the Gemma model for LLM intelligence, and Stella embeddings to generate vector representations across the entire document set.",
-
-			Slug: "Fields-Extraction-from-Website-Agent,Fields-Extraction-from-Document-Agent,FIelds-Comparison-Agent,iFinance-Agent",
-
-			Version: "1.0.0",
-
-			Status: "published",
-
-			Type: "custom",
-
-			Category: "Finance",
-
-			Tags: tags1,
-
-			Config: models.MapToJSON(map[string]interface{}{
-
-				"max_tokens": 2000,
-
-				"temperature": 0.7,
-
-				"cloud_components": []string{
-
-					"Azure OpenAI Service",
-
-					"Azure Cosmos DB",
-
-					"Azure AI Search",
-
-					"Azure Functions",
-
-					"Azure Blob",
-
-					"Azure Key Vault",
-
-					"Azure Web App",
-
-					"Azure Monitor & Log Analytics",
-
-					"Microsoft Entra ID",
-				},
-			}),
-
-			LLMProvider: "openai",
-
-			LLMModel: "gpt-4",
-
+			Name:              "Trade Finance Copilot",
+			Description:       "Automates KYC checks and end-to-end trade finance workflows including document verification and compliance validation.",
+			Slug:              "trade-finance-copilot",
+			Category:          "Finance",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
 			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Automates KYC verification, trade document validation, discrepancy detection, and regulatory compliance using AI-driven workflows.",
+		},
 
-			EmbeddingModel: "text-embedding-ada-002",
+		{
+			Name:              "Call Center Analytics",
+			Description:       "Agentic AI framework for analyzing call center conversations, IVR flows, sentiment, compliance, and agent performance.",
+			Slug:              "call-center-analytics",
+			Category:          "AI Ops",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Analyzes voice transcripts and IVR flows to generate insights on sentiment, intent, compliance breaches, and agent effectiveness.",
+		},
 
-			CreatorID: users[1].ID, // developer
+		{
+			Name:              "Sales Intelligent Advisor",
+			Description:       "AI-powered wealth advisory and sales assistant that provides personalized recommendations and sales guidance.",
+			Slug:              "sales-intelligent-advisor",
+			Category:          "Sales",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Combines customer data, portfolio insights, and sales rules to deliver intelligent investment advice and sales strategies.",
+		},
 
-			OrganizationID: users[1].OrganizationID,
+		{
+			Name:              "Website Search BOT",
+			Description:       "GenAI-based website chatbot designed for customer support, upselling, and cross-selling use cases.",
+			Slug:              "website-search-bot",
+			Category:          "AI Ops",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Uses RAG over website content to answer queries, recommend products, and drive upsell and cross-sell opportunities.",
+		},
 
-			IsPublic: true,
+		{
+			Name:              "Loan Underwriting Copilot",
+			Description:       "Automates underwriting decisions for loans and insurance using alternative data including social media signals.",
+			Slug:              "loan-underwriting-copilot",
+			Category:          "Finance",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Evaluates borrower risk using traditional financial data combined with social media and behavioral signals.",
+		},
 
-			IsEnabled: true,
+		{
+			Name:              "SharePoint Agents",
+			Description:       "Intelligent agents for SharePoint data exploration and Power BI reporting using natural language.",
+			Slug:              "sharepoint-agents",
+			Category:          "AI Ops",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Allows users to query SharePoint documents and generate Power BI reports using conversational AI.",
+		},
 
-			Price: 0.0,
+		{
+			Name:              "Investment Research Tool for Stocks",
+			Description:       "LLM-based investment research agent for stock analysis, insights, and recommendations.",
+			Slug:              "investment-research-stocks",
+			Category:          "Finance",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Analyzes financial statements, news, and market data to generate stock insights and investment recommendations.",
+		},
 
-			Currency: "USD",
+		{
+			Name:              "AgenticAI for SOC/NOC",
+			Description:       "Agentic AI framework to support SOC and NOC operations including alerts, triage, and remediation.",
+			Slug:              "agentic-ai-soc-noc",
+			Category:          "Security",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Uses multiple autonomous agents to analyze alerts, correlate incidents, recommend remediation, and reduce MTTR.",
+		},
 
-			PricingModel: "free",
-
-			Rating: 4.8,
-
-			ReviewCount: 24,
-
-			UsageCount: 3200,
-
-			Downloads: 156,
-
-			Icon: "https://agai.studio/agents/insurance-insight-copilot/icon.png",
-
-			Screenshots: screens1,
-
-			Documentation: "Comprehensive insurance analytics with Azure OpenAI and Cosmos DB integration",
-
-			Repository: "https://github.com/agai-studio/insurance-insight-copilot",
-
-			VideoURL: "https://youtu.be/upowcf0JB0U",
-
-			HowItWorks: "Automates the extraction of fields and download the required documents from the website,Extracts required fields from Documents,Compares and Verify the fields extracted by RPA and OCR,iFinance Agent is a robust RAG-powered solution that efficiently responds to user queries by leveraging large and complex datasets.",
+		{
+			Name:              "Fraud Analytics",
+			Description:       "Real-time fraud detection platform combining AI/LLM models with traditional machine learning.",
+			Slug:              "fraud-analytics",
+			Category:          "Finance",
+			Config:            commonConfig,
+			LLMProvider:       "openai",
+			LLMModel:          "gpt-4",
+			EmbeddingProvider: "openai",
+			EmbeddingModel:    "text-embedding-ada-002",
+			CreatorID:         users[1].ID,
+			OrganizationID:    users[1].OrganizationID,
+			IsPublic:          true,
+			IsEnabled:         true,
+			HowItWorks:        "Monitors real-time transactions to detect fraud patterns using AI, LLM reasoning, and ML anomaly detection.",
 		},
 	}
 
