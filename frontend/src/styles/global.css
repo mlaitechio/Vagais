@@ -241,3 +241,72 @@ body {
     border: 2px solid #98177E;
   }
 } 
+
+
+/*-- Aditya Css --*/
+
+.iconBox {
+  border-radius: 10px !important;
+  margin-bottom: 20px !important;
+}
+
+.iconBox img {
+  height: 50px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.max-heading {
+    max-width: 700px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.MuiBox-root button {
+    height: 63px;
+}
+
+.max-round {
+    border-radius: 15px !important;
+}
+
+.deas {
+    max-width: 452px !important;
+}
+
+.wel-back {
+    border-radius: 15px !important;
+}
+
+.wel-back label {
+    position: relative !important;
+    color: #fff !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.wel-back label {
+    position: relative !important;
+    color: #fff !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transform: none !important;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.wel_age  p {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wel-back .MuiInputBase-root {
+    border-radius: 10px !important;
+}
+
+.wel-back button {
+    border-radius: 10px !important;
+}

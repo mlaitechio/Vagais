@@ -166,6 +166,20 @@ const Landing: React.FC = () => {
                 }}
               >
                 <Stack spacing={1} alignItems="center">
+                  <Box className="iconBox"
+                    sx={{
+                      backgroundColor: "white",
+                      p: "4px 12px",
+                      borderRadius: 2,
+                      display: "flex",
+                      gap: 1,
+                      alignItems: "center",
+                      boxShadow: 1,
+                    }}
+                  >
+                    <img src={AzureCloud} alt="Azure" />
+                    <img src={Copilot} alt="Copilot" />
+                  </Box>
                   <Typography
                     variant="caption"
                     sx={{
@@ -177,26 +191,13 @@ const Landing: React.FC = () => {
                   >
                     Powered by Azure AI Foundry and Microsoft CoPilot Studio
                   </Typography>
-                  <Box
-                    sx={{
-                      backgroundColor: "white",
-                      p: "4px 12px",
-                      borderRadius: 2,
-                      display: "flex",
-                      gap: 1,
-                      alignItems: "center",
-                      boxShadow: 1,
-                    }}
-                  >
-                    <img src={AzureCloud} alt="Azure" style={{ height: 28 }} />
-                    <img src={Copilot} alt="Copilot" style={{ height: 28 }} />
-                  </Box>
+                  
                 </Stack>
               </Box>
             </motion.div>
 
             {/* Main Heading */}
-            <Typography
+            <Typography className="max-heading"
               variant="h1"
               sx={{
                 mb: 3,
@@ -221,7 +222,7 @@ const Landing: React.FC = () => {
             </Typography>
 
             {/* Subheading */}
-            <Typography
+            <Typography className="deas"
               variant="h5"
               sx={{
                 mb: 4,
@@ -232,8 +233,8 @@ const Landing: React.FC = () => {
                 mx: "auto",
               }}
             >
-              Deploy, execute, and scale powerful AI agents in seconds. No
-              coding required.
+              Deploy, execute, and scale powerful AI agents in seconds.
+              No coding required.
             </Typography>
 
             {/* CTA Buttons */}
@@ -427,7 +428,7 @@ const Landing: React.FC = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Box
+          <Box className="max-round"
             sx={{
               py: 8,
               px: 4,
@@ -455,7 +456,7 @@ const Landing: React.FC = () => {
                   >
                     <Box>
                       <Typography
-                        variant="h3"
+                        variant="h2"
                         sx={{ fontWeight: 800, color: "primary.main", mb: 1 }}
                       >
                         {stat.number}

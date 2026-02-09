@@ -149,7 +149,7 @@ const Login: React.FC = () => {
         </Box>
 
         {/* Login Card */}
-        <Card
+        <Card className="wel-back"
           component={motion.div}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -311,7 +311,7 @@ const Login: React.FC = () => {
         </Card>
 
         {/* Footer */}
-        <Box textAlign="center" mt={4}>
+        <Box className="wel_age" textAlign="center" mt={4}>
           <Typography variant="body2" color="text.secondary">
             Welcome to our AI-driven agency, where innovation meets precision
           </Typography>
