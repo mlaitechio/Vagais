@@ -18,11 +18,10 @@ import {
   Speed,
   Shield,
   ArrowRight,
-  
 } from "@mui/icons-material";
 import AzureCloud from "../assets/azure_cloud.png";
 import Copilot from "../assets/copilot.png";
-
+import Section from "../assets/senction.jpeg";
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -292,6 +291,37 @@ const Landing: React.FC = () => {
               </Box>
             </motion.div>
           </motion.div>
+        </Box>
+        {/* Section Divider Wrapper (Parent) */}
+        <Box
+          sx={{
+            width: "100vw",
+            position: "relative",
+            left: "50%",
+            right: "50%",
+            ml: "-50vw",
+            mr: "-50vw",
+            my: 0,
+            overflow: "hidden",
+          }}
+        >
+          {/* Section Divider (Child) */}
+          <Box
+            sx={{
+              width: "100%",
+              height: { xs: 370, md: 370 },
+              backgroundImage: `url(${Section})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+
+              /* Optional polish */
+              maskImage:
+                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            }}
+          />
         </Box>
 
         {/* Features Section */}
