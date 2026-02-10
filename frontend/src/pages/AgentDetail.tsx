@@ -110,7 +110,7 @@ const AgentDetail: React.FC = () => {
   if (!agent) {
     return (
       <Box sx={{ p: 3, minHeight: '100vh', background: theme.palette.background.default }}>
-        <Button startIcon={<ArrowBack />} onClick={() => navigate('/agents')}>
+        <Button startIcon={<ArrowBack />} onClick={() => navigate('/marketplace')}>
           Back to Agents
         </Button>
         <Box textAlign="center" py={8}>
@@ -130,7 +130,7 @@ const AgentDetail: React.FC = () => {
       <Box sx={{ p: 3, borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <Button
           startIcon={<ArrowBack />}
-          onClick={() => navigate('/agents')}
+          onClick={() => navigate('/marketplace')}
           sx={{ mb: 2 }}
         >
           Back to Agents

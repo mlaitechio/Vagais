@@ -197,7 +197,7 @@ const AppLayout: React.FC = () => {
             <Route
               path="/marketplace"
               element={
-                <ProtectedRoute>
+                
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -206,7 +206,7 @@ const AppLayout: React.FC = () => {
                   >
                     <Marketplace />
                   </motion.div>
-                </ProtectedRoute>
+                
               }
             />
             <Route

@@ -173,6 +173,7 @@ const Landing: React.FC = () => {
                       textTransform: "uppercase",
                       letterSpacing: 1,
                       fontWeight: 600,
+                      fontSize: "20px",
                     }}
                   >
                     Powered by Azure AI Foundry and Microsoft CoPilot Studio
@@ -441,10 +442,10 @@ const Landing: React.FC = () => {
           >
             <Grid container spacing={4}>
               {[
-                { number: "10K+", label: "Active Agents" },
-                { number: "100M+", label: "Executions" },
+                { number: "1K+", label: "Active Agents" },
+                { number: "5k+", label: "Executions" },
                 { number: "99.99%", label: "Uptime" },
-                { number: "500K+", label: "Happy Users" },
+                { number: "10K+", label: "Happy Users" },
               ].map((stat, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <motion.div
