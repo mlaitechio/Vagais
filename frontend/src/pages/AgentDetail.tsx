@@ -140,7 +140,7 @@ const AgentDetail: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Grid container spacing={4}>
           {/* Left Column - Agent Info */}
-          <Grid item xs={12} md={4}>
+          <Grid className="agd_left" item xs={12} md={4}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -293,7 +293,7 @@ const AgentDetail: React.FC = () => {
           </Grid>
 
           {/* Right Column - Details */}
-          <Grid item xs={12} md={8}>
+          <Grid className="ags_right" item xs={12} md={8}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
