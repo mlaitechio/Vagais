@@ -318,7 +318,7 @@ const Marketplace: React.FC = () => {
         background: theme.palette.background.default,
       }}
     >
-      <Box sx={{ maxWidth: 2200, margin: "0 auto" }}>
+      <Box sx={{ maxWidth: 2200, margin: "50px auto 0" }}>
         {/* Header */}
         <Box
           textAlign="center"
@@ -401,7 +401,7 @@ const Marketplace: React.FC = () => {
         </Box>
 
         {/* Search + Filters */}
-        <Grid container spacing={2} alignItems="flex-end" sx={{ mb: 4 }}>
+        <Grid className="adsearch" container spacing={2} alignItems="flex-end" sx={{ mb: 4 }}>
           {/* Sort By */}
           <Grid item xs={12} md={2}>
             <FormControl fullWidth size="small">
@@ -426,7 +426,7 @@ const Marketplace: React.FC = () => {
             <TextField
               fullWidth
               size="small"
-              placeholder="Search AI agents…"
+              placeholder=""
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               InputProps={{
@@ -502,7 +502,7 @@ const Marketplace: React.FC = () => {
         </Grid>
 
         {/* Contents  */}
-        <Grid container spacing={3}>
+        <Grid className="ad_grid_box" container spacing={3}>
           <Grid item xs={12} md={12}>
             {/* Results Header */}
             <Box
@@ -539,7 +539,7 @@ const Marketplace: React.FC = () => {
                     item
                     xs={12}
                     sm={viewMode === "grid" ? 6 : 12}
-                    md={viewMode === "grid" ? 4 : 12}
+                    md={viewMode === "grid" ? 3 : 12}
                     lg={viewMode === "grid" ? 3 : 12}
                     key={agent.id}
                     sx={{ display: "flex" }}

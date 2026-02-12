@@ -310,3 +310,119 @@ body {
 .wel-back button {
     border-radius: 10px !important;
 }
+
+/*-- New Design --*/
+.adsearch fieldset {
+    border-radius: 5px !important;
+    border: 1px solid #9462f3 !important;
+}
+
+.adsearch  .MuiInputBase-root {
+    background: transparent;
+}
+
+.adsearch  em {
+    font-style: normal;
+}
+
+.adsearch  span.MuiTypography-root {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+.ad_grid_box .MuiPaper-root {
+    border-radius: 15px;
+}
+
+.ad_grid_box .MuiPaper-root:before {
+    display: none !important;
+}
+
+.ad_grid_box .MuiPaper-root .MuiAvatar-root {
+    border-radius: 9px;
+}
+
+.ad_grid_box .MuiPaper-root .MuiAvatar-root svg {
+    fill: #fff;
+}
+
+.ad_grid_box .MuiPaper-root h6 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+    padding-right: 10px;
+}
+
+.ad_grid_box .MuiPaper-root .MuiCardContent-root {
+    padding: 10px;
+}
+
+.ad_grid_box .MuiPaper-root button.MuiButtonBase-root {
+    height: auto;
+}
+
+.ad_grid_box .MuiPaper-root  .MuiBox-root p.MuiTypography-root {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: .5px;
+    max-width: 48%;
+    float: left;
+    margin-bottom: 0;
+}
+
+.ad_grid_box .MuiPaper-root .MuiBox-root .MuiBox-root.css-axw7ok {
+    max-width: 52%;
+    float: right;
+    gap: 5px;
+}
+
+.ad_grid_box .MuiPaper-root .MuiBox-root .MuiBox-root.css-axw7ok p {
+    font-size: 12px;
+    gap: 0 !important;
+    max-width: 100% !important;
+}
+
+.ad_grid_box .MuiPaper-root button.MuiButtonBase-root svg {
+    width: .7em;
+    height: .7em;
+}
+
+.ad_grid_box .MuiPaper-root .MuiCardContent-root p.css-1abq3sf-MuiTypography-root {
+    color: #fff;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+    min-height: 68px;
+    opacity: .8;
+    letter-spacing: .5px;
+}
+
+.ad_grid_box .MuiPaper-root .css-1prrn6n span {
+    padding: 0 10px;
+    letter-spacing: .5px;
+    font-weight: 500;
+}
+
+.css-1p5zb2h-MuiFormControl-root-MuiTextField-root .MuiOutlinedInput-root {
+  border-radius: 8px;
+}
+
+.ad_grid_box .MuiPaper-root .css-1prrn6n  .css-15w54sr-MuiChip-root {
+    border-radius: 5px;
+    background: linear-gradient(135deg, #9333ea7d 0%, #7e22ce78 100%);
+    border: none;
+}
+
+.agd_left .css-83uzyq-MuiPaper-root-MuiCard-root,
+.ags_right .css-1kqhghj-MuiPaper-root-MuiCard-root,
+.ags_right .css-oi6k98-MuiPaper-root-MuiCard-root {
+    border-radius: 15px;
+    border: 1px solid #ffffff00 !important;
+    box-shadow: none !important;
+}
