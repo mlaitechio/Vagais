@@ -20,8 +20,9 @@ import {
   ArrowRight,
 } from "@mui/icons-material";
 import AzureCloud from "../assets/azure_cloud.png";
+import Footer from "../components/footert";
 import Copilot from "../assets/copilot.png";
-import Section from "../assets/senction.jpeg";
+import Section from "../assets/ailogo.png";
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -30,14 +31,14 @@ const Landing: React.FC = () => {
     {
       title: "Neural Marketplace",
       description:
-        "Discover and deploy cutting-edge AI agents powered by latest LLMs and ML models",
+        "Build & Deploy cutting-edge AI agents powered by latest SLMs/LLMs",
       icon: SmartToy,
       color: "primary",
     },
     {
       title: "Lightning Fast",
       description:
-        "Execute agents in milliseconds with optimized infrastructure and parallel processing",
+        "Build, Execute & Deploye agents in milliseconds with optimized infrastructure and parallel processing",
       icon: FlashOn,
       color: "info",
     },
@@ -306,24 +307,26 @@ const Landing: React.FC = () => {
           }}
         >
           {/* Section Divider (Child) */}
-          <Box
-            sx={{
-              width: "100%",
-              height: { xs: 370, md: 370 },
-              backgroundImage: `url(${Section})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
+          <Box className="logo_container">
+            <img src={Section}/>
+            <Box className="mynone"
+              sx={{
+                width: "100%",
+                height: { xs: 370, md: 370 },
+                backgroundImage: ``,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
 
-              /* Optional polish */
-              maskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-            }}
-          />
+                /* Optional polish */
+                maskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+              }}/>
+            </Box>
+            
         </Box>
-
         {/* Features Section */}
         <Box sx={{ py: 12, position: "relative", zIndex: 1 }}>
           <motion.div
@@ -472,10 +475,10 @@ const Landing: React.FC = () => {
           >
             <Grid container spacing={4}>
               {[
-                { number: "1K+", label: "Active Agents" },
-                { number: "5k+", label: "Executions" },
+                { number: "100+", label: "Active Agents" },
+                { number: "100+", label: "Executions" },
                 { number: "99.99%", label: "Uptime" },
-                { number: "10K+", label: "Happy Users" },
+                { number: "30+", label: "Large Corporates" },
               ].map((stat, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <motion.div
@@ -559,7 +562,7 @@ const Landing: React.FC = () => {
                     fontWeight: 700,
                   }}
                 >
-                  Get Started Free
+                  Start to Build Your First Agent
                 </Button>
               </motion.div>
               <motion.div
@@ -582,8 +585,12 @@ const Landing: React.FC = () => {
               </motion.div>
             </Box>
           </motion.div>
+          
         </Box>
       </Container>
+      <Box>
+        <Footer></Footer>
+      </Box>
     </Box>
   );
 };

@@ -426,3 +426,158 @@ body {
     border: 1px solid #ffffff00 !important;
     box-shadow: none !important;
 }
+
+.logo_container {
+    display: flex;
+    align-items: anchor-center;
+    justify-content: center !important;
+}
+
+.logo_container .mynone {
+    display: none;
+}
+
+.logo_container:after {
+    content: 'Powering Fintech & Financial Services';
+    color: #fff;
+    font-size: 26px;
+    max-width: 250px;
+    margin-left: 25px;
+    font-weight: 800;
+    line-height: 36px;
+}
+
+.logo_container img {
+    max-width: 100px;
+    background: #fff;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
+.css-s862jx {
+  padding-top: 30px !important;
+  padding-bottom: 25px !important;
+}
+
+footer.footer {
+    border-top: 1px solid #ffffff38;
+}
+
+footer.footer .grid_box {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding-top: 40px;
+}
+
+footer.footer .grid_box .box {
+    padding: 25px;
+    max-width: 30%;
+}
+
+footer.footer  a.logo {
+    align-items: center;
+    display: flex;
+    gap: 15px;
+    color: #ffff;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 700;
+    max-width: 350px;
+    margin-bottom: 15px;
+}
+
+footer.footer a.logo img {
+    max-width: 100px;
+}
+
+footer.footer .grid_box .box h4 {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+footer.footer .grid_box .box ul {
+    gap: 5px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+footer.footer .grid_box .box ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+footer.footer .grid_box  .support {}
+
+footer.footer .grid_box .support a {
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 15px;
+    display: inline-block;
+    width: 100%;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+footer.footer .grid_box .support a span {
+    font-size: 12px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+footer.footer .grid_box .box ul li a:hover,
+footer.footer .grid_box .support a:hover {
+  opacity: .7;
+}
+
+
+footer.footer .copywrite {
+    background: #000;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer.footer .copywrite ul {
+    gap: 30px;
+    display: flex;
+    list-style: none;
+}
+
+footer.footer .copywrite a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer.footer .copywrite a:hover {
+    opacity: .7
+}
+
+.css-zow5z4-MuiGrid-root p.MuiTypography-root {
+    min-height: 96px;
+}
+
+footer.footer .grid_box a.linkdin {
+    max-width: 30px !important;
+}
+
+footer.footer .grid_box a.linkdin img {
+    width: 100%;
+}
+
+.ad_grid_box .MuiGrid-grid-md-3,
+.ad_grid_box .MuiGrid-grid-md-4 {
+    -webkit-flex-basis: 33.333%;
+    -ms-flex-preferred-size: 33.333%;
+    flex-basis: 33.333%;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    max-width: 33.333%;
+    width: 33.333%;
+}
