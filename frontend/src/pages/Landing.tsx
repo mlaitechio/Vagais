@@ -187,6 +187,7 @@ const Landing: React.FC = () => {
                       textTransform: "uppercase",
                       letterSpacing: 1,
                       fontWeight: 600,
+                      fontSize: "16px",
                     }}
                   >
                     Powered by Azure AI Foundry and Microsoft CoPilot Studio

@@ -36,6 +36,7 @@ import { theme } from "./theme/nightOwlTheme";
 
 // Styles
 import "./styles/global.css";
+import ProfileComingSoon from "./pages/Profile";
 
 // Create React Query client
 const queryClient = new QueryClient({
@@ -177,6 +178,66 @@ const AppLayout: React.FC = () => {
               }
             />
             <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ProfileComingSoon />
+                  </motion.div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ProfileComingSoon />
+                  </motion.div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/security"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ProfileComingSoon />
+                  </motion.div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/help"
+              element={
+                <ProtectedRoute>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ProfileComingSoon />
+                  </motion.div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/reset-password"
               element={
                 <PublicRoute>
@@ -197,16 +258,14 @@ const AppLayout: React.FC = () => {
             <Route
               path="/marketplace"
               element={
-                
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Marketplace />
-                  </motion.div>
-                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Marketplace />
+                </motion.div>
               }
             />
             <Route
@@ -227,16 +286,14 @@ const AppLayout: React.FC = () => {
             <Route
               path="/agents/:id"
               element={
-                <ProtectedRoute>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <AgentDetail />
-                  </motion.div>
-                </ProtectedRoute>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <AgentDetail />
+                </motion.div>
               }
             />
             <Route
