@@ -3,257 +3,257 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #0a0e27 0%, #0f1438 50%, #111533 100%);
-  background-attachment: fixed;
-  color: #f0f4f8;
-  overflow-x: hidden;
-  min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(135deg, #0a0e27 0%, #0f1438 50%, #111533 100%);
+    background-attachment: fixed;
+    color: #f0f4f8;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(17, 21, 51, 0.5);
+    background: rgba(17, 21, 51, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-  border-radius: 4px;
+    background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #c084fc 0%, #22d3ee 100%);
+    background: linear-gradient(135deg, #c084fc 0%, #22d3ee 100%);
 }
 
 /* Selection styles */
 ::selection {
-  background: rgba(168, 85, 247, 0.3);
-  color: #f0f4f8;
+    background: rgba(168, 85, 247, 0.3);
+    color: #f0f4f8;
 }
 
 /* Focus styles */
 *:focus {
-  outline: 2px solid #a855f7;
-  outline-offset: 2px;
+    outline: 2px solid #a855f7;
+    outline-offset: 2px;
 }
 
 /* Animation keyframes */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
 }
 
 @keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(152, 23, 126, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(152, 23, 126, 0.6);
-  }
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(152, 23, 126, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(152, 23, 126, 0.6);
+    }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Utility classes */
 .gradient-text {
-  background: linear-gradient(135deg, #98177E 0%, #00D4FF 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background: linear-gradient(135deg, #98177E 0%, #00D4FF 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .glass-effect {
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(152, 23, 126, 0.2);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(152, 23, 126, 0.2);
 }
 
 .hover-lift {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Button animations */
 .btn-primary {
-  background: linear-gradient(135deg, #98177E 0%, #B23A9A 100%);
-  border: none;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(152, 23, 126, 0.3);
+    background: linear-gradient(135deg, #98177E 0%, #B23A9A 100%);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(152, 23, 126, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(152, 23, 126, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(152, 23, 126, 0.4);
 }
 
 .btn-secondary {
-  background: transparent;
-  border: 2px solid #98177E;
-  color: #98177E;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    background: transparent;
+    border: 2px solid #98177E;
+    color: #98177E;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-  background: rgba(152, 23, 126, 0.1);
-  border-color: #B23A9A;
-  color: #B23A9A;
+    background: rgba(152, 23, 126, 0.1);
+    border-color: #B23A9A;
+    color: #B23A9A;
 }
 
 /* Card styles */
 .card {
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(152, 23, 126, 0.2);
-  border-radius: 20px;
-  padding: 24px;
-  transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(26, 26, 26, 0.6) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(152, 23, 126, 0.2);
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  border-color: rgba(152, 23, 126, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(152, 23, 126, 0.4);
 }
 
 /* Loading animations */
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(152, 23, 126, 0.3);
-  border-top: 4px solid #98177E;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(152, 23, 126, 0.3);
+    border-top: 4px solid #98177E;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .card {
-    padding: 16px;
-  }
-  
-  .btn-primary,
-  .btn-secondary {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
+    .card {
+        padding: 16px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }
 
 /* Dark mode overrides */
 [data-theme="dark"] {
-  --bg-primary: #0A0A0A;
-  --bg-secondary: #1A1A1A;
-  --text-primary: #FFFFFF;
-  --text-secondary: #B0B0B0;
+    --bg-primary: #0A0A0A;
+    --bg-secondary: #1A1A1A;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0B0B0;
 }
 
 /* Light mode overrides */
 [data-theme="light"] {
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F5F5F5;
-  --text-primary: #1A1A1A;
-  --text-secondary: #666666;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F5F5;
+    --text-primary: #1A1A1A;
+    --text-secondary: #666666;
 }
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-  .gradient-text {
-    background: #98177E;
-    -webkit-text-fill-color: #98177E;
-  }
-  
-  .card {
-    border: 2px solid #98177E;
-  }
-} 
+    .gradient-text {
+        background: #98177E;
+        -webkit-text-fill-color: #98177E;
+    }
+
+    .card {
+        border: 2px solid #98177E;
+    }
+}
 
 
 /*-- Aditya Css --*/
 
 .iconBox {
-  border-radius: 10px !important;
-  margin-bottom: 20px !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
 }
 
 .iconBox img {
-  height: 50px;
-  object-fit: contain;
-  object-position: center;
+    height: 50px;
+    object-fit: contain;
+    object-position: center;
 }
 
 .max-heading {
@@ -410,7 +410,7 @@ body {
 }
 
 .css-1p5zb2h-MuiFormControl-root-MuiTextField-root .MuiOutlinedInput-root {
-  border-radius: 8px;
+    border-radius: 8px;
 }
 
 .ad_grid_box .MuiPaper-root .css-1prrn6n  .css-15w54sr-MuiChip-root {
@@ -455,8 +455,8 @@ body {
 }
 
 .css-s862jx {
-  padding-top: 30px !important;
-  padding-bottom: 25px !important;
+    padding-top: 30px !important;
+    padding-bottom: 35px !important;
 }
 
 footer.footer {
@@ -530,7 +530,7 @@ footer.footer .grid_box .support a span {
 
 footer.footer .grid_box .box ul li a:hover,
 footer.footer .grid_box .support a:hover {
-  opacity: .7;
+    opacity: .7;
 }
 
 
@@ -580,4 +580,135 @@ footer.footer .grid_box a.linkdin img {
     flex-grow: 0;
     max-width: 33.333%;
     width: 33.333%;
+}
+
+@media (max-width: 768px) {
+    .max-heading {
+        max-width: 570px;
+    }
+    .css-n7qkth-MuiTypography-root {
+        max-width: 500px;
+        margin: 0 auto 30px !important;
+    }
+    .css-5zyaav {
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+    .css-f5d2gz {
+        padding-top: 20px !important;
+        padding-bottom: 50px !important;
+    }
+    footer.footer a.logo {
+        flex-direction: column;
+        text-align: center;
+    }
+    footer.footer .grid_box .box {
+        padding: 15px;
+    }
+    footer.footer .grid_box,
+    footer.footer .copywrite ul {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 575px) {
+    .iconBox {
+        border-radius: 5px !important;
+        margin-top: 30px !important;
+    }
+    .logo_container {
+        margin: 25px 0 0;
+    }
+    .css-3a735y-MuiTypography-root {
+        font-size: 1.8rem !important;
+        max-width: 320px !important;
+    }
+    .logo_container:after {
+        font-size: 18px;
+        margin-left: 15px;
+        line-height: 28px;
+        max-width: 173px;
+    }
+    .logo_container img {
+        max-width: 60px;
+        border: 1px solid #fff;
+    }
+    .css-l2ngzm-MuiTypography-root {
+        font-size: 1.5rem !important;
+        margin-bottom: 20px !important;
+    }
+    .MuiBox-root button {
+        height: 45px;
+        padding: 0 20px;
+        font-size: 14px;
+        border-width: 1px !important;
+        border-radius: 5px;
+        font-weight: 500;
+    }
+    .css-zow5z4-MuiGrid-root .MuiGrid-root.MuiGrid-item {
+        max-width: 50%;
+    }
+
+    .css-zow5z4-MuiGrid-root .MuiGrid-root.MuiGrid-item div[style="opacity: 1; transform: none;"] {
+        height: 100%;
+    }
+
+    .css-zow5z4-MuiGrid-root .MuiGrid-root.MuiGrid-item  .MuiCardContent-root {
+        padding: 15px;
+    }
+
+    .css-zow5z4-MuiGrid-root .MuiGrid-root.MuiGrid-item {
+        max-width: 50%;
+    }
+
+    .css-zow5z4-MuiGrid-root .MuiGrid-root.MuiGrid-item div[style="opacity: 1; transform: none;"] {
+        height: 100%;
+    }
+
+    .css-zow5z4-MuiGrid-root .MuiGrid-root.MuiGrid-item  .MuiCardContent-root {
+        padding: 15px;
+    }
+
+    .MuiBox-root.css-ydua6m {
+        padding: 20px;
+    }
+
+    .MuiBox-root.css-ydua6m .MuiGrid-root.MuiGrid-item {
+        max-width: 50%;
+    }
+
+    .MuiBox-root.css-ydua6m h2.MuiTypography-root {
+        font-size: 2em;
+    }
+    .MuiBox-root.css-f5d2gz {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    footer.footer .grid_box {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+    footer.footer .grid_box .box {
+        max-width: 50%;
+    }
+    footer.footer .grid_box .box:nth-child(1),
+    footer.footer .grid_box .box:nth-child(4) {
+        width: 100%;
+        max-width: 100%;
+    }
+    footer.footer a.logo {
+        flex-direction: column;
+        text-align: center;
+        margin: 0 auto;
+        max-width: 200px;
+    }
+    footer.footer .copywrite {
+        flex-direction: column;
+        text-align: center;
+    }
+    footer.footer .copywrite p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
 }
