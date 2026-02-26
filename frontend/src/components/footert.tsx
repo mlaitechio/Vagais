@@ -48,11 +48,11 @@ const Footer: React.FC = () => {
         {/* Support */}
         <div className="box">
           <div className="support">
-            <a href="tel:+911234567890">
+            <a href="tel:+91 9355641447">
               <span>Contact No.</span>
               +91 1234 567 890
             </a>
-            <a href="mailto:info@example.com">
+            <a href="mailto:sales@mlaitech.io">
               <span>Email Id.</span>
               info@example.com
             </a>
