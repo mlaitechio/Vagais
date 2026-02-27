@@ -42,7 +42,9 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -259,30 +261,34 @@ const Navbar: React.FC = () => {
 
           {/* Right Side Actions */}
           <Box display="flex" alignItems="center" gap={1}>
-            {/* Search */}
-            <IconButton
-              sx={{
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' },
-              }}
-            >
-              <Search />
-            </IconButton>
-
-            {/* Notifications */}
-            <Badge badgeContent={3} color="error">
+            {/* Search - Hide on small mobile */}
+            {!isSmallMobile && (
               <IconButton
                 sx={{
                   color: 'text.secondary',
                   '&:hover': { color: 'primary.main' },
                 }}
               >
-                <Notifications />
+                <Search />
               </IconButton>
-            </Badge>
+            )}
 
-            {/* Create Agent - Only for Admin */}
-            {user?.role === 'admin' && (
+            {/* Notifications - Hide on small mobile */}
+            {!isSmallMobile && (
+              <Badge badgeContent={3} color="error">
+                <IconButton
+                  sx={{
+                    color: 'text.secondary',
+                    '&:hover': { color: 'primary.main' },
+                  }}
+                >
+                  <Notifications />
+                </IconButton>
+              </Badge>
+            )}
+
+            {/* Create Agent - Only for Admin, hide on tablet and mobile */}
+            {user?.role === 'admin' && !isTablet && (
               <Button
                 variant="contained"
                 startIcon={<Add />}
@@ -292,12 +298,13 @@ const Navbar: React.FC = () => {
                   borderRadius: 2,
                   px: 2,
                   mr: 2,
+                  fontSize: isSmallMobile ? '0.8rem' : '0.95rem',
                   '&:hover': {
                     background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                   },
                 }}
               >
-                Create Agent
+                {isSmallMobile ? '' : 'Create Agent'}
               </Button>
             )}
 
@@ -327,8 +334,8 @@ const Navbar: React.FC = () => {
                   onClick={handleProfileMenuOpen}
                   sx={{
                     cursor: 'pointer',
-                    width: 40,
-                    height: 40,
+                    width: isSmallMobile ? 32 : 40,
+                    height: isSmallMobile ? 32 : 40,
                     background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                     '&:hover': {
                       transform: 'scale(1.1)',

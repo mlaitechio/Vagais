@@ -20,7 +20,6 @@ import {
   ArrowRight,
 } from "@mui/icons-material";
 import AzureCloud from "../assets/azure_cloud.png";
-import Footer from "../components/footert";
 import Copilot from "../assets/copilot.png";
 import Section from "../assets/ailogo.png";
 const Landing: React.FC = () => {
@@ -132,178 +131,229 @@ const Landing: React.FC = () => {
         {/* Hero Section */}
         <Box
           sx={{
-            py: 12,
+            py: { xs: 2, md: 4 },
             textAlign: "center",
             position: "relative",
             zIndex: 1,
+            minHeight: { xs: "auto", md: "90vh" },
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            style={{
-              height: "65dvh",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            {/* Badge */}
+          <Container maxWidth="md">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              {/* TOP: Powered by badges */}
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 1,
-                  marginBottom: "30px",
-                }}
-              >
-                <Stack spacing={1} alignItems="center">
-                  <Box className="iconBox"
-                    sx={{
-                      backgroundColor: "white",
-                      p: "4px 12px",
-                      borderRadius: 2,
-                      display: "flex",
-                      gap: 1,
-                      alignItems: "center",
-                      boxShadow: 1,
-                    }}
-                  >
-                    <img src={AzureCloud} alt="Azure" />
-                    <img src={Copilot} alt="Copilot" />
-                  </Box>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: "text.secondary",
-                      textTransform: "uppercase",
-                      letterSpacing: 1,
-                      fontWeight: 600,
-                      fontSize: "16px",
-                    }}
-                  >
-                    Powered by Azure AI Foundry and Microsoft CoPilot Studio
-                  </Typography>
-                  
-                </Stack>
-              </Box>
-            </motion.div>
-
-            {/* Main Heading */}
-            <Typography className="max-heading"
-              variant="h1"
-              sx={{
-                mb: 3,
-                fontSize: { xs: "2.5rem", sm: "3rem", md: "4rem" },
-                fontWeight: 800,
-                lineHeight: 1.1,
-              }}
-            >
-              The Future of{" "}
-              <Box
-                component="span"
-                sx={{
-                  background: `linear-gradient(135deg, #a855f7 0%, #06b6d4 100%)`,
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                Autonomous AI
-              </Box>{" "}
-              is Here
-            </Typography>
-
-            {/* Subheading */}
-            <Typography className="deas"
-              variant="h5"
-              sx={{
-                mb: 4,
-                color: "text.secondary",
-                fontWeight: 400,
-                fontSize: { xs: "1rem", md: "1.25rem" },
-                maxWidth: 600,
-                mx: "auto",
-              }}
-            >
-              Deploy, execute, and scale powerful AI agents in seconds.
-              No coding required.
-            </Typography>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{
+                minHeight: "70vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+              }}
             >
-              <Box
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {/* TOP: Powered by badges */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 1,
+                    marginBottom: "20px",
+                    width: "100%",
+                  }}
+                >
+                  <Stack spacing={1} alignItems="center">
+                    <Box className="iconBox"
+                      sx={{
+                        backgroundColor: "white",
+                        p: "8px 20px",
+                        borderRadius: 2,
+                        display: "flex",
+                        gap: 1.5,
+                        alignItems: "center",
+                        boxShadow: 2,
+                      }}
+                    >
+                      <img src={AzureCloud} alt="Azure" style={{ height: "32px" }} />
+                      <img src={Copilot} alt="Copilot" style={{ height: "32px" }} />
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "text.secondary",
+                        textTransform: "uppercase",
+                        letterSpacing: 1,
+                        fontWeight: 600,
+                        fontSize: { xs: "14px", md: "16px" },
+                        textAlign: "center",
+                      }}
+                    >
+                      Powered by Azure AI Foundry and Microsoft CoPilot Studio
+                    </Typography>
+                    
+                  </Stack>
+                </Box>
+              </motion.div>
+
+              {/* Main Heading */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <Typography className="max-heading"
+                  variant="h1"
+                  sx={{
+                    mb: 4,
+                    fontSize: { xs: "2.5rem", sm: "3rem", md: "3.5rem", lg: "4rem" },
+                    fontWeight: 900,
+                    lineHeight: 1.1,
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                  >
+                    <Box
+                      component="span"
+                      sx={{
+                        fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.7rem", lg: "2rem" },
+                        fontWeight: 600,
+                        display: "block",
+                        mb: 1,
+                        textAlign: "center",
+                      }}
+                    >
+                      The Future of
+                    </Box>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <Box
+                      component="span"
+                      sx={{
+                        background: `linear-gradient(135deg, #a855f7 0%, #06b6d4 100%)`,
+                        backgroundClip: "text",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        fontSize: { xs: "2.5rem", sm: "3rem", md: "3.5rem", lg: "4rem" },
+                        fontWeight: 900,
+                        display: "block",
+                        lineHeight: 1,
+                        mb: 1,
+                        textAlign: "center",
+                      }}
+                    >
+                      Autonomous AI is Here
+                    </Box>
+                  </motion.div>
+                </Typography>
+              </motion.div>
+
+              {/* Subheading */}
+              <Typography className="deas"
+                variant="h5"
                 sx={{
-                  display: "flex",
-                  gap: 2,
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                  mt: 4,
+                  mb: 5,
+                  color: "text.secondary",
+                  fontWeight: 400,
+                  fontSize: { xs: "1.1rem", md: "1.3rem", lg: "1.5rem" },
+                  maxWidth: { xs: "100%", md: "700px", lg: "800px" },
+                  mx: "auto",
+                  lineHeight: 1.6,
+                  textAlign: "center",
                 }}
               >
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                Deploy, execute, and scale powerful AI agents in seconds.
+                No coding required.
+              </Typography>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 3,
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    mt: 4,
+                    width: "100%",
+                    alignItems: "center",
+                  }}
                 >
-                  <Button
-                    variant="contained"
-                    size="large"
-                    endIcon={<ArrowRight />}
-                    onClick={() => navigate("/marketplace")}
-                    sx={{
-                      px: 4,
-                      py: 1.8,
-                      fontSize: "1.1rem",
-                      fontWeight: 700,
-                    }}
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    Explore Agents
-                  </Button>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    onClick={() => navigate("/login")}
-                    sx={{
-                      px: 4,
-                      py: 1.8,
-                      fontSize: "1.1rem",
-                      fontWeight: 700,
-                    }}
+                    <Button
+                      variant="contained"
+                      size="large"
+                      endIcon={<ArrowRight />}
+                      onClick={() => navigate("/marketplace")}
+                      sx={{
+                        px: { xs: 3, md: 4 },
+                        py: { xs: 1.5, md: 1.8 },
+                        fontSize: { xs: "1rem", md: "1.1rem" },
+                        fontWeight: 700,
+                        borderRadius: 2,
+                        textTransform: "none",
+                      }}
+                    >
+                      Explore Agents
+                    </Button>
+                  </motion.div>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    Sign In
-                  </Button>
-                </motion.div>
-              </Box>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      onClick={() => navigate("/login")}
+                      sx={{
+                        px: { xs: 3, md: 4 },
+                        py: { xs: 1.5, md: 1.8 },
+                        fontSize: { xs: "1rem", md: "1.1rem" },
+                        fontWeight: 700,
+                        borderRadius: 2,
+                        textTransform: "none",
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                  </motion.div>
+                </Box>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </Container>
         </Box>
         {/* Section Divider Wrapper (Parent) */}
         <Box
           sx={{
-            width: "100vw",
+            width: "100%",
             position: "relative",
-            left: "50%",
-            right: "50%",
-            ml: "-50vw",
-            mr: "-50vw",
-            my: 0,
+            my: 6,
             overflow: "hidden",
           }}
         >
@@ -313,7 +363,7 @@ const Landing: React.FC = () => {
             <Box className="mynone"
               sx={{
                 width: "100%",
-                height: { xs: 370, md: 370 },
+                height: { xs: 150, md: 180 },
                 backgroundImage: ``,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
@@ -325,11 +375,10 @@ const Landing: React.FC = () => {
                 WebkitMaskImage:
                   "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
               }}/>
-            </Box>
-            
+          </Box>
         </Box>
         {/* Features Section */}
-        <Box sx={{ py: 12, position: "relative", zIndex: 1 }}>
+        <Box sx={{ py: { xs: 8, md: 12 }, position: "relative", zIndex: 1 }}>
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -342,7 +391,7 @@ const Landing: React.FC = () => {
                 textAlign: "center",
                 mb: 4,
                 fontWeight: 700,
-                fontSize: { xs: "2rem", md: "2.5rem" },
+                fontSize: { xs: "1.8rem", sm: "2rem", md: "2.5rem", lg: "3rem" },
               }}
             >
               Why Choose{" "}
@@ -357,6 +406,9 @@ const Landing: React.FC = () => {
                 mb: 8,
                 color: "text.secondary",
                 fontWeight: 400,
+                fontSize: { xs: "1rem", md: "1.1rem", lg: "1.2rem" },
+                maxWidth: { xs: "100%", md: "80%" },
+                mx: "auto",
               }}
             >
               Built for modern businesses that demand speed, reliability, and
@@ -464,17 +516,17 @@ const Landing: React.FC = () => {
         >
           <Box className="max-round"
             sx={{
-              py: 8,
-              px: 4,
+              py: { xs: 6, md: 8 },
+              px: { xs: 2, md: 4 },
               borderRadius: 3,
               background: `linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%)`,
               border: `1px solid ${theme.palette.primary.main}30`,
               backdropFilter: "blur(10px)",
-              mb: 8,
+              mb: { xs: 6, md: 8 },
               textAlign: "center",
             }}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={{ xs: 2, md: 4 }}>
               {[
                 { number: "100+", label: "Active Agents" },
                 { number: "100+", label: "Executions" },
@@ -491,13 +543,22 @@ const Landing: React.FC = () => {
                     <Box>
                       <Typography
                         variant="h2"
-                        sx={{ fontWeight: 800, color: "primary.main", mb: 1 }}
+                        sx={{ 
+                          fontWeight: 800, 
+                          color: "primary.main", 
+                          mb: 1,
+                          fontSize: { xs: "1.8rem", md: "2.5rem", lg: "3rem" }
+                        }}
                       >
                         {stat.number}
                       </Typography>
                       <Typography
                         variant="body2"
-                        sx={{ color: "text.secondary", fontWeight: 500 }}
+                        sx={{ 
+                          color: "text.secondary", 
+                          fontWeight: 500,
+                          fontSize: { xs: "0.9rem", md: "1rem" }
+                        }}
                       >
                         {stat.label}
                       </Typography>
@@ -510,7 +571,7 @@ const Landing: React.FC = () => {
         </motion.div>
 
         {/* Final CTA Section */}
-        <Box sx={{ py: 8, textAlign: "center", mb: 8 }}>
+        <Box sx={{ py: { xs: 6, md: 8 }, textAlign: "center", mb: { xs: 4, md: 8 } }}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -522,7 +583,7 @@ const Landing: React.FC = () => {
               sx={{
                 mb: 3,
                 fontWeight: 700,
-                fontSize: { xs: "1.8rem", md: "2.5rem" },
+                fontSize: { xs: "1.8rem", md: "2.5rem", lg: "3rem" },
               }}
             >
               Ready to Automate?
@@ -533,8 +594,9 @@ const Landing: React.FC = () => {
                 mb: 4,
                 color: "text.secondary",
                 fontWeight: 400,
-                maxWidth: 600,
+                maxWidth: { xs: "100%", md: "600px" },
                 mx: "auto",
+                fontSize: { xs: "1rem", md: "1.1rem" },
               }}
             >
               Join thousands of teams building the future with AI agents
@@ -589,9 +651,6 @@ const Landing: React.FC = () => {
           
         </Box>
       </Container>
-      <Box>
-        <Footer></Footer>
-      </Box>
     </Box>
   );
 };

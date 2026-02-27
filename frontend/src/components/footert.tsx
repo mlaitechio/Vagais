@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import section from "../assets/ailogo.png";
 import linkdin from "../assets/linkdin.png";
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <footer className="footer">
+    <footer className="footer" style={{ position: "relative", zIndex: 10, background: "linear-gradient(135deg, #0a0e27 0%, #111533 100%)" }}>
       <div className="grid_box">
         
         {/* Logo Section */}
@@ -39,8 +41,8 @@ const Footer: React.FC = () => {
         <div className="box">
           <h4>Company</h4>
           <ul>
-            <li><a href="#">Join Community</a></li>
-            <li><a href="#">About Us</a></li>
+            <li><a href="#" style={{ cursor: 'not-allowed', textDecoration: 'none' }}>Join Community</a></li>
+            <li><a href="/about-us">About Us</a></li>
             <li><a href="#">Contact Us</a></li>
           </ul>
         </div>
@@ -48,13 +50,13 @@ const Footer: React.FC = () => {
         {/* Support */}
         <div className="box">
           <div className="support">
-            <a href="tel:+91 9355641447">
+            <a href="tel:+919296722898">
               <span>Contact No.</span>
-              +91 1234 567 890
+              +1 92967 22898
             </a>
-            <a href="mailto:sales@mlaitech.io">
+            <a href="mailto:Agent-e@merv.one">
               <span>Email Id.</span>
-              info@example.com
+              Agent-e@merv.one
             </a>
             <a href="https://www.linkedin.com/company/mlai/" className="linkdin">
               <img src={linkdin} alt="Linkdin" / >
@@ -66,6 +68,7 @@ const Footer: React.FC = () => {
 
       {/* Bottom Copy Section */}
       <div className="copywrite">
+        <p> 2026 All rights reserved. <i>Product By <a href="#">MLAI Digital</a></i></p>
         <p>© 2026 All rights reserved. <i>Product By <a href="#">MLAI Digital</a></i></p>
         <ul>
           <li><a href="#">Privacy Policy</a></li>

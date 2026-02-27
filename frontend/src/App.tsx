@@ -26,6 +26,8 @@ import Landing from "./pages/Landing";
 import AgentDetail from "./pages/AgentDetail";
 import MyAgents from "./pages/MyAgents";
 import AdminPanel from "./pages/AdminPanel";
+import AboutUs from "./pages/AboutUs";
+import JoinCommunity from "./pages/JoinCommunity";
 
 // Context
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
@@ -36,6 +38,9 @@ import { theme } from "./theme/nightOwlTheme";
 
 // Styles
 import "./styles/global.css";
+
+// Components
+import Footer from "./components/footert";
 import ProfileComingSoon from "./pages/Profile";
 
 // Create React Query client
@@ -252,6 +257,32 @@ const AppLayout: React.FC = () => {
                 </PublicRoute>
               }
             />
+            <Route
+              path="/about-us"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <AboutUs />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/join-community"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <JoinCommunity />
+                </motion.div>
+              }
+            />
 
             {/* Protected Routes */}
 
@@ -377,6 +408,7 @@ const AppLayout: React.FC = () => {
           </Routes>
         </AnimatePresence>
       </Box>
+      <Footer />
     </Box>
   );
 };
