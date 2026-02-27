@@ -8,11 +8,9 @@ import {
   CardContent,
   Avatar,
   useTheme,
-  Stack,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import {
-  SmartToy,
   FlashOn,
   Shield,
   Speed,

@@ -1,9 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import section from "../assets/ailogo.png";
 import linkdin from "../assets/linkdin.png";
 const Footer: React.FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <footer className="footer" style={{ position: "relative", zIndex: 10, background: "linear-gradient(135deg, #0a0e27 0%, #111533 100%)" }}>
       <div className="grid_box">

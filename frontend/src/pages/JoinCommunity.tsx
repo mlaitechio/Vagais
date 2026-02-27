@@ -8,7 +8,6 @@ import {
   CardContent,
   Avatar,
   useTheme,
-  Stack,
   Button,
   List,
   ListItem,
