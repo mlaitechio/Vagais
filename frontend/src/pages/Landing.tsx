@@ -322,6 +322,23 @@ const Landing: React.FC = () => {
                     >
                       Explore Agents
                     </Button>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      endIcon={<ArrowRight />}
+                      onClick={() => navigate("/SecurityAgents")}
+                      sx={{
+                        px: { xs: 3, md: 4 },
+                        py: { xs: 1.5, md: 1.8 },
+                        fontSize: { xs: "1rem", md: "1.1rem" },
+                        fontWeight: 700,
+                        borderRadius: 2,
+                        textTransform: "none",
+                        ml: 2,
+                      }}
+                    >
+                      Explore Security Agents
+                    </Button>
                   </motion.div>
                   <motion.div
                     whileHover={{ scale: 1.05 }}

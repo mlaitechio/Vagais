@@ -28,7 +28,7 @@ import MyAgents from "./pages/MyAgents";
 import AdminPanel from "./pages/AdminPanel";
 import AboutUs from "./pages/AboutUs";
 import JoinCommunity from "./pages/JoinCommunity";
-
+import SecurityAgents from "./pages/SecurityAgents";
 // Context
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ThemeProvider as CustomThemeProvider } from "./contexts/ThemeContext";
@@ -267,6 +267,19 @@ const AppLayout: React.FC = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <AboutUs />
+                </motion.div>
+              }
+            />
+             <Route
+              path="/SecurityAgents"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <SecurityAgents />
                 </motion.div>
               }
             />
