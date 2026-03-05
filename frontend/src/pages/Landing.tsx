@@ -334,7 +334,8 @@ const Landing: React.FC = () => {
                         fontWeight: 700,
                         borderRadius: 2,
                         textTransform: "none",
-                        ml: 2,
+                        ml: { xs: 0, md: 2 },
+                        mt: { xs: 2, md: 0 },
                       }}
                     >
                       Explore Security Agents

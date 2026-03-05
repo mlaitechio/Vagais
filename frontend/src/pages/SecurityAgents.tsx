@@ -61,6 +61,13 @@ const SecurityAgents = () => {
         "Identify top vulnerabilities, understand their impact, and get step-by-step remediation guidance to fix vulnerabilities using Intune capabilities.",
       color: "success",
     },
+     {
+      icon: SecurityOutlined,
+      title: "Vulnerability Remediation Agent",
+      description:
+        "Identify top vulnerabilities, understand their impact, and get step-by-step remediation guidance to fix vulnerabilities using Intune capabilities.",
+      color: "success",
+    },
   ];
 
   return (
