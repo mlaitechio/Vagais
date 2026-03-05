@@ -56,14 +56,14 @@ const SecurityAgents = () => {
     },
     {
       icon: SecurityOutlined,
-      title: "Vulnerability Remediation Agent in Microsoft Intune",
+      title: "Conditional Access Optimization Agent in Microsoft Entra - Embedded experience",
       description:
-        "Identify top vulnerabilities, understand their impact, and get step-by-step remediation guidance to fix vulnerabilities using Intune capabilities.",
+        "Monitors for new users or apps not covered by existing policies, identifies necessary updates to close security gaps, and recommends quick fixes for identity teams to apply with a single click.",
       color: "success",
     },
      {
       icon: SecurityOutlined,
-      title: "Vulnerability Remediation Agent",
+      title: "Vulnerability Remediation Agent in Microsoft Intune",
       description:
         "Identify top vulnerabilities, understand their impact, and get step-by-step remediation guidance to fix vulnerabilities using Intune capabilities.",
       color: "success",
